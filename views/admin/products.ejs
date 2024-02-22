@@ -1,0 +1,235 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a class="brand-wrap">
+                <img style="width: 50px;" src="/img/logoleo.jpg" alt="Nest Dashboard" />
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i
+                        class="text-muted material-icons md-menu_open"></i></button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/adminDashboard">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/products">
+                        <i class="icon material-icons md-shopping_bag"></i> 
+                        <span class="text">Products</span>
+                    </a>
+                </li>                                                                                             
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/ums">
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">User management</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/category">
+                        <i class="icon material-icons md-store"></i>
+                        <span class="text">Categories</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="page-transactions-1.html">
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="#">
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Banners</span>
+                    </a>
+                
+                </li>
+          
+          
+            
+                </li>
+          
+            </ul>
+          
+            <br />
+            <br />
+          </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                        <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                    </div>
+            
+                </form>
+            </div>
+            <div class="col-nav">
+                <a href="/admin/logout"><i class="btn btn-dark ms-3 rounded-pill">Logout</i></a>
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                <ul class="nav">
+                    
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/imgs/people/avatar-2.png" alt="User" /></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href=""><i class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title"  style="font-family: Arial, Helvetica, sans-serif; font-weight: bold;">Products List</h2>
+                </div>
+                <div>
+                    <a href="/admin/addProducts" class="btn btn-dark ">Add Product</a>
+                </div>
+            </div>
+            
+
+
+                <div class="card-body">
+                    <div class="table-responsive" id="reloadArea">
+                        <table class="table table-hover">
+                            <thead  style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: bold;">
+                                <tr>
+                                    <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">ID</th>
+                                    <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Product name</th>
+                                    <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Image</th>
+                                    <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Category</th>
+
+                                    <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Quantity</th>
+                                    <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Price</th>
+                                    <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+
+
+                            <% if(products) { %>
+                                <% products.map(function(field, index) { %>
+            
+                                <tr> 
+                                        <td align="center">
+                                            <%= index+1 %>
+                                        </td>
+                                        <td align="center">
+                                            <%= field.name %>
+                                        </td>
+                                        <td align="center"><img src='/assets/img/product/sharp/<%= field.images[0] %>' alt="Product-image" style="max-width: 50px; max-height: 50px;"></td>
+                                        <td align="center">
+                                            <%= field.categoriesId && field.categoriesId.name %>
+                                          </td>
+                                          
+                                    
+                                        <td align="center">
+                                            <%= field.stockQuantity %>
+                                        </td>
+                                        
+                                        <td align="center">
+                                            <%= field.price %>
+                                        </td>
+                                        <td align="center">
+                                            <a href="/admin/editproducts?id=<%= field._id %>" class="text-dark">
+                                                <button class="btn btn-outline-success block-button">Edit</button></a>
+                                            <button class="btn btn-outline-primary block-button" data-user-id=""
+                                                data-status="" onclick="listUnlist('<%= field.id %>')">
+                                                <%= field.isListed ? "Unlist" : "list" %>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td align="center"> No products available</td>
+                                            </tr>
+                                            <% } %>
+
+
+
+
+                                                </tbody>
+                        </table>
+                        <!-- table-responsive.// -->
+                    </div>
+                </div>
+
+            </div>
+            <!-- card end// -->
+            
+        </section>
+        <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                    &copy; Nest - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">All rights reserved</div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <%- include('../layouts/admin/footer.ejs') -%>
+        <script>
+            function listUnlist(fieldId) {
+                const productData = { id: fieldId }
+                console.log(productData);
+                Swal.fire({
+                    title: "Are you sure",
+                    text: "You want to list/Unlist this products",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtomColor: "#d33",
+                    confirmButtonText: "Yes"
+
+                }).then((decision) => {
+                    if (decision.isConfirmed) {
+                        $.ajax({
+                            method: 'POST',
+                            url: '/admin/listproducts',
+                            data: JSON.stringify(productData),
+                            contentType: 'application/json',
+                            success: function (response) {
+                                if (response.listed === true) {
+                                    $('#reloadArea').load('/admin/products #reloadArea')
+
+                                } else {
+
+                                }
+                            }, error: function (error) {
+                                console.log(error);
+                            }
+                        })
+                    }
+
+                })
+            }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

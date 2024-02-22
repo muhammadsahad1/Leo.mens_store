@@ -1,0 +1,356 @@
+<%- include('../layouts/user/header.ejs') -%>
+
+
+
+  <header class="header">
+    <div class="header__top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p></p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <div class="header__top__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+              </div>
+              <div class="header__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                  <li>USD</li>
+                  <li>EUR</li>
+                  <li>USD</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3" style="height: 50px;">
+          <div class="header__logo">
+            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li class="active"><a href="">Home</a></li>
+              <li><a href="/productsshop ">Shop</a></li>
+              <li><a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="">About Us</a></li>
+                  <li><a href="">Shop Details</a></li>
+                  <li><a href="">Shopping Cart</a></li>
+                  <li><a href="">Check Out</a></li>
+                  <li><a href="">Blog Details</a></li>
+                </ul>
+              </li>
+              <li><a href="">Blog</a></li>
+              <li><a href="">Contacts</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="header__nav__option">
+            <div class="dropdown">
+              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <% if(locals.user){ %>
+                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                  <% } else { %>
+                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                    <% } %>
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="userDropdown">
+                <% if(locals.user){ %>
+                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                  <% } else { %>
+                    <a class="dropdown-item" href="/login">Login</a>
+                    <a class="dropdown-item" href="/register">Sign up</a>
+                    <% } %>
+              </div>
+
+              <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+              <a href="#"><img src="img/icon/heart.png" alt=""></a>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+  </header>
+
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a {
+      text-decoration: none;
+
+    }
+
+    .status-checkboxes {
+      margin-top: .5rem;
+
+    }
+
+    .status-checkboxes .form-check {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .status-checkboxes .form-check-input {
+      margin-top: 0;
+      margin-right: 5px;
+      /* Adjust spacing between checkbox and label */
+    }
+
+    .status-checkboxes .form-check-label {
+      margin-bottom: 0;
+    }
+
+
+    .menu-itemmm {
+
+      margin-bottom: 20px;
+      padding-left: 21px
+    }
+
+    .menu-itemmm a {
+      color: black;
+      text-decoration: none;
+      text-transform: capitalize;
+      font-size: .9rem;
+      font-family: 'Quicksand';
+    }
+
+    .menu-headinggg {
+      font-size: .7rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: rgba(127, 127, 127, 1);
+      padding-left: 10px;
+    }
+
+    table td {
+      padding: 24px;
+    }
+
+    tr {
+      margin-top: 2rem;
+    }
+  </style>
+  </head>
+
+  <body>
+
+
+    <div class="bg-body-tertiary" style="margin: 0 auto; padding: 15px 15px;">
+      <div class="row">
+        <div class="col-md-3" style="padding: 16px; margin-bottom: 12px;">
+          <div class="div" style="border-radius: 2px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);">
+            <div class="sidebarrr" id="sidebar ">
+              <!-- Sidebar content -->
+              <div class="user-headerrr">
+                <div class="user-photooo"></div>
+                <div class="user-nameee">
+                  <!-- User name content -->
+                </div>
+              </div>
+
+              <!-- Sidebar Menu -->
+              <div class="menu-headinggg">General</div>
+              <div class="menu-itemmm"><a href="/manageAddress" aria-current="page" class="bg-light active">Manage
+                  Address</a></div>
+              <hr>
+              <div class="menu-itemmm"><a href="/myOrder">Orders</a></div>
+              <hr>
+              <div class="menu-itemmm"><a href="#">Wishlist</a></div>
+              <hr>
+              <div class="menu-itemmm"><a href="/wallet">Wallet</a></div>
+              <hr>
+
+              <div class="menu-headinggg">Legal</div>
+              <div class="menu-itemmm"><a href="#">Terms of Use</a></div>
+              <hr>
+              <div class="menu-itemmm"><a href="#">Privacy Policy</a></div>
+              <hr>
+
+              <div class="menu-headinggg">Personal</div>
+              <div class="menu-itemmm"><a href="#">Report a Bug</a></div>
+              <hr>
+              <div class="menu-itemmm"><a href="/logout">Logout</a></div>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <div class="d-flex flex-column mt-4">
+            <div class="div" style="width: 85%; background-color: #fff;">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Recipient's username"
+                  aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-dark" type="button" id="button-addon2">Search orders</button>
+              </div>
+            </div>
+
+            <div class="card-body mt-4">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="text-center">
+
+                    <tr>
+                      <th style="background-color: rgb(26, 26, 26);color: #fff;">Index</th>
+                      <th style="background-color: rgb(26, 26, 26); color: #fff;" scope="col">Name</th>
+                      <th style="background-color: rgb(26, 26, 26); color: #fff;" scope="col">Email</th>
+                      <th style="background-color: rgb(26, 26, 26); color: #fff;" scope="col">Total</th>
+                      <th style="background-color: rgb(26, 26, 26); color: #fff;" scope="col ">Status</th>
+                      <th style="background-color: rgb(26, 26, 26); color: #fff;" scope="col">Date</th>
+                      <th style="background-color: rgb(26, 26, 26); color: #fff;" scope="col">Action</th>
+
+                    </tr>
+                  </thead>
+                  <% if(order){%>
+                    <% console.log(order)%>
+                      <% order.forEach(function(field,i){%>
+
+                        <tbody>
+                          <tr style="margin-bottom: 2rem;">
+                            <td style="padding: 24px;">
+                              <%= i+1 %>
+                            </td>
+                            <td style="padding: 24px;"><b>
+                                <%= field.userId.name %>
+                              </b></td>
+                            <td style="padding: 24px;">
+                              <%= field.userId.email %>
+                            </td>
+                            <td style="padding: 24px;">
+                              <%= field.total_amount %>
+                            </td>
+                            <td style="padding: 24px;"><span class="badge rounded-pill alert-warning"></span>
+                              <%= field.status %>
+                            </td>
+                            <% const formattedDate=new Date(field.date).toLocaleString('en-US', { weekday: 'short' ,
+                              month: 'short' , day: 'numeric' , year: 'numeric' , hour: 'numeric' , minute: 'numeric' ,
+                              second: 'numeric' , hour12: true }); %>
+
+                              <td style="padding: 24px;">
+                                <%= formattedDate %>
+                              </td>
+                              <td style="padding: 24px;">
+                                <a href="/single-orderDetails?orderId=<%= field._id %>">More details</a>
+                                <!-- dropdown //end -->
+                              </td>
+                              <%})%>
+                                <%}else{%>
+                                </tr>
+                              
+                                <p>No orders </p>
+                              
+                                <%}%>
+                              </tbody>
+                            </table>
+                          </div>
+              <!-- table-responsive //end -->
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+    </div>
+
+
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"></script>
+
+
+    <footer class="footer mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer__about">
+              <div class="footer__logo">
+                <a href="#"><img src="/img/logoleo.jpg" style="height: 50px;" alt="logoimg"> </a>
+              </div>
+              <p>The customer is at the heart of our unique business model, which includes design.</p>
+              <a href="#"><img src="img/payment.png" alt=""></a>
+            </div>
+          </div>
+          <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+            <div class="footer__widget">
+              <h6>Shopping</h6>
+              <ul>
+                <li><a href="#">Clothing Store</a></li>
+                <li><a href="#">Trending Shoes</a></li>
+                <li><a href="#">Accessories</a></li>
+                <li><a href="#">Sale</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <div class="footer__widget">
+              <h6>Shopping</h6>
+              <ul>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Payment Methods</a></li>
+                <li><a href="#">Delivary</a></li>
+                <li><a href="#">Return & Exchanges</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+            <div class="footer__widget">
+              <h6>NewLetter</h6>
+              <div class="footer__newslatter">
+                <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                <form action="#">
+                  <input type="text" placeholder="Your email">
+                  <button type="submit"><span class="icon_mail_alt"></span></button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">2020
+          <div class="col-lg-12 text-center">
+            <div class="footer__copyright__text">
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <%- include('../layouts/user/footer.ejs') -%>

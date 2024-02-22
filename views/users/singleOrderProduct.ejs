@@ -1,0 +1,799 @@
+<%- include('../layouts/user/header.ejs') -%>
+
+
+
+
+
+    <style>
+        /* @media (min-width: 1025px) {
+.h-custom {
+height: 100vh !important;
+}
+} */
+
+        .horizontal-timeline .items {
+            border-top: 2px solid #ddd;
+        }
+
+        .horizontal-timeline .items .items-list {
+            position: relative;
+            margin-right: 0;
+        }
+
+        .horizontal-timeline .items .items-list:before {
+            content: "";
+            position: absolute;
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            background-color: #ddd;
+            top: 0;
+            margin-top: -5px;
+        }
+
+        .horizontal-timeline .items .items-list {
+            padding-top: 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+
+        }
+
+        .status-checkboxes {
+            margin-top: .5rem;
+
+        }
+
+        .status-checkboxes .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .status-checkboxes .form-check-input {
+            margin-top: 0;
+            margin-right: 5px;
+            /* Adjust spacing between checkbox and label */
+        }
+
+        .status-checkboxes .form-check-label {
+            margin-bottom: 0;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 70%;
+            margin: 50px auto;
+        }
+
+        .step {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .step.active {
+            background-color: #26a541;
+            color: white;
+            border-color: #26a541;
+        }
+
+        .line {
+            flex-grow: 1;
+            height: 3px;
+            background-color: #ddd;
+        }
+
+
+        .container1 {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .rating {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .stars {
+            font-size: 30px;
+            margin: 10px 0;
+        }
+
+        .star {
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .one {
+            color: rgb(255, 0, 0);
+        }
+
+        .two {
+            color: rgb(33, 33, 33);
+        }
+
+        .three {
+            color: rgb(36, 36, 36);
+        }
+
+        .four {
+            color: rgb(255, 255, 0);
+        }
+
+        .five {
+            color: rgb(24, 159, 14);
+        }
+
+        textarea {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .reviews {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .review {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .review p {
+            margin: 0;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .fill1 {
+            position: absolute;
+            background-color: #26a541;
+            animation: fill-1 5s forwards, colors 5s forwards;
+            animation-iteration-count: 1;
+        }
+
+        .fill2 {
+            position: absolute;
+            background-color: #26a541;
+            animation: fill-1 5s forwards;
+            animation-iteration-count: 1;
+            animation-delay: 4s;
+            visibility: hidden;
+        }
+
+        .fill3 {
+            width: 0;
+            position: absolute;
+            background-color: #26a541;
+            animation: fill-1 5s forwards;
+            animation-iteration-count: 1;
+            animation-delay: 8s;
+            visibility: hidden;
+        }
+
+        .active-cancel {
+            background-color: red;
+        }
+
+        .step-cancel {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+
+        }
+
+        @keyframes fill-1 {
+            0% {
+                width: 0;
+                visibility: visible;
+            }
+
+
+            100% {
+                width: 110px;
+                visibility: visible;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* The modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1045;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* Close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Textarea and Submit button */
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+
+        /* Style for the trigger button */
+        #cancelButton {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-7">
+                        <div class="header__top__left">
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-5">
+                        <div class="header__top__right">
+                            <div class="header__top__links">
+                                <a href="#">Sign in</a>
+                                <a href="#">FAQs</a>
+                            </div>
+                            <div class="header__top__hover">
+                                <span>Usd <i class="arrow_carrot-down"></i></span>
+                                <ul>
+                                    <li>USD</li>
+                                    <li>EUR</li>
+                                    <li>USD</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3" style="height: 50px;">
+                    <div class="header__logo">
+                        <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li class="active"><a href="">Home</a></li>
+                            <li><a href="/productsshop ">Shop</a></li>
+                            <li><a href="#">Pages</a>
+                                <ul class="dropdown">
+                                    <li><a href="">About Us</a></li>                    
+                                     <li><a href="">Shop Details</a></li>
+                                    <li><a href="">Shopping Cart</a></li>
+                                    <li><a href="">Check Out</a></li>
+                                    <li><a href="">Blog Details</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="">Blog</a></li>
+                            <li><a href="">Contacts</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__nav__option">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <% if(locals.user){ %>
+                                    <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                                    <% } else { %>
+                                        <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                                        <% } %>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                <% if(locals.user){ %>
+                                    <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                                    <a class="dropdown-item" href="/logout">Logout</a>
+                                    <% } else { %>
+                                        <a class="dropdown-item" href="/login">Login</a>
+                                        <a class="dropdown-item" href="/register">Sign up</a>
+                                        <% } %>
+                            </div>
+                            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                            <a href="#"><img src="img/icon/heart.png" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+
+
+
+
+    <div class="container">
+        <div class="container-fluid">
+
+        
+
+            <% if (address) { %>
+                <% console.log(address) %>
+
+                    <div
+                        style="padding: 24px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.08); margin-top: 2rem;">
+                        <div class="row">
+
+                            <div class="col-4">
+                                <div>
+                                    <div><span>Delivery Address</span></div>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <%= address %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <% } %>
+
+
+
+                        </div>
+                    </div>
+
+                    <% console.log(product) %>
+                        <div class="mt-3">
+                            <div
+                                style="background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.08); padding: 24px;">
+                                <div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-3">
+                                            <div class="row" style="position: relative;">
+                                                <div class="col-4">
+                                                    <a href="" target="_blank" rel="noopener noreferrer">
+                                                        <div style="height: 75px; width: 75px;">
+                                                            <img class="" alt=""
+                                                                src="/img/product/sharp/<%= product.productsId.images[0] %>" />
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-8">
+                                                    <a href="" class="" id="productId" target="_blank"
+                                                        style="font-size: 12px;"
+                                                        data-productId="<%= product.productsId._id %>">
+                                                        <h6 class="fw-bold text-dark">
+                                                            <%= product.productsId.name %>
+                                                        </h6>
+                                                    </a>
+                                                    <div class="d-flex">
+                                                        <p><span>Size: </span>
+                                                            <%= product.sizes %>
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <div class="d-flex">
+                                                            <span>Total price </span> <span class="ms-2"> ₹ <%=
+                                                                    product.totalPrice %></span>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <!-- Cancel Reason Modal -->
+                                            <div class="modal" id="returnReasonModal"  role="dialog"
+                                                aria-labelledby="returnReasonModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="returnReasonModalLabel">return
+                                                                Reason</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- Add form or input fields for cancel reason here -->
+                                                            <label for="returnReason">Reason for return:</label>
+                                                            <input type="text" class="form-control" id="returnReason"
+                                                                name="cancelReason">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                        
+                                                            <!-- Add a button to submit the cancel reason if needed -->
+                                                            <button type="submit" class="btn btn-dark w-100" id="returnBtn" onclick="returnorder('<%= order._id %>','<%= product.productsId._id%>')">Submit Cancel
+                                                                Reason</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- return order Reason Modal -->
+                                            <div class="modal" id="cancelReasonModal"  role="dialog"
+                                            aria-labelledby="cancelReasonModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="cancelReasonModalLabel">Cancel
+                                                            Reason</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <!-- Add form or input fields for cancel reason here -->
+                                                        <label for="cancelReason">Reason for cancellation:</label>
+                                                        <input type="text" class="form-control" id="cancelReason"
+                                                            name="cancelReason">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    
+                                                        <!-- Add a button to submit the cancel reason if needed -->
+                                                        <button type="submit" class="btn btn-danger w-100" onclick="cancelorder('<%= order._id %>','<%= product.productsId._id%>')">Submit Cancel
+                                                            Reason</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        <div class="col-4" id="editReview" data-rating="review?.rating "
+                                            data-review="review?.review">
+                                            <%if(product.status==='placed' ){%>
+                                                <p style="color: #3dcc1e; font-weight: bold;">Product is placed
+                                                </p>
+                                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#cancelReasonModal">
+                                                    Cancel
+                                                  </a>
+                                                      
+                                                <%}else if(product.status==='returnedRequest' ){%>
+                                                    <p>Product returned</p>
+                                                
+                                                    
+                                                <%}else if(product.status==='delivered' ){%>
+                                                    <p>Product delivered</p>
+                                                    <a class="btn btn-info " data-toggle="modal" data-target="#returnReasonModal">
+                                                        Return
+                                                      </a>
+                                                    <%}else if(product.status==='shipped' ){%>
+                                                        <p style="color: #a46fb0; font-weight: bold;">Product has been
+                                                            shipped
+                                                        </p>
+                                                        <a class="btn btn-danger text-white" data-toggle="modal" data-target="#cancelReasonModal">
+                                                            Cancel
+                                                          </a>
+                                                    
+
+                                                        <%}else if(product.status==='cancelled' ){%>
+                                                            <p class="text-danger fw-bold">Order has been cancelled</p>
+                                                            <%}%>
+
+                                                            
+                                                                <!-- The modal -->
+
+                                                                <div class="horizontal-timeline mt-3">
+
+                                                                    <ul
+                                                                        class="list-inline items d-flex justify-content-between">
+                                                                        <li class="list-inline-item items-list">
+                                                                            <p class="py-1 px-2 rounded text-white"
+                                                                                style="background-color: #f37a27;">
+                                                                                Ordered</p
+                                                                                class="py-1 px-2 rounded text-white"
+                                                                                style="background-color: #f37a27;">
+                                                                        </li>
+                                                                        <li class="list-inline-item items-list">
+                                                                            <p class="py-1 px-2 rounded text-white"
+                                                                                style="background-color: #f37a27;">
+                                                                                Shipped</p
+                                                                                class="py-1 px-2 rounded text-white"
+                                                                                style="background-color: #f37a27;">
+                                                                        </li>
+                                                                        <li class="list-inline-item items-list">
+                                                                            <p class="py-1 px-2 rounded text-white"
+                                                                                style="background-color: #f37a27;">On
+                                                                                the way
+                                                                            </p>
+                                                                        </li>
+                                                                        <li class="list-inline-item items-list text-end"
+                                                                            style="margin-right: 8px;">
+                                                                            <p style="margin-right: -8px;">Delivered</p>
+                                                                        </li>
+                                                                    </ul>
+
+                                                                </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <%if(product.status === 'delivered'){%>
+                                    <div class="d-flex justify-content-center mt-1 me-5">
+                                      <a class="btn btn-dark text-white w-50" href="/invoice?orderid=<%=orderId%>&index=<%=index%>&productId=<%=productId%>">Download invoice</a>
+                                    </div>
+                                <%}%>
+                            </div>
+                            <section class=" h-custom" style="background-color: #eee;">
+
+                                <p class="mt-4 pt-2 mb-0">Want any help? <a
+                                        href="https://www.linkedin.com/in/muhammad-sahad-108a83290/"
+                                        style="color: #f37a27;">Please
+                                        contact
+                                        us</a></p>
+                        </div>
+        </div>
+    </div>
+    </div>
+    </section>
+    </div>
+    </div>
+    </div>
+
+
+
+
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="#"><img src="/img/logoleo.jpg" style="height: 50px;" alt="logoimg"> </a>
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <a href="#"><img src="img/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Clothing Store</a></li>
+                            <li><a href="#">Trending Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Delivary</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>NewLetter</h6>
+                        <div class="footer__newslatter">
+                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Your email">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">2020
+                <div class="col-lg-12 text-center">
+                    <div class="footer__copyright__text">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    const returnBtn = document.getElementById('returnBtn');
+
+    function returnorder(orderId, productId) {
+    const returnReason = document.getElementById('returnReason').value;
+
+    const data = {
+        orderId: orderId,
+        productId: productId,
+        returnReason: returnReason
+    };
+
+    fetch('/return-product', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(data)
+    }).then((response) => {
+        console.log('Response Status:', response.status);
+
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(`Http error! status: ${response.status}`);
+        }
+    }).then((data) => {
+        console.log('Response Data:', data);
+
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                text: 'Product successfully returned'
+            }).then(() => {
+                // Remove the "Return" button from the DOM
+                returnBtn.remove();
+                // Reload the page or perform other actions as needed
+                window.location.reload();
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                text: 'Failed to return product'
+            });
+        }
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+// product cancel function
+        function cancelorder(orderId, productId) {
+            console.log('Cancel Order:', { orderId, productId });
+        
+            const cancelReason = document.getElementById('cancelReason').value
+            console.log(cancelReason);    const data = {
+                orderId: orderId,
+                productId: productId,
+                cancellationReason : cancelReason
+            };
+
+            fetch('/cancel-product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((response) => {
+                console.log('Response Status:', response.status);
+
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(`Http error! status: ${response.status}`);
+                }
+            }).then((data) => {
+                console.log('Response Data:', data);
+
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        text: 'Product successfully canceled'
+                    }).then(() => {
+                        window.location.reload()
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Failed to cancel product'
+                    });
+                }
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+
+
+
+
+    <%- include('../layouts/user/footer.ejs') -%>

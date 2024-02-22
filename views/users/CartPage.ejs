@@ -1,0 +1,400 @@
+<%- include('../layouts/user/header.ejs') -%>
+
+  <style>
+    body {
+      background-color: #ffffff;
+    }
+
+    @media (min-width: 1025px) {
+      .h-custom {
+        height: 100vh !important;
+      }
+    }
+
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+      font-size: 1rem;
+      line-height: 2.15;
+      padding-left: .75em;
+      padding-right: .75em;
+    }
+
+    .card-registration .select-arrow {
+      top: 13px;
+    }
+
+    .bg-grey {
+      background-color: #eae8e8;
+    }
+
+    @media (min-width: 992px) {
+      .card-registration-2 .bg-grey {
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+      }
+    }
+
+    @media (max-width: 991px) {
+      .card-registration-2 .bg-grey {
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+      }
+    }
+  </style>
+
+
+
+
+  <header class="header">
+    <div class="header__top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p></p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <div class="header__top__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+              </div>
+              <div class="header__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                  <li>USD</li>
+                  <li>EUR</li>
+                  <li>USD</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3" style="height: 50px;">
+          <div class="header__logo">
+            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li class="active"><a href="/productsshop ">Shop</a></li>
+              <li><a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="">About Us</a></li>
+                  <li><a href="">Shop Details</a></li>
+                  <li><a href="">Shopping Cart</a></li>
+                  <li><a href="">Check Out</a></li>
+                  <li><a href="">Blog Details</a></li>
+                </ul>
+              </li>
+              <li><a href="">Blog</a></li>
+              <li><a href="">Contacts</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="header__nav__option">
+            <div class="dropdown">
+              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <% if(locals.user){ %>
+                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                  <% } else { %>
+                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                    <% } %>
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="userDropdown">
+                <% if(locals.user){ %>
+                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                  <% } else { %>
+                    <a class="dropdown-item" href="/login">Login</a>
+                    <% } %>
+              </div>
+
+              <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+              <a href="#"><img src="img/icon/heart.png" alt=""></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+  </header>
+
+
+
+  <section class="breadcrumb-option">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb__text">
+            <h4>Shopping Cart</h4>
+            <div class="breadcrumb__links">
+              <a href="./index.html">Home</a>
+              <a href="./shop.html">Shop</a>
+              <span>Shopping Cart</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Breadcrumb Section End -->
+  <!-- Shopping Cart Section Begin -->
+  <section class="shopping-cart spad" id="reloadDiv">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="shopping__cart__table" id="Reload">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <% let subtotal=0,total=0; %>
+                    <% if(UserCart){%>
+
+                      <% UserCart.products.forEach(function(item,index){%>
+                        <% subtotal +=item.totalPrice %>
+
+
+                          <td class="product__cart__item">
+                            <div class="product__cart__item__pic" style="width: 80px;">
+                              <img src="/img/product/sharp/<%= item.productsId.images[0] %>" alt="product Image">
+                            </div>
+                            <div class="product__cart__item__text" id="Reloadprice">
+                              <h6>
+                                <%= item.productsId.name %>
+                              </h6>
+                              <h5>₹ <%= item.productsId.price %>
+                              </h5>
+                            </div>
+                          </td>
+                          <td class="quantity__item">
+                            <div class="cart-product-quantity" style="display: flex; align-items: center; ">
+                              <button class="quantity-control border-1" type="button"
+                                onclick="IncDecValue('<%= item.productsId._id %>', -1)"
+                                style="background-color: transparent;color: black;">-</button>
+
+                                <input type="number" class="form-control bg-light border-0" value="<%= item.quantity %>"
+                                min="1" max="10" step="1" data-decimals="0" readonly required
+                                style="text-align: center; width: 60px;">
+                            
+
+                              <button class="quantity-control border-1" type="button"
+                                onclick="IncDecValue('<%= item.productsId._id %>', 1)"
+                                style="background-color: transparent; color: black;">+</button>
+                            </div>
+
+                          </td>
+                          <td class="cart__price">₹ <%= item.totalPrice %>
+                          </td>
+                          <td><button onclick="removecart('<%= item.productsId._id %>')" class="removebt"
+                              style="border: none;"><i class="fa fa-close"></i></button></td>
+                </tr>
+              </tbody>
+              <%})%>
+                <%}%>
+                  <% console.log(UserCart) %>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="continue__btn">
+                <a href="/productsshop ">Continue Shopping</a>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="continue__btn update__btn">
+                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+        <!-- Adjust the above line based on your actual product data -->
+        <div class="col-lg-4">
+
+
+          <div class="cart__total">
+            <h6>Cart total</h6>
+
+            <ul>
+              <li>Sub total
+                <span>
+                  <%= subtotal %>
+                </span>
+              <li> total
+                <span>
+                  <%= subtotal %>
+                </span>
+                <!--Add other total-related information here -->
+              </li>
+              <!-- <li> -->
+              <span> </span>
+            </ul>
+            <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="footer__about">
+            <div class="footer__logo">
+              <a href="#"><img src="/img/logoleo.jpg" style="height: 50px;" alt="logoimg"> </a>
+            </div>
+            <p>The customer is at the heart of our unique business model, which includes design.</p>
+            <a href="#"><img src="img/payment.png" alt=""></a>
+          </div>
+        </div>
+        <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+          <div class="footer__widget">
+            <h6>Shopping</h6>
+            <ul>
+              <li><a href="#">Clothing Store</a></li>
+              <li><a href="#">Trending Shoes</a></li>
+              <li><a href="#">Accessories</a></li>
+              <li><a href="#">Sale</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6">
+          <div class="footer__widget">
+            <h6>Shopping</h6>
+            <ul>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Payment Methods</a></li>
+              <li><a href="#">Delivary</a></li>
+              <li><a href="#">Return & Exchanges</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+          <div class="footer__widget">
+            <h6>NewLetter</h6>
+            <div class="footer__newslatter">
+              <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+              <form action="#">
+                <input type="text" placeholder="Your email">
+                <button type="submit"><span class="icon_mail_alt"></span></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="footer__copyright__text">
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            <p>Copyright ©
+              <script>
+
+              </script>2020
+              All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                href="https://colorlib.com" target="_blank">Colorlib</a>
+            </p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <%- include('../layouts/user/footer.ejs') -%>
+
+    <script>
+
+      function IncDecValue(productId, count) {
+        console.log(productId, count);
+
+        const data = {
+          productId, count
+        }
+      
+        $.ajax({
+          url: '/updateQuantity',
+          method: 'POST',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          success: function (response) {
+            if (response.success) {
+              $('#reloadDiv').load('/Cartpage #reloadDiv')
+            } else if (response.min) {
+              Swal.fire({
+                icon: 'error',
+                text: 'Minimum stock reached !'
+              })
+            } else if (response.max) {
+              Swal.fire({
+                icon: 'error',
+                text: 'Maximum stock reached'
+              })
+            } else {
+
+            }
+          }
+        })
+
+      }
+
+
+
+      function removecart(productId) {
+        console.log(productId);
+
+        
+        const data = { ProductsId: productId };
+        $.ajax({
+          method: 'POST',
+          url: '/remove-cartproduct',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          success: function (response) {
+            if (response.removed) {
+
+              $('#Reload').load('/Cartpage #Reload')
+              $('#ReloadArea').load('/Cartpage #ReloadArea')
+              $('#Reloadprice').load('/Cartpage #Reloadprice', () => {
+                Swal.fire({
+                  title: 'Success',
+                  icon: 'success'
+
+                })
+              })
+
+            } else {
+
+            }
+          }
+        })
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

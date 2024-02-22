@@ -1,0 +1,636 @@
+<%- include('../layouts/user/header.ejs') -%>
+  <style>
+    #innames {
+      color: black;
+    }
+
+    .cart_discount {
+      margin-bottom: 60px;
+    }
+
+    .cart_discount h6 {
+      color: #111111;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 35px;
+    }
+
+    .cart_discount form {
+      position: relative;
+    }
+
+    .cart_discount form input {
+      font-size: 14px;
+      color: #b7b7b7;
+      height: 50px;
+      width: 100%;
+      border: 1px solid #e1e1e1;
+      padding-left: 20px;
+    }
+
+    .cart_discount form input::-webkit-input-placeholder {
+      color: #b7b7b7;
+    }
+
+    .cart_discount form input::-moz-placeholder {
+      color: #b7b7b7;
+    }
+
+    .cart_discount form input:-ms-input-placeholder {
+      color: #b7b7b7;
+    }
+
+    .cart_discount form input::-ms-input-placeholder {
+      color: #b7b7b7;
+    }
+
+    .cart_discount form input::placeholder {
+      color: #b7b7b7;
+    }
+
+    .cart_discount form button {
+      font-size: 14px;
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: #111111;
+      padding: 0 30px;
+      border: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+    }
+  </style>
+  <!-- Page Preloder -->
+  <div id="preloder">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Offcanvas Menu Begin -->
+  <div class="offcanvas-menu-overlay"></div>
+  <div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__option">
+      <div class="offcanvas__links">
+        <a href="#">Sign in</a>
+        <a href="#">FAQs</a>
+      </div>
+      <div class="offcanvas__top__hover">
+        <span>Usd <i class="arrow_carrot-down"></i></span>
+        <ul>
+          <li>USD</li>
+          <li>EUR</li>
+          <li>USD</li>
+        </ul>
+      </div>
+    </div>
+    <div class="offcanvas__nav__option">
+      <a href="#" class="search-switch"><img src="img/icon/search.png" alt="" /></a>
+      <a href="#"><img src="img/icon/heart.png" alt="" /></a>
+      <a href="#"><img src="img/icon/cart.png" alt="" /> <span>0</span></a>
+      <div class="price">$0.00</div>
+    </div>
+    <div id="mobile-menu-wrap"></div>
+    <div class="offcanvas__text">
+      <p>Free shipping, 30-day return or refund guarantee.</p>
+    </div>
+  </div>
+  <!-- Offcanvas Menu End -->
+
+  <!-- Header Section Begin -->
+
+  <header class="header">
+    <div class="header__top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p></p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <div class="header__top__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+              </div>
+              <div class="header__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                  <li>USD</li>
+                  <li>EUR</li>
+                  <li>USD</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3" style="height: 50px">
+          <div class="header__logo">
+            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px" alt="" /></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li class="active"><a href="/productsshop ">Shop</a></li>
+              <li>
+                <a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="">About Us</a></li>
+                  <li><a href="">Shop Details</a></li>
+                  <li><a href="">Shopping Cart</a></li>
+                  <li><a href="">Check Out</a></li>
+                  <li><a href="">Blog Details</a></li>
+                </ul>
+              </li>
+              <li><a href="">Blog</a></li>
+              <li><a href="">Contacts</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="header__nav__option">
+            <div class="dropdown">
+              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <% if(locals.user){ %>
+                  <img style="width: 17px" src="/img/icon/person.png" alt="User Profile" />
+                  <% } else { %>
+                    <img style="width: 17px" src="/img/icon/person.png" alt="" />
+                    <% } %>
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="userDropdown">
+                <% if(locals.user){ %>
+                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                  <% } else { %>
+                    <a class="dropdown-item" href="/login">Login</a>
+                    <% } %>
+              </div>
+
+              <a href="#" class="search-switch"><img src="img/icon/search.png" alt="" /></a>
+              <a href="#"><img src="img/icon/heart.png" alt="" /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+  </header>
+
+  <!-- Header Section End -->
+
+  <!-- Breadcrumb Section Begin -->
+  <section class="breadcrumb-option">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb__text">
+            <h4>Check Out</h4>
+            <div class="breadcrumb__links">
+              <a href="/">Home</a>
+              <a href="/">Shopping Cart</a>
+              <a href="/productsshop">Shop</a>
+              <span>Check Out</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Breadcrumb Section End -->
+
+  <!-- Checkout Section Begin -->
+  <section class="checkout spad">
+    <div class="container">
+      <div class="checkout__form">
+        <form>
+          <div class="row">
+            <div class="col-lg-8 col-md-6">
+              <div class="cart_discount" style="margin-bottom: 20px;">
+                <h6 style="color: #111111; font-weight: 700; text-transform: uppercase; margin-bottom: 15px;">Discount
+                  codes</h6>
+                <form style="position: relative;">
+                  <div style="position: relative;">
+                    <input type="text" placeholder="Coupon code" id="couponCode"
+                      style="font-size: 14px; color: #b7b7b7; height: 40px; width: calc(70% - 30px); border: 1px solid #e1e1e1; padding-left: 15px;">
+                    <button type="submit" onclick="applyCode(event)"
+                      style="font-size: 14px; color: #ffffff; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; background: #111111; padding: 0 40px; border: none; position: absolute; right: 0; top: 0; height: 40px; margin-right: 190px;">Apply</button>
+                  </div>
+
+                </form>
+              </div>
+
+
+              <div class="messageContainer"></div>
+
+              <h6 class="checkout__title">Billing Details</h6>
+              <div class="container mt-5">
+                <div class="row">
+                  <!-- Assuming addresses is an array of user addresses -->
+                  <div class="col-md-12">
+                    <h2>User Addresses</h2>
+                    <form action="#" id="addressForm">
+                      <!-- Loop through each user address -->
+                      <% Uaddress.forEach((address, index)=> { %>
+                        <div class="card mb-3">
+                          <div class="card-body">
+                            <h5 class="card-title">Address <%= index + 1 %>
+                            </h5>
+                            <p class="card-text">
+                              <strong>Name:</strong>
+                              <%= address.name %><br />
+                                <strong>Address Line:</strong>
+                                <%= address.addressline %><br />
+                                  <strong>City:</strong>
+                                  <%= address.city %><br />
+                                    <strong>State:</strong>
+                                    <%= address.state %><br />
+                                      <strong>Pincode:</strong>
+                                      <%= address.pincode %><br />
+                                        <strong>Phone:</strong>
+                                        <%= address.phone %>
+                            </p>
+                            <!-- Radio button for selecting the address -->
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="selectedAddress"
+                                id="address<%= index %>" value="<%= index %>" />
+                              <label class="form-check-label" for="address<%= index %>">
+                                Select this address
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <% }); %>
+                          <!-- Other form elements or buttons can be added here if needed -->
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="container mt-3">
+                <button type="button" class="btn btn-dark rounded-0" data-toggle="modal" data-target="#addressModal">
+                  Add New Address
+                </button>
+              </div>
+            </div>
+            <% let count; %>
+              <% let totalAmount=0 %>
+                <% if(Usercart){ %>
+                  <% Usercart.products.forEach(function(item, index){ %>
+                    <% totalAmount +=item.totalPrice %>
+                      <% count=Usercart.products.length %>
+                        <% }) %>
+                          <% } %>
+                            <div class="col-lg-4 col-md-6">
+                              <div class="checkout__order">
+                                <h4 class="order__title">Your order</h4>
+                                <div class="checkout__order__products fw-bold">
+                                  Items (<%= count %>)
+                                </div>
+                                <ul class="d-flex justify-content-between fw-bold">
+                                  <li>Total Amount</li>
+                                  <span class="text-danger" id="totalAmount">
+                                    <%= totalAmount %>
+                                  </span>
+                                </ul>
+                                <ul class="checkout__payment__all">
+                                  <!-- Add any other payment-related information here -->
+                                  <li>
+                                    <div class="checkout__input__checkbox">
+                                      <label for="wallet">
+                                        Wallet
+                                        <input type="radio" id="wallet" name="paymentMethod" value="wallet" />
+                                        <span class="checkmark"></span>
+                                      </label>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div class="checkout__input__checkbox">
+                                      <label for="paymentPaypal">
+                                        PayPal
+                                        <input type="radio" id="paymentPaypal" name="paymentMethod" value="paypal" />
+                                        <span class="checkmark"></span>
+                                      </label>
+                                    </div>
+                                  </li> 
+                                  <li>
+                                    <div class="checkout__input__checkbox">
+                                      <label for="paymentCOD">
+                                        Cash on delivery
+                                        <input type="radio" id="paymentCOD" name="paymentMethod" value="COD" />
+                                        <span class="checkmark"></span>
+                                      </label>
+                                    </div>
+                                  </li>
+                                </ul>
+                                <button type="submit" class="site-btn" onclick="placeOrder('<%= totalAmount %>',event)">
+                                  PLACE ORDER
+                                </button>
+                              </div>
+                            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Checkout Section End -->
+
+  <!-- Footer Section Begin -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="footer__about">
+            <div class="footer__logo">
+              <a href="#"><img src="img/footer-logo.png" alt="" /></a>
+            </div>
+            <p>
+              The customer is at the heart of our unique business model, which
+              includes design.
+            </p>
+            <a href="#"><img src="img/payment.png" alt="" /></a>
+          </div>
+        </div>
+        <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+          <div class="footer__widget">
+            <h6>Shopping</h6>
+            <ul>
+              <li><a href="#">Clothing Store</a></li>
+              <li><a href="#">Trending Shoes</a></li>
+              <li><a href="#">Accessories</a></li>
+              <li><a href="#">Sale</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6">
+          <div class="footer__widget">
+            <h6>Shopping</h6>
+            <ul>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Payment Methods</a></li>
+              <li><a href="#">Delivary</a></li>
+              <li><a href="#">Return & Exchanges</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+          <div class="footer__widget">
+            <h6>NewLetter</h6>
+            <div class="footer__newslatter">
+              <p>
+                Be the first to know about new arrivals, look books, sales &
+                promos!
+              </p>
+              <form action="#">
+                <input type="text" placeholder="Your email" />
+                <button type="submit"><span class="icon_mail_alt"></span></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="footer__copyright__text">
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            <p>
+              Copyright ©
+              <script></script>
+              2020 All rights reserved | This template is made with
+              <i class="fa fa-heart-o" aria-hidden="true"></i> by
+              <a href="https://colorlib.com" target="_blank">Colorlib</a>
+            </p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Footer Section End -->
+
+  <!-- Search Begin -->
+
+  <!-- Search End -->
+
+  <!-- Js Plugins -->
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.nice-select.min.js"></script>
+  <script src="js/jquery.nicescroll.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/jquery.countdown.min.js"></script>
+  <script src="js/jquery.slicknav.js"></script>
+  <script src="js/mixitup.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <%- include('../layouts/user/footer.ejs') -%>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+    <script>
+
+      // applying couponCode
+      function applyCode() {
+        event.preventDefault();
+        const couponCode = $('#couponCode').val();
+        console.log(couponCode);
+        $.ajax({
+          url: '/applyCouponCode',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ couponCode: couponCode }),
+          success: function (response) {
+            if (response.used) {
+              Swalfire(response.message)
+            } else if (response.success) {
+
+              const totalAmountElemnt = document.getElementById('totalAmount')
+              totalAmountElemnt.innerHTML = response.subtotal
+
+              SuccessSwal(response.message)
+            } else if (response.limit) {
+              Swalfire(response.message)
+            } else if (response.expired) {
+              Swalfire(response.message)
+            } else if(response.CodeErr){
+              Swalfire(response.message)
+            }
+
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            // Handle errors
+            console.error('Error:', errorThrown);
+            // You can also display an error message to the user if needed
+          }
+        });
+      }
+
+      function Swalfire(text) {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: `${text}`,
+          showConfirmButton: false,
+          timer: 1700,
+        })
+      }
+
+      function SuccessSwal(text){
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: `${text}`,
+          showConfirmButton: false,
+          timer: 1700,
+        })
+      }
+
+
+      //PLace order 
+      function placeOrder() {
+        event.preventDefault();
+        const totalAmount = parseFloat(document.getElementById('totalAmount').innerText);
+        console.log("totalAmount",totalAmount);
+
+        const couponCode = $('#couponCode').val();
+        console.log(couponCode);
+        // Get the selected index
+        const indexInput = document.querySelector(
+          'input[name="selectedAddress"]:checked'
+        );
+
+        // Check if the indexInput exists and is checked
+        if (!indexInput) {
+          console.log("Please select an address");
+          return;
+        }
+
+        const index = indexInput.value;
+
+        const payment_method = document.querySelector(
+          'input[name="paymentMethod"]:checked'
+        );
+        const payment = payment_method ? payment_method.value : null;
+
+        if (!payment) {
+          console.log("Please select a payment method");
+          return;
+        }
+
+        // Include the selected address index in the data object
+        const data = {
+          Amount: totalAmount,
+          payment_method: payment,
+          index: index,
+          couponCode :couponCode
+          // Add other data properties as needed
+        };
+        console.log("Selected Index:", index);
+        console.log("Payment Method:", payment);
+
+        $.ajax({
+          url: "/place-Order",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          success: function (response) {
+            if (response.success) {
+              window.location.href = "/orderSuccessPage";
+            } else if (response.order) {
+              razorPay(response.order);
+            } else {
+              console.log("last else here");
+            }
+          },
+          error: function (error) {
+            console.error("Error:", error.statusText);
+          },
+        });
+      }
+
+      function razorPay(order) {
+        console.log("functionil kitty");
+        try {
+        
+          var options = {
+            key: "rzp_test_fB02vUjG7B86w1", // Enter the Key ID generated from the Dashboard
+            amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: "INR",
+            name: "LEO fashion", //your business name
+            description: "Test Transaction",
+            image: "/img/logoleo.jpg",
+            order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            handler: (response) => {
+              verifyPayament(response, order);
+            },
+            prefill: {
+              //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+              name: "LEO fashion", //your customer's name
+              email: "muhammadsahad2022@gmail.com",
+              contact: "9995762762", //Provide the customer's phone number for better conversion rates
+            },
+            notes: {
+              address: "LEO fashion",
+            },
+            theme: {
+              color: "#000000",
+            },
+          };
+
+          var rzp1 = new Razorpay(options);
+
+          rzp1.on("payment.failed", (err) => {
+            console.log(err);
+          });
+          rzp1.open();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      function verifyPayament(payment, order) {
+        try {
+          console.log("ajaxil vannu");
+          $.ajax({
+            url: "/verify-payment",
+            method: "POST",
+            data: {
+              payment,
+              order,
+            },
+            success: function (response){
+              if (response.PaymentSuccess) {
+                window.location.href = "/orderSuccessPage";
+              } else {
+                Swal.fire({
+                  position: "center",
+                  icon: "erorr",
+                  title: "Payment failed",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              }
+            },
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    </script>
+
+    <!-- // ======================= validation add ================= \\ -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

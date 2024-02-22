@@ -1,0 +1,140 @@
+<%- include('../layouts/user/header.ejs') -%>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <div class="header__logo">
+          <a href=""><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <nav class="header__menu mobile-menu">
+          <ul>
+            <li class="active"><a href="./index.html">Home</a></li>
+            <li><a href="./shop.html">Shop</a></li>
+            <li><a href="#">Pages</a>
+              <ul class="dropdown">
+                <li><a href="./about.html">About Us</a></li>
+                <li><a href="./shop-details.html">Shop Details</a></li>
+                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
+                <li><a href="./checkout.html">Check Out</a></li>
+                <li><a href="./blog-details.html">Blog Details</a></li>
+              </ul>
+            </li>
+            <li><a href="./blog.html">Blog</a></li>
+            <li><a href="./contact.html">Contacts</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="header__nav__option">
+          <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+          <a href="#"><img src="img/icon/heart.png" alt=""></a>
+          <a href="#"><img src="/public/assets/img/icon/person.png" alt=""></a>
+          <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
+          <div class="price">$0.00</div>
+        </div>
+      </div>
+    </div>
+    <div class="canvas__open"><i class="fa fa-bars"></i></div>
+  </div>
+  </header>
+  <section class="py-3 py-md-5 py-xl-8">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-5">
+            <h2 class="display-5 fw-bold text-center ">Sign in</h2>
+            <p class="text-center m-0">Don't have an account? <a href="#!">Sign up</a></p>
+            <% if(messages.nameerror) { %>
+              <div class="alert alert-danger d-flex align-items-center" role="alert" id="usernameExistAlert">
+                <h5 class="alert-danger text-center">
+                  <%= messages.nameerror %>
+                </h5>
+                
+                <% } %>
+                <% if(messages.emailerror) { %>
+                  <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
+                    <h5 class="alert-danger text-center">
+                      <%= messages.emailerror %>
+                    </h5>
+                    <%}%>
+                    <% if(messages.passErr){%>
+                      <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
+                        <h5 class="alert-danger text-center">
+                          <%= messages.passErr %>
+                        </h5>
+                    <%}%>
+                        <% if(messages.incorrectOtp) { %>
+                          <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
+                            <h5 class="alert-danger text-center">
+                              <%= messages.incorrectOtp %>
+                            </h5>
+                            <% } %>
+                          </div>
+                    </div>
+              </div>
+
+              <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 col-xl-8">
+                  <div class="row gy-5 justify-content-center">
+                    <div class="col-12 col-lg-5">
+                      <form id="verificationForm" method="post" action="/register" onsubmit="return validate()">
+                        <div class="row gy-3 overflow-hidden ">
+                          <div class="col-12">
+                            <div class="form-floating mb-3">
+                              <input type="text" class="form-control border-0 border-bottom rounded-0" name="name"
+                                id="uname" placeholder="name@example.com" required>
+                              <label for="text" class="form-label">Name</label>
+                              <div id="userError" class="forml" style="color: red;"></div>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-floating mb-3">
+                              <input type="email" class="form-control border-0 border-bottom rounded-0" name="email"
+                                id="umail" placeholder="name@example.com" required>
+                              <label for="email" class="form-label">Email</label>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-floating mb-3">
+                              <input type="text" class="form-control border-0 border-bottom rounded-0" name="mobile"
+                                id="uphone" placeholder="name@example.com" required>
+                              <label for="email" class="form-label">Mobile</label>
+                              <div id="userMobileErr" class="forml" style="color: red;"></div>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-floating mb-3">
+                              <input type="password" class="form-control border-0 border-bottom rounded-0"
+                              name="password" id="password" placeholder="Password" required>
+                              <label for="password" class="form-label">Password</label>
+                              <div id="passwordError" class="forml" style="color: red;"></div>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-floating mb-3">
+                              <input type="password" class="form-control border-0 border-bottom rounded-0"
+                                name="confirm_password" id="confirm_password" placeholder="Confim password" required>
+                              <label for="Confirm password" class="form-label">Confirm password</label>
+                              <div id="passwordError" class="forml" style="color: red;"></div>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="d-grid">
+                              <button class="btn btn-lg btn-dark rounded-0 fs-6" type="submit">Sign up</button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+  </section>
+
+
+
+  <script src="/js/admin/form-validation.js"></script>
+
+  <%- include('../layouts/user/header.ejs') -%>

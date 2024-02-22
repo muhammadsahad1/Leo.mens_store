@@ -1,0 +1,260 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+
+
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a class="brand-wrap">
+                <img style="width: 50px;" src="/img/logoleo.jpg" alt="Nest Dashboard" />
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i
+                        class="text-muted material-icons md-menu_open"></i></button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/adminDashboard">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item  ">
+                    <a class="menu-link" href="/admin/products">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/ums">
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">user managmnet</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/category">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Categories</span>
+                    </a>
+
+                </li>
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/orderDetails">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Orders</span>
+                    </a>
+
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/coupons"> <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/banners"> <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Banners</span>
+                    </a>
+                </li>
+            </ul>
+            <hr />
+            <br />
+            <br />
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                        <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-nav">
+                <a href="/admin/logout"><i class="btn btn-dark ms-3 rounded-pill">Logout</i></a>
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                        class="material-icons md-apps"></i></button>
+                <ul class="nav">
+
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                            aria-expanded="false"> <img class="img-xs rounded-circle" src="/imgs/people/avatar-2.png"
+                                alt="User" /></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href=""><i
+                                    class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </header>
+
+
+
+        <body class="bg-info-subtle">
+            <main class="">
+
+                <!-- ... Your existing code ... -->
+
+                <!-- ... Your existing code ... -->
+
+                <section class="content-main bg-body-tertiary">
+                    <div class="content-header justify-content-center py-3">
+                        <div class="text-center">
+                            <h2 class="content-title fs-3 text-dark" style="font-weight: 800;">Users Orders Details</h2>
+                            <p class="text-muted" style="font-size: large;"></p>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body" id="Reload">
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <!-- Add user details here, you can customize this section -->
+
+                                    <p><strong>Name:</strong>
+                                        <%= order.userId.name %>
+                                    </p>
+                                    <p><strong>Email:</strong>
+                                        <%= order.userId.email %>
+                                    </p>
+                                    <p><strong>Address:</strong>
+                                        <%= order.delivery_address%>
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div class="table-responsive">
+                                <div id="reload">
+                                    <table class="table table-hover" id="ReloadTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Index</th>
+                                                <th scope="col">Image</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Total</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col" class="text-end">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% order.products.forEach((el, i)=> {%>
+                                                <tr>
+                                                    <td>
+                                                        <%= i + 1%>
+                                                    </td>
+                                                    <td>
+                                                        <b>
+                                                            <img src="/img/product/sharp/<%= el.productsId.images[0]%>"
+                                                                alt="" style="width: 80px; height: 80px;">
+                                                        </b>
+                                                    </td>
+                                                    <td>
+                                                        <%= el.productsId.name%>
+                                                    </td>
+                                                    <td>
+                                                        <%= el.totalPrice%>
+                                                    </td>
+                                                    <td><span class=" " style="font-weight: 900;">
+                                                            <%= el.status%>
+                                                        </span></td>
+                                                    <% const formattedDate=order.date.toLocaleString('en-US', {
+                                                        weekday: 'short' , month: 'short' , day: 'numeric' ,
+                                                        year: 'numeric' , hour: 'numeric' , minute: 'numeric' ,
+                                                        second: 'numeric' , hour12: true }); %>
+                                                        <td>
+                                                            <%= formattedDate%>
+                                                        </td>
+                                                        <td class="text-end">
+
+                                                            <%if(el.status==='delivered' ) {%>
+                                                                <select data-orderId="<%= order._id%>"
+                                                                    data-productId="<%= el.productsId._id%>"
+                                                                    data-index="<%= i%>"
+                                                                    data-userId="<%= order.userId._id%>"
+                                                                    class="form-select orderStatus bg-success"
+                                                                    id="orderStatus" name="orderStatus" disabled>
+                                                                    <option style="color: rgba(248, 249, 248, 0.954);"
+                                                                        value="delivered">Delivered</option>
+                                                                </select>
+
+                                                                <%} else if(el.status==='cancelled' ) {%>
+
+                                                                    <select class="bg-danger form-select" name="" id=""
+                                                                        disabled>
+                                                                        <option class="text-light "
+                                                                            style="color: #fff !important; font-weight: 900;">
+                                                                            Cancelled</option>
+
+                                                                    </select>
+
+                                                                    <%} else {%>
+                                                                        
+                                                                        <select data-orderId="<%= order._id%>"
+                                                                            data-productId="<%= el.productsId._id%>"
+                                                                            data-index="<%= i%>"
+                                                                            data-userId="<%= order.userId._id%>"
+                                                                            class="form-select orderStatus"
+                                                                            id="orderStatus" name="orderStatus"
+                                                                            onchange="changeStatus(this)">
+                                                                            <option>Change status</option>
+                                                                            <option value="shipped">Shipped</option>
+                                                                            <option value="shipped">Request accept</option>
+                                                                            <option value="outfordelivery">
+                                                                                outfordelivery</option>
+                                                                            <option value="delivered">Delivered</option>
+                                                                        </select>
+
+                                                                        <%}%>
+                                                        </td>
+                                                </tr>
+                                                <%})%>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script>
+                    function changeStatus(select) {
+
+                        let orderId = select.dataset.orderid;
+                        let productId = select.dataset.productid;
+                        let status = select.value;
+                        let userId = select.dataset.userid;
+                        const data = {
+                            orderId,
+                            productId,
+                            status,
+                            userId
+                        }
+                        $.ajax({
+                            url: '/admin/changeOrderStatus',
+                            method: 'POST',
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            success: function (response) {
+                                if (response.change === true) {
+                                    $('#ReloadTable').load('/admin/single-orderDetails?orderId=<%= order._id %> #ReloadTable')
+                                }
+                            }
+                        })
+                    }
+                </script>
+
+                <%- include('../layouts/admin/footer.ejs') -%>
+
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

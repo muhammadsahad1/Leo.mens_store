@@ -1,0 +1,159 @@
+<%- include('../layouts/admin/header.ejs') -%>
+    <div class="screen-overlay"> </div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a class="brand-wrap">
+                <img style="width: 50px;" src="/img/logoleo.jpg" alt="Nest Dashboard" />
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i
+                        class="text-muted material-icons md-menu_open"></i></button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/adminDashboard">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item  ">
+                    <a class="menu-link" href="/admin/products">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/ums">
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">user managmnet</span>
+                    </a>
+                </li>
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/category">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Categories</span>
+                    </a>
+
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/orders">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Orders</span>
+                    </a>
+
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/coupons"> <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/banners"> <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Banners</span>
+                    </a>
+                </li>
+            </ul>
+            <hr />
+            <br />
+            <br />
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                        <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-nav">
+                <a href="/admin"><i class="btn btn-dark ms-3 rounded-pill">Logout</i></a>
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                        class="material-icons md-apps"></i></button>
+                <ul class="nav">
+
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                            aria-expanded="false"> <img class="img-xs rounded-circle" src="/imgs/people/avatar-2.png"
+                                alt="User" /></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href=""><i
+                                    class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </header>
+        <section class="content-main">
+            <div class="content-header col-4">
+                <h2 class="content-title" style="font-family: Arial, Helvetica, sans-serif;">Category</b></h2>
+            </div>
+            <form action="/admin/edit-category" method="post" onsubmit="return validate()">
+                <input type="hidden" name="id" value="<%= categories[0]._id %>">
+                <label for="previousPrice">Name</label>
+                <input type="text" class="form-control" id="category_name" name="editname"
+                    value="<%= categories[0].name %>" required>
+                <% if(messages.existsmess){%>
+                    <span class="alert-danger ">
+                        <%= messages.existsmess %>
+                    </span>
+                    <%}%>
+                        <div id="category" style="color: red;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" name="editdisc"
+                                value="<%= categories[0].description %>" placeholder="Enter description">
+                            <%= categories.description %>
+                        </div>
+                        </div>
+
+                        <div class="mt-4"> <button type="submit" class="btn btn-primary ">Update</button>
+                            <a href="/admin/category" class="btn btn-primary">
+                                <span class="text">Back</span>
+                            </a>
+                        </div>
+
+            </form>
+            </div>
+            </div>
+        </section>
+        </div>
+
+
+        <script>
+            function validate() {
+                let categoryname = document.getElementById('category_name')
+                if(Existscategory&&Existscategory.name.toLowerCase() === categoryname.value.toLowerCase()){
+                    Swal.fire({
+                        icon :'warning',
+                        text : 'Category name is already exists'
+                    })
+                    return false
+                }
+                if (categoryname.value.trim() === '') {
+                    categoryname.style.border = 'solid 1px red';
+                    category.textContent = 'Give category name'
+                    setTimeout(() => {
+                        categoryname.style.border = '';
+                        category.textContent = '';
+                    }, 3000)
+                    return false
+                } else {
+                    true
+                }
+            }
+        </script>
+
+        <%- include('../layouts/admin/footer.ejs') -%>

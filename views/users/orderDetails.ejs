@@ -1,0 +1,307 @@
+<%- include('../layouts/user/header.ejs') -%>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a {
+      text-decoration: none;
+
+    }
+
+    .status-checkboxes {
+      margin-top: .5rem;
+
+    }
+
+    .status-checkboxes .form-check {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .status-checkboxes .form-check-input {
+      margin-top: 0;
+      margin-right: 5px;
+      /* Adjust spacing between checkbox and label */
+    }
+
+    .status-checkboxes .form-check-label {
+      margin-bottom: 0;
+    }
+  </style>
+
+
+  <header class="header">
+    <div class="header__top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p></p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <div class="header__top__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+              </div>
+              <div class="header__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                  <li>USD</li>
+                  <li>EUR</li>
+                  <li>USD</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3" style="height: 50px;">
+          <div class="header__logo">
+            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li class="active"><a href="">Home</a></li>
+              <li><a href="/productsshop ">Shop</a></li>
+              <li><a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="">About Us</a></li>
+                  <li><a href="">Shop Details</a></li>
+                  <li><a href="">Shopping Cart</a></li>
+                  <li><a href="">Check Out</a></li>
+                  <li><a href="">Blog Details</a></li>
+                </ul>
+              </li>
+              <li><a href="">Blog</a></li>
+              <li><a href="">Contacts</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="header__nav__option">
+            <div class="dropdown">
+              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <% if(locals.user){ %>
+                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                  <% } else { %>
+                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                    <% } %>
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="userDropdown">
+                <% if(locals.user){ %>
+                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                  <% } else { %>
+                    <a class="dropdown-item" href="/login">Login</a>
+                    <a class="dropdown-item" href="/register">Sign up</a>
+                    <% } %>
+              </div>
+
+              <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+              <a href="#"><img src="img/icon/heart.png" alt=""></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+  </header>
+
+  <div class="bg-body-tertiary" style=" margin:0 auto; padding: 15px 15px;">
+    <!-- <div class="container-fluid"> -->
+    <div class="row">
+      <div class="col-md-3" >
+        <div
+          style="padding: 16px; margin-bottom: 12px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);">
+          <div class="d-flex" style="flex-wrap: wrap;  padding: 16px; margin-bottom: 12px;">
+
+            <div style="display: flex; flex-grow: 1;">
+              <div style=" flex-grow: 1; padding-top: 10px;padding-left: 5px; padding-right: 40px; font-weight: 900;">
+                MY ORDERS
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div
+          style="padding: 16px; margin-bottom: 12px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);">
+          <div class="d-flex" style="flex-wrap: wrap;  padding: 16px; margin-bottom: 12px;">
+
+            <div style="display: flex; flex-grow: 1;">
+              <div style=" flex-grow: 1; padding-top: 10px;padding-left: 5px; padding-right: 40px; font-weight: 900;">
+                Filters
+              </div>
+            </div>
+          </div>
+          <div class="status-checkboxes">
+            <div class="ms-4 mb-3  gap-2">
+              <div class="form-check">
+                <input class="form-check-input mt-0" type="checkbox" id="onTheWay" value="">
+                <label class="form-check-label" for="onTheWay">On the way</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input mt-0" type="checkbox" id="delivered" value="">
+                <label class="form-check-label" for="delivered">Delivered</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input mt-0" type="checkbox" id="cancelled" value="">
+                <label class="form-check-label" for="cancelled">Cancelled</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input mt-0" type="checkbox" id="returned" value="">
+                <label class="form-check-label" for="returned">Returned</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-9">
+        <div class="d-flex flex-column">
+          <div class="div" style="width: 85%; background-color: #fff; ">
+            <div class="input-group " >
+              <input type="text" class="form-control" placeholder="Recipient's username"
+                aria-label="Recipient's username" aria-describedby="button-addon2">
+              <button class="btn btn-dark" type="button" id="button-addon2">Search orders</button>
+            </div>
+          </div>
+
+          
+          <% if(myOrder){%>
+            <% console.log(myOrder) %>
+              <% myOrder.products.forEach(function(field,i){%>
+
+
+                <div onclick="singleOrder('<%= field.productsId._id %>','<%= i %>','<%= myOrder._id%>')"
+                  style="background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.08); margin-top: 2rem;">
+                  <div style="padding: 16px;">
+
+                    <div class="row">
+
+                      <div class="col-6">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="d-flex">
+                              <div style="margin: 0 auto;">
+                                <img src="/img/product/sharp/<%= field.productsId.images[0] %>"
+                                  style="width: 75%; height: 75%;" alt="">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-8">
+                            <div>
+                              <span>
+                                <%=field.productsId.name%>
+                              </span>
+                              <div class="d-flex">
+                                <% const match=[['S', 'Small' ], ['M', 'Medium' ], ['L', "Large" ], ['XL', 'Exel' ],
+                                  ['XXL', 'Double exel' ]] %>
+                                  <% const size=match.find((size)=> (size[0] === field.sizes)) %>
+                                    <p class="me-2"><span></span></p>
+                                    <p><span>Size: </span>
+                                      <%= size[1] %>
+                                    </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-2">
+                        ₹<%= field.totalPrice %>
+
+                      </div>
+                      <div class="col-4">
+                        <div class="d-flex" style="align-items: center; ">
+                          <div
+                            class=" <%= field.status === 'delivered' ? 'bg-success' : ''%><%=  field.status === 'placed' ? 'border border-success' : ''  %> "
+                            style="width: 10px; height: 10px;  margin-bottom: 13px; margin-right: 1rem; border-radius: 50%; border: 2px;">
+                          </div>
+                          <div>
+                            <p class="text-muted">your product as placed</p>
+                          </div>
+                        
+
+                        </div>  
+                        
+                        <!-- <div class="d-flex">
+                                                            <span class="me-2"><i class="fa-solid fa-star" style="color: #00328a;"></i></i></span>
+                                                            
+                                                           <a href="" style="text-decoration: none;">
+                                                           
+                                                            <span style="color: #00328a;">Rate & review product</span>
+                                                           </a>
+                                                        </div> -->
+                      </div>
+
+                      <div>
+
+                      </div>
+                      <div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <%})%>
+
+                  <%}else{%>
+                    <div style="background-color: #111111;">
+                      <p style="color: #fff;">No order found</p>
+                    </div>
+
+
+                    <%}%>
+
+
+
+
+        </div>
+
+      </div>
+
+      <!-- </div> -->
+    </div>
+  </div>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script> -->
+  <script src="js/jquery.nice-select.min.js"></script>
+  <script src="js/jquery.nicescroll.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/jquery.countdown.min.js"></script>
+  <script src="js/jquery.slicknav.js"></script>
+  <script src="js/mixitup.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <%- include('../layouts/user/footer.ejs') -%>
+
+     <script>
+function singleOrder(productId,index,orderId){
+
+  console.log(productId,index,orderId)
+  location.href = `/single-product?productId=${productId}&index=${index}&orderId=${orderId}`
+}
+</script> 

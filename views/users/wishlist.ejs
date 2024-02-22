@@ -1,0 +1,338 @@
+
+<%- include('../layouts/user/header.ejs') -%>
+
+<header class="header">
+  <div class="header__top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-7">
+          <div class="header__top__left">
+            <p></p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-5">
+          <div class="header__top__right">
+            <div class="header__top__links">
+              <a href="#">Sign in</a>
+              <a href="#">FAQs</a>
+            </div>
+            <div class="header__top__hover">
+              <span>Usd <i class="arrow_carrot-down"></i></span>
+              <ul>
+                <li>USD</li>
+                <li>EUR</li>
+                <li>USD</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-3" style="height: 50px">
+        <div class="header__logo">
+          <a href="/"
+            ><img src="/img/logoleo.jpg" style="width: 80px" alt=""
+          /></a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <nav class="header__menu mobile-menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/productsshop ">Shop</a></li>
+            <li>
+              <a href="#">Pages</a>
+              <ul class="dropdown">
+                <li><a href="">About Us</a></li>
+                <li><a href="">Shop Details</a></li>
+                <li><a href="">Shopping Cart</a></li>
+                <li><a href="">Check Out</a></li>
+                <li><a href="">Blog Details</a></li>
+              </ul>
+            </li>
+            <li><a href="">Blog</a></li>
+            <li><a href="">Contacts</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="col-lg-3 col-md-3">
+        <div class="header__nav__option">
+          <div class="dropdown">
+            <a
+              class="dropdown-toggle"
+              href="#"
+              role="button"
+              id="userDropdown"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <% if(locals.user){ %>
+              <img
+                style="width: 17px"
+                src="/img/icon/person.png"
+                alt="User Profile"
+              />
+              <a href="/Cartpage"
+                ><img src="/img/icon/cart.png" alt="" /> <span></span
+              ></a>
+              <% } else { %>
+              <img style="width: 17px" src="/img/icon/person.png" alt="" />
+              <% } %>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="userDropdown">
+              <% if(locals.user){ %>
+              <a class="dropdown-item" href="/Userprofile">My Profile</a>
+              <a class="dropdown-item" href="/logout">Logout</a>
+              <% } else { %>
+              <a class="dropdown-item" href="/login">Login</a>
+              <a class="dropdown-item" href="/register">Sign up</a>
+              <% } %>
+            </div>
+
+            <a href="#" class=""><img src="img/icon/search.png" alt="" /></a>
+            <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="canvas__open"><i class="fa fa-bars"></i></div>
+  </div>
+</header>
+
+<style>
+body {
+  background-color: #f8f9fa;
+}
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  object-fit: cover;
+  height: 200px;
+}
+.card-body {
+  padding: 1.5rem;
+}
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.btn-danger:hover {
+  background-color: #bd2130;
+  border-color: #bd2130;
+}
+.card-title{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+}
+input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Style for the radio button labels */
+label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* Style for the checked radio button */
+input[type="radio"]:checked + label {
+  background-color: #000; /* Background color when checked */
+  color: #fff; /* Text color when checked */
+}
+  /* Hide the up and down arrows in the quantity input field */
+  .pro-qty input[type="text"]::-webkit-inner-spin-button,
+    .pro-qty input[type="text"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .pro-qty input[type="text"] {
+      -moz-appearance: textfield;
+      appearance: none;
+      /* for Firefox */
+    }
+</style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="mb-4 text-center fw-bold">My Wishlist</h2>
+        <% if(wishProduct) { %>
+          <div class="row">
+            <% wishProduct.forEach((product) => { %>
+              <div class="col-md-4 mt-2">
+                <div class="card mb-4">
+                  <div class="image-container">
+                    <a href="/productdetails?id=<%= product.productId._id %>">
+                      <img src="/img/product/sharp/<%= product.productId.images[0] %>" />
+                    </a>
+                  </div>
+                  <div class="card-body" style="height: auto;">
+                    <h5 class="card-title"><%= product.productId.name %></h5>
+                    <span class="text-dark fw-bold"> ₹ <%= product.productId.price %></span>
+                    <div class="product__details__option mt-2">
+                      <div class="product__details__option__size">
+                        <div>
+                          <span class="fw-bold">Size:</span>
+                          <% product.productId.sizes.forEach(function(size){ %>
+                            <label for="<%= size %>">
+                              <input type="radio" id="<%= size %>" name="size" value="<%= size %>">
+                              <%= size %> 
+                            </label>
+                          <% }) %>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= product.productId.description %></p>
+                    <div class="buttons mt-auto">
+                    
+                      <button class="btn btn-danger btn-block mt-2" onclick="removeWishlist('<%= product.productId._id %>')">Remove</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+<footer class="footer mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="footer__about">
+          <div class="footer__logo">
+            <a href="#"
+              ><img src="/img/logoleo.jpg" style="height: 50px" alt="logoimg" />
+            </a>
+          </div>
+          <p>
+            The customer is at the heart of our unique business model, which
+            includes design.
+          </p>
+          <a href="#"><img src="img/payment.png" alt="" /></a>
+        </div>
+      </div>
+      <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+        <div class="footer__widget">
+          <h6>Shopping</h6>
+          <ul>
+            <li><a href="#">Clothing Store</a></li>
+            <li><a href="#">Trending Shoes</a></li>
+            <li><a href="#">Accessories</a></li>
+            <li><a href="#">Sale</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6">
+        <div class="footer__widget">
+          <h6>Shopping</h6>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Payment Methods</a></li>
+            <li><a href="#">Delivary</a></li>
+            <li><a href="#">Return & Exchanges</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+        <div class="footer__widget">
+          <h6>NewLetter</h6>
+          <div class="footer__newslatter">
+            <p>
+              Be the first to know about new arrivals, look books, sales &
+              promos!
+            </p>
+            <form action="#">
+              <input type="text" placeholder="Your email" />
+              <button type="submit"><span class="icon_mail_alt"></span></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="footer__copyright__text">
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          <p>
+            Copyright ©
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            2020 All rights reserved | This template is made with
+            <i class="fa fa-heart-o" aria-hidden="true"></i> by
+            <a href="https://colorlib.com" target="_blank">Colorlib</a>
+          </p>
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+
+    function removeWishlist(ProductId){
+      console.log(ProductId);
+      const data = {
+        productId : ProductId 
+      }
+      fetch('/removeWishlist',{
+        method : 'POST',
+        headers : {
+          'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(data)
+      }).then((response)=>{
+    if(response.ok){
+    window.location.reload()
+    }
+      })
+    }
+
+  </script>
+
+</script>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+
+<%- include('../layouts/user/footer.ejs') -%>

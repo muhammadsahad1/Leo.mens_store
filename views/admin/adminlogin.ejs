@@ -1,0 +1,70 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+    <main>
+        <header class="main-header style-2 navbar">
+    
+        </header>
+        
+
+
+            <section>
+                <div class="container py-5 h-100">
+                  <div class="row d-flex justify-content-center align-items-center h-100 ">
+                
+                      <div class="card" style="border-radius: 1rem; width: 50rem;">
+                    
+                          <div class="col-md-6 col-lg-12 ">
+                            <div class="card-body p-4 p-lg-5 text-black d-flex justify-content-center">
+              
+                              <form action="/admin/" method="post">
+              
+                                <div class="d-flex align-items-center mb-3 pb-1">
+                                  
+                                  <span class="h1 fw-bold mb-0">    <a class="brand-wrap">
+                                    <img style="width: 50px;" src="/img/logoleo.jpg" class="logo" alt="Nest Dashboard" />
+                                </a></span>
+                                </div>
+              
+                                <h5 class="fw-normal mb-3 pb-3 fw-bold" style="letter-spacing: 1px;">Login admin account</h5>
+              
+                                <div class="form-outline mb-4">
+                                  <input type="email" id="email" name="email" class="form-control form-control-lg" />
+                                  <label class="form-label" for="form2Example17">Email address</label>
+                                </div>
+              
+                                <div class="form-outline mb-4">
+                                  <input type="password" id="password" name="password" class="form-control form-control-lg" />
+                                  <label class="form-label">Password</label>
+                                </div>
+              
+                                <div class="pt-1 mb-4">
+                                  <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                                </div>
+              
+                                <a class="small text-muted" href="#!">Forgot password?</a>
+                                <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!"
+                                    style="color: #393f81;">Register here</a></p>
+                                <a href="#!" class="small text-muted">Terms of use.</a>
+                                <a href="#!" class="small text-muted">Privacy policy</a>
+                              </form>
+              
+                            </div>
+                          </div>
+                    
+                
+                  </div>
+                </div>
+              </section>
+
+
+            
+        </section>
+        
+    </main>
+    <script src="/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/js/main.js?v=1.1" type="text/javascript"></script>
+
+    <%- include('../layouts/admin/footer.ejs') -%>

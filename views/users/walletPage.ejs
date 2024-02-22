@@ -1,0 +1,330 @@
+<%- include('../layouts/user/header.ejs') -%>
+
+<style>
+.containerrr {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sidebarrr {
+  flex: 1;
+  min-width: 20%;
+  max-width: 25%;
+  padding: 20px;
+ 
+  color: #fff;
+  min-height: 100vh;
+}
+
+.main-contenttt {
+  flex: 3;
+  padding: 20px;
+}hr{
+    color:black;
+}
+
+.user-headerrr {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-photooo {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  /* Placeholder background color for the user photo */
+  background-color: #ddd;
+}
+
+.user-nameee {
+  font-size: .6rem;
+  font-weight: bold;
+}
+
+.menu-headinggg {
+  font-size: .7rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: rgba(127,127,127,1);
+}
+
+.menu-itemmm {
+  margin-bottom: 10px;
+
+}
+
+.menu-itemmm a {
+ color: black;
+  text-decoration: none;
+  font-size: .9rem;
+  font-family: 'Quicksand';
+}
+.menu-itemmm.selected {
+background-color: #f0f0f0;
+border-radius: 5px;
+}
+
+@media screen and (max-width: 600px) {
+    .menu-itemmm a {
+ color: black;
+  text-decoration: none;
+  font-size: .5rem;
+}   
+
+}
+
+
+
+
+/* wallet  */
+.card{
+border: none;
+border-radius: 10px;
+width: 50%;
+
+
+}
+.fa-ellipsis-v{
+font-size: 10px;
+color: #C2C2C4;
+margin-top: 6px;
+cursor: pointer;
+}
+.text-dark{
+font-weight: bold;
+margin-top: 8px;
+font-size: 13px;
+letter-spacing: 0.5px;
+}
+.card-bottom{
+background: #3E454D;
+border-radius: 6px;
+}
+
+.flex-column p{
+letter-spacing: 1px;
+font-size: 18px;
+}
+.btn-secondary{
+height: 40px!important;
+margin-top: 3px;
+}
+.btn-secondary:focus{
+box-shadow: none;
+}
+</style>
+</head>
+<body>
+
+
+  <header class="header">
+    <div class="header__top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p></p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <div class="header__top__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+              </div>
+              <div class="header__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                  <li>USD</li>
+                  <li>EUR</li>
+                  <li>USD</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3" style="height: 50px;">
+          <div class="header__logo">
+            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li class="active"><a href="">Home</a></li>
+              <li><a href="/productsshop ">Shop</a></li>
+              <li><a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="">About Us</a></li>
+                  <li><a href="">Shop Details</a></li>
+                  <li><a href="">Shopping Cart</a></li>
+                  <li><a href="">Check Out</a></li>
+                  <li><a href="">Blog Details</a></li>
+                </ul>
+              </li>
+              <li><a href="">Blog</a></li>
+              <li><a href="">Contacts</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="header__nav__option">
+            <div class="dropdown">
+              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <% if(locals.user){ %>
+                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                  <% } else { %>
+                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                    <% } %>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="userDropdown">
+                <% if(locals.user){ %>
+                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                  <% } else { %>
+                    <a class="dropdown-item" href="/login">Login</a>
+                    <a class="dropdown-item" href="/register">Sign up</a>
+                    <% } %>
+              </div>
+
+              <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+              <a href="#"><img src="img/icon/heart.png" alt=""></a>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+  </header>
+
+
+  <body>
+
+
+    <div class="containerrr">
+      <!-- Sidebar -->
+      <div class="sidebarrr" id="sidebar">
+
+        <div class="user-headerrr">
+          <div class="user-photooo"></div>
+          <div class="user-nameee">
+            
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <div class="menu-headinggg">General</div>
+
+        <div class="menu-itemmm "><a href="/manageAddress" aria-current="page" class="bg-light active">Manage
+            Address</a></div>
+        <hr>
+
+        <div class="menu-itemmm"><a href="/myOrder">Orders</a></div>
+        <hr>
+
+        <div class="menu-itemmm"><a href="#">Wishlist</a></div>
+        <hr>
+
+        <div class="menu-itemmm"><a href="/wallet">Wallet</a></div>
+        <hr>
+
+
+        <div class="menu-headinggg">Legal</div>
+        <div class="menu-itemmm"><a href="#">Terms of Use</a></div>
+        <hr>
+        <div class="menu-itemmm"><a href="#">Privacy Policy</a></div>
+        <hr>
+
+        <div class="menu-headinggg">Personal</div>
+        <div class="menu-itemmm"><a href="#">Report a Bug</a></div>
+        <hr>
+        <div class="menu-itemmm"><a href="/logout">Logout</a></div>
+        <hr>
+
+      </div>
+
+<!-- Main Content -->
+<div class="main-contenttt">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4 ">
+          <ol class="breadcrumb mb-0 ">
+            <li class="breadcrumb-item"><a href="/" style="color: black;">Home</a></li>
+
+            <li class="breadcrumb-item active " aria-current="page"><a href="/Userprofile"
+                style="color: black;">User Profile</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+<div id="edit-profile-section"   style="display: block;"  >
+ <h1>Wallet</h1>
+ 
+ <div class="mt-5">
+  <h3 class="fs-5 fw-bolder mb-0 pb-4">Your </h3>
+  
+  <div class="table-responsive">
+    <div class=" d-flex ">
+      <div class="card p-3">
+        <div class="d-flex flex-row justify-content-between text-align-center">
+   
+          <i class="fas fa-ellipsis-v"></i>
+        </div>
+        <p class="text-dark"> name   Account</p>
+        <div class="card-bottom pt-3 px-3 mb-2">
+          <div class="d-flex flex-row justify-content-between text-align-center">
+            <div class="d-flex flex-column" style="	color: #adb5bd;
+            font-size: 13px;" ><span>Balance amount</span><p>₹ <span class="text-white"> walletAmount</span></p></div>
+    
+          </div>
+        </div>
+        <div class="new-div">
+          <div class="car"  >
+           <div class="card-body">
+            <h4 class="card-title text-center">Transaction History</h4>
+            <hr>
+            
+                <div class="d-flex justify-content-between transction- " >
+                  <p ></p>
+                  <p>
+                    ₹  walletHistory.amount 
+                  </p>
+                  <p>
+                    walletHistory.reason 
+                  </p>
+                </div>
+              
+            
+           
+            <button class="btn text-white w-100" style="background-color: #3E454D">Add Money</button>
+
+           </div>
+          </div>
+          
+          <!-- Add your content here -->
+        </div>
+      </div>
+    </div>
+ 
+  </div>
+</div>
+
+</div>
+
+
+</div>
+<!-- main content screen end  -->
+</div>
+<%- include('../layouts/user/footer.ejs') -%>

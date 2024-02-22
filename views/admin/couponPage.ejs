@@ -1,0 +1,228 @@
+
+
+
+<%- include('../layouts/admin/header.ejs') -%>
+
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a class="brand-wrap">
+                    <img style="width: 50px;" class="ms-2" src="/img/logoleo.jpg" alt="" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+         
+            <%- include('../partials/sidenav.ejs') %>
+        </aside>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <a href="/admin/logout"><i class="btn btn-dark ms-3 rounded-pill">Logout</i></a>
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                    
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href=""><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+            </header>
+<div class="container-fluid" style="margin-top: 30px;">
+
+  <div class="row d-flex justify-content-end">
+    <div class="col-md-2">
+      <button  type="button" class="btn btn-primary" onclick="toggleForm()">Add Coupons</button>
+    </div>
+  </div>
+
+  <form id="addCouponForm" style="display: none;">
+   <div><h4 class="fw-bold text-dark mb-4">Add coupons</h4></div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6" style="margin-bottom: 16px;">
+        <label for="code">Coupon Code:</label>
+        <input type="text" class="form-control" id="code" name="code" required pattern="^[a-zA-Z0-9]+$" title="Coupon code can only contain letters and numbers, and spaces are not allowed">
+      </div>
+      
+      
+
+      <div class="form-group col-md-6" style="margin-bottom: 16px;">
+        <label for="discountType">Discount Type:</label>
+        <select class="form-control" id="discountType" name="discountType" required>
+          <option value="fixed">Fixed Amount</option>
+          <option value="percentage">Percentage</option>
+         
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6" style="margin-bottom: 16px;">
+        <label for="startDate">Activation date:</label>
+        <input type="date" class="form-control" id="startDate" name="startDate" required>
+      </div>
+
+
+      <div class="form-group col-md-6" style="margin-bottom: 16px;">
+        <label for="expirationDate">Expiration Date:</label>
+        <input type="date" class="form-control" id="expirationDate" name="expirationDate" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6" style="margin-bottom: 16px;">
+        <label for="discountAmount">Discount Amount:</label>
+        <input type="number" class="form-control" id="discountAmount" name="discountAmount" value="0" min="0" required>
+      </div>
+
+      <div class="form-group col-md-6" style="margin-bottom: 16px;">
+        <label for="minOrderAmount">Minimum Order Amount:</label>
+        <input type="number" class="form-control" id="minOrderAmount" name="minOrderAmount" value="0" min="0" required>
+      </div>
+    </div>
+    <div id="errorContainer" style="color: red; margin-bottom: 16px;"></div>
+    <button type="button" class="btn btn-success" onclick="addCoupon()"
+      style="background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Add
+      Coupon</button>
+  </form>
+
+   <script>
+    function toggleForm() {
+      const addCouponForm = document.getElementById('addCouponForm');
+      const toggleButton = document.querySelector('.btn-primary');
+      
+      if (addCouponForm.style.display === 'none') {
+        addCouponForm.style.display = 'block';
+        toggleButton.textContent = 'Cancel';
+      } else {
+        addCouponForm.style.display = 'none';
+        toggleButton.textContent = 'Add Coupons';
+      }
+    }
+    </script> 
+  <h2 style="margin-top: 40px;" class="fw-bold text-dark mb-4">Existing Coupons</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Coupon Code</th>
+        <th>Discount Type</th>
+        <th>Discount amount</th>
+        <th>Activation date</th>
+        <th>Expiration Date</th>
+        <th>Minimum Order Amount</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+<%console.log("couponnnnn ejs",coupon)%>
+<%coupon.forEach((field)=>{%>
+
+  <tr>
+    <td><%=field.couponCode%></td>
+    <td><%=field.discountType%></td>
+    <td><%=field.discountAmount %></td>
+    <td><%=field.startDate %></td>
+    <td><%=field.expiredDate%></td>
+    <td><%=field.minOrderAmount%></td>
+    <td>
+      <button class="btn btn-danger delete-button" onclick="deleteCoupon('<%= field._id %>')">Delete</button>
+    </td>
+  </tr>
+<%})%>
+      
+      </tbody>
+  
+          
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+
+// For adding coupons
+
+  function addCoupon(){
+    const couponCode = document.getElementById('code').value
+    const discountType = document.getElementById('discountType').value
+    const startDate = document.getElementById('startDate').value
+    const expirationDate = document.getElementById('expirationDate').value
+    const discountAmount = document.getElementById('discountAmount').value
+    const minOrderAmount = document.getElementById('minOrderAmount').value
+
+    const data = {
+      code : couponCode,
+      discountType : discountType,
+      startDate : startDate,
+      expirationDate : expirationDate,
+      discountAmount , discountAmount,
+      minOrderAmount : minOrderAmount
+    }
+console.log(data);
+    fetch('/admin/addCoupon',{
+      method : 'POST',
+      headers : {
+        'Content-Type' : 'application/json'
+      },
+      body : JSON.stringify(data)
+    }).then(response => {
+      if(!response.ok){
+        throw new Error('Response is not Ok')
+      }
+      return response.json()
+    }).then(()=>{
+      window.location.reload()
+    })
+  }
+</script>
+<script>
+// For Deleting Coupon
+
+function deleteCoupon(couponId){
+  const data = {
+    CouponId : couponId
+  }
+console.log(couponId);
+fetch('/admin/deletCoupon',{
+  method :'post',
+  headers :{
+    'Content-Type' : 'application/json'
+  },
+  body : JSON.stringify(data)
+}).then((response)=>{
+  if(response.ok){
+    window.location.reload()
+  }
+}).catch(error =>{
+  console.log(error);
+})
+}
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+<%- include('../layouts/admin/footer.ejs') -%>
