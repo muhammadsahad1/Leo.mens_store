@@ -2,6 +2,7 @@ const Products = require("../model/productsModel");
 const Category = require("../model/categoryModel");
 const Wishlist = require("../model/wishlistModel");
 const User = require("../model/userModel");
+const Offer = require('../model/offerModel')
 
 const Cart = require("../model/cartModel");
 const sharp = require("sharp");
@@ -207,27 +208,45 @@ const loadshoppage = async (req, res) => {
     const products = await Products.find({ isListed: true });
     const productIds = products.map((product) => product._id);
     const categories = await Category.find({ isList: true });
+    const categoriesId = categories.map((category) => category._id);
+    const offerProduct = await Offer.findOne({ products: productIds, categories: categoriesId });
+    
+    let discountamount = 0; // Initialize discountamount here
+
+    if (offerProduct) {
+      const productPrice = products.reduce((acc, product) => acc + product.price, 0); // Assuming there's a price property for each product
+      discountamount = (offerProduct.discount / productPrice) * 100;
+
+      // Apply the discount amount to each product's price
+      products.forEach(product => {
+        product.price -= (product.price * discountamount) / 100;
+      });
+    }
+
     const existWishlist = await Wishlist.findOne({
       user: id,
       "products.productId": { $in: productIds },
     });
 
+
+    
     let productss = [];
     if (existWishlist) {
       productss = existWishlist.products;
     }
 
+    
     res.render("productsshop", {
       user: user,
       product: products,
       categories: categories,
       id: id,
-      existWishlistPro:existWishlist ? true : false,
+      existWishlistPro: existWishlist ? true : false,
       existWishlist,
       products: productss,
+      offerProduct,
+      discountamount
     });
-
-    console.log("existWishlisttttt", existWishlist);
   } catch (error) {
     console.log(error);
     res.status(500).send("Error loading shop page");
@@ -321,9 +340,9 @@ const sortPrice = async (req, res) => {
     } else if (sortOption === "increasing") {
       sorting = { price: 1 };
     }
-console.log(sortOption);
+    console.log(sortOption);
     const sortProduct = await Products.find().sort(sorting);
-    console.log("sortPro",sortProduct);
+    console.log("sortPro", sortProduct);
     if (sortProduct) {
       res.json({ product: sortProduct });
     }

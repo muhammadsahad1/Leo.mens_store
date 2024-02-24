@@ -4,7 +4,6 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const userOtpverificaton = require("../model/userOtpVerification");
 const Products = require("../model/productsModel");
-const Wallet = require('../model/walletModel')
 const Token = require("../model/tokenModel");
 const Order = require("../model/orderModel");
 
@@ -13,8 +12,7 @@ const Order = require("../model/orderModel");
 const loadhome = async (req, res) => {
   try {
     const showproducts = await Products.find({ isListed: true }).populate(
-      "categoriesId"
-    );
+      "categoriesId");
     const id = req.session.user;
     const user = await User.findOne({ _id: id });
     res.render("home", { products: showproducts, user: user });
@@ -200,11 +198,7 @@ const userVerifyotp = async (req, res) => {
           }
         );
       }
-      const NewWallet = await Wallet({
-        userId:userData._id
-      }) 
-      await NewWallet.save()
-      
+
       //  delete the otprecord
 
       const user = await User.findOne({ email: email });
@@ -533,7 +527,6 @@ const forgetPassword = async (req, res) => {
 
 const loadresetPass = async (req, res) => {
   try {
-  
     const userid = req.params.userId;
     const token = req.params.token;
     // console.log("///",userid,"t",token);
@@ -562,7 +555,7 @@ const resetpassword = async (req, res) => {
       res.status(400).send("Invalid link or expire");
     }
     const securepass = await securepassword(ConfirmPassword);
-    
+
     await User.updateOne(
       { email: email },
       {
@@ -580,17 +573,20 @@ const resetpassword = async (req, res) => {
 
 const LoadInvoicePage = async (req, res) => {
   try {
-
-    const { orderid, index,productId } = req.query;
-    console.log("prooooooooid",productId);
-    const order = await Order.findOne({ _id: orderid })
-    const ORDER = await Order.findOne({ _id: orderid })
-    const Product = await Products.findOne ({ _id: productId })
-    console.log("products",Product);
-    console.log("product name",Product.name);
-    res.render("invoice", { product : Product ,Order : ORDER,order : order.products[index], deliveryAddress: order.delivery_address });
-    console.log("orderProducts",order.products[index]);
-  
+    const { orderid, index, productId } = req.query;
+    console.log("prooooooooid", productId);
+    const order = await Order.findOne({ _id: orderid });
+    const ORDER = await Order.findOne({ _id: orderid });
+    const Product = await Products.findOne({ _id: productId });
+    console.log("products", Product);
+    console.log("product name", Product.name);
+    res.render("invoice", {
+      product: Product,
+      Order: ORDER,
+      order: order.products[index],
+      deliveryAddress: order.delivery_address,
+    });
+    console.log("orderProducts", order.products[index]);
   } catch (error) {
     res.status(404).send("INVOICE REQUEST HAS FAILED");
   }
@@ -600,14 +596,26 @@ const LoadInvoicePage = async (req, res) => {
 const LoadWallet = async (req, res) => {
   try {
     const userId = req.session.user._id;
-    const userDate = await User.findOne({ _id :userId})
-    const name  = userDate.name
-
-    res.render("walletPage");
+    const userData = await User.findOne({ _id: userId });
+    const name = userData.name;
+    const walletHistory = userData.walletHistory
+    const walletAmount = userData.wallet;
+    console.log(walletHistory ,"wallet history ");
+    console.log(walletAmount);
+    res.render("walletPage", { name: name, walletAmount : walletAmount ,walletHistory :walletHistory});
   } catch (error) {
-    res.status(404).send("request failed");
+    res.status(404).send("request failed"); 
   }
 };
+
+// Add money to wallet 
+// const addMoneywallet = async(req,res)=>{
+//   try {
+//     const { money }=req.body;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 //=========== userlogout \\
 
@@ -643,5 +651,6 @@ module.exports = {
   resetpassword,
   LoadInvoicePage,
   LoadWallet,
+  // addMoneywallet,
   userlogout,
 };

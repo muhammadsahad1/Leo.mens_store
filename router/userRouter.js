@@ -75,6 +75,8 @@ user_route
   // wallet
   .get('/wallet',users_controller.LoadWallet)
 
+  // .post('/addMoneyToWallet',users_controller.addMoneywallet)
+
   // Usercart
   .get('/Cartpage', Cart_controller.loadcart)
   .post('/Add-to-Cart', Cart_controller.AddCart)
@@ -94,7 +96,7 @@ user_route
   .get('/myOrder', Order_controller.LoadMyOrders)
   .get('/single-product', Order_controller.singleOrderProduct)
   .post('/cancel-product', Order_controller.cancelOrder)
-  .post('/return-product',Order_controller.returnOrder)
+  .post('/return-reason',Order_controller.returnReason)
   .get('/single-orderDetails', Order_controller.SingleOrderDetail)
   
   // invoice

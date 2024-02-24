@@ -17,11 +17,10 @@ const placeOrders = async (req, res) => {
     const userid = req.session.user._id;
     const userName = req.session.user.name;
     const { payment_method, Amount, index, couponCode } = req.body;
-    console.log(Amount);
+    console.log("payment_method,",payment_method);
     const Usercart = await Cart.findOne({ userid: userid })
       .populate("userid")
       .populate("products.productsId");
-
 
     if (couponCode) {
       await Coupon.updateOne(
@@ -29,7 +28,6 @@ const placeOrders = async (req, res) => {
         { $push: { userUsed: userid } }
       );
     }
-    
 
     const product = Usercart.products;
     const user = await User.findOne({ _id: userid });
@@ -38,7 +36,6 @@ const placeOrders = async (req, res) => {
 
     const status = payment_method === "COD" ? "Placed" : "Pending";
     const date = Date.now();
-
     const order = new Order({
       userId: userid,
       delivery_address: delivery_address,
@@ -49,10 +46,8 @@ const placeOrders = async (req, res) => {
       payment: payment_method,
       products: product,
     });
-
-    console.log("saved order");
+    console.log("order savee", order);
     const ordersaved = await order.save();
-    console.log("saved order", ordersaved);
 
     if (ordersaved.status === "Placed") {
       await Cart.deleteOne({ userid: userid });
@@ -64,13 +59,49 @@ const placeOrders = async (req, res) => {
           { _id: productsId },
           {
             $inc: {
-              stockQuantity: - productquantity,
+              stockQuantity: -productquantity,
             },
           }
         );
       }
       console.log("quantity decrease ");
       res.json({ success: true });
+    } else if (payment_method === "wallet") { 
+      if (Amount <= user.wallet) {
+        console.log("wallet checked");
+        await User.updateOne(
+          { _id: userid },
+          {
+            $inc: { wallet: - Amount },
+            $push: {
+              walletHistory: {
+                date: new Date(),
+                amount: Amount,
+                reason: "Order payment",
+              },
+            },
+          }
+        );
+        await Order.updateOne({_id:ordersaved._id},{$set:{
+          status : "Placed"
+        }})
+        for (let i = 0; i < product.length; i++) {
+          let productsId = product[i].productsId;
+          let productquantity = product[i].quantity;
+          await Product.updateOne(
+            { _id: productsId },
+            {
+              $inc: {
+                stockQuantity: -productquantity,
+              },
+            }
+          );
+        }
+        res.json({ success : true})
+        console.log("payment walltil  ninn cheythu");
+      }else{
+        res.json({ message : 'Insufficient balance in your wallet to complete the payment'})
+      }
     } else if (ordersaved.status === "Pending") {
       console.log("kitti pending");
       const option = {
@@ -86,6 +117,7 @@ const placeOrders = async (req, res) => {
         console.log("order is = ", order);
         res.json({ order: order });
       });
+  
     }
   } catch (error) {
     console.log(error);
@@ -224,7 +256,7 @@ const cancelOrder = async (req, res) => {
         },
       }
     );
-    console.log(orderdetails, "orderrrr");
+
     const productdetail = await Order.findOne(
       { _id: orderId, "products.productsId": productId },
       { "products.$": 1 }
@@ -245,34 +277,92 @@ const cancelOrder = async (req, res) => {
 };
 
 // return order
-const returnOrder = async (req, res) => {
+const returnReason = async (req, res) => {
   try {
+    console.log("ssssssss");
     const { orderId, productId, returnReason } = req.body;
     await Order.findOneAndUpdate(
       { _id: orderId, "products.productsId": productId },
       {
         $set: {
           "products.$.returnReason": returnReason,
-          "products.$.status": "returnedRequest",
+          "products.$.status": "ReturnedRequested",
         },
       }
     );
-
-    console.log("returnorder");
-    const productdetail = await Order.findOne(
-      { _id: orderId, "products.productsId": productId },
-      { "products.$": 1 }
-    );
-    const productQty = productdetail.products[0].quantity;
-    await Product.findOneAndUpdate(
-      { _id: productId },
-      { $inc: { stockQuantity: productQty } }
-    );
-    res.json({ success: true });
+    console.log("passed");
+    res.json({ reason: true });
+    // console.log("returnorder");
+    // const productdetail = await Order.findOne(
+    //   { _id: orderId, "products.productsId": productId },
+    //   { "products.$": 1 }
+    // );
+    // const productQty = productdetail.products[0].quantity;
+    // await Product.findOneAndUpdate(
+    //   { _id: productId },
+    //   { $inc: { stockQuantity: productQty } }
+    // );
   } catch (error) {
     res.status(400).send("request is failed");
   }
 };
+
+// return conformation
+const returnConfirm = async (req, res) => {
+  try {
+    const { orderId, productId, status, userId } = req.body;
+    const orderData = await Order.findOne({ _id: orderId });
+    const products = orderData.products;
+
+    if (status === "Requestcancel") {
+      await Order.updateOne(
+        { _id: orderId, "products.productsId": productId },
+        {
+          $set: {
+            "products.$.status": "delivered",
+          },
+        }
+      );
+    } else if (status === "Requestapproved") {
+      await Order.updateOne(
+        { _id: orderId, "products.productsId": productId },
+        {
+          $set: {
+            "products.$.status": status,
+          },
+        }
+      );
+    }
+    for (let i = 0; i < products.length; i++) {
+      let proId = products[i].productsId;
+      let qtyCount = products[i].quantity;
+      await Product.updateOne(
+        { _id: proId },
+        { $inc: { stockQuantity: qtyCount } }
+      );
+    }
+    const totalOrderAmount = orderData.total_amount;
+    await User.updateOne(
+      { _id: userId },
+      {
+        $inc: { wallet: totalOrderAmount },
+        $push: {
+          walletHistory: {
+            date: new Date(),
+            amount: totalOrderAmount,
+            reason: "Order returned",
+          },
+        },
+      }
+    );
+    res.json({ isOk: true });
+  } catch (error) {
+    res.status(404).send("returnConfirmation request is failed");
+    console.log(error);
+  }
+};
+
+
 
 module.exports = {
   placeOrders,
@@ -282,7 +372,8 @@ module.exports = {
   SingleOrderDetail,
   singleOrderProduct,
   cancelOrder,
-  returnOrder,
+  returnReason,
+  returnConfirm,
 
   // loadSingleOrder
 };

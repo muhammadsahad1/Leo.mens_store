@@ -197,25 +197,40 @@
                                                                             Cancelled</option>
 
                                                                     </select>
-
-                                                                    <%} else {%>
-                                                                        
-                                                                        <select data-orderId="<%= order._id%>"
+                                                                    <%} else if(el.status==='ReturnedRequested' ) {%>
+                                                                        <select
+                                                                            style="background-color: rgb(196, 196, 196);"
+                                                                            data-orderId="<%= order._id%>"
                                                                             data-productId="<%= el.productsId._id%>"
                                                                             data-index="<%= i%>"
                                                                             data-userId="<%= order.userId._id%>"
                                                                             class="form-select orderStatus"
-                                                                            id="orderStatus" name="orderStatus"
-                                                                            onchange="changeStatus(this)">
-                                                                            <option>Change status</option>
-                                                                            <option value="shipped">Shipped</option>
-                                                                            <option value="shipped">Request accept</option>
-                                                                            <option value="outfordelivery">
-                                                                                outfordelivery</option>
-                                                                            <option value="delivered">Delivered</option>
+                                                                            id="returnConf" name="returnConf"
+                                                                            onchange="returnConf(this)">
+                                                                            <option value="" disabled selected>Select an
+                                                                                option</option>
+                                                                            <option value="Requestcancel">Requestcancel</option>
+                                                                            <option value="Requestapproved">Requestapproved</option>
                                                                         </select>
 
-                                                                        <%}%>
+                                                                        <%} else {%>
+
+                                                                            <select data-orderId="<%= order._id%>"
+                                                                                data-productId="<%= el.productsId._id%>"
+                                                                                data-index="<%= i %>"
+                                                                                data-userId="<%= order.userId._id%>"
+                                                                                class="form-select orderStatus"
+                                                                                id="orderStatus" name="orderStatus"
+                                                                                onchange="changeStatus(this)">
+                                                                                <option>Change status</option>
+                                                                                <option value="shipped">Shipped</option>
+                                                                                </option value="shipped">outfordelivery
+                                                                                </option>
+                                                                                <option value="delivered">Delivered
+                                                                                </option>
+                                                                            </select>
+
+                                                                            <%}%>
                                                         </td>
                                                 </tr>
                                                 <%})%>
@@ -252,9 +267,50 @@
                             }
                         })
                     }
+
+                    // return conformtion / cancel 
+
+                    function returnConf(select) {
+                        let orderId = select.dataset.orderid;
+                        let productId = select.dataset.productid;
+                        let index = select.dataset.index;
+                        let status = select.value;
+                        let userId = select.dataset.userid;
+console.log(status);
+                        const data = {
+                            orderId,
+                            productId,
+                            status,
+                            index,
+                            userId
+                        };
+
+                        fetch('/admin/returnConf', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        })
+                            .then(response =>{
+                                if(response.isOk){
+
+                                window.location.reload();
+                            } else {
+                                // Request failed, display error message or handle accordingly
+                                console.error(data.message);
+                            }
+                            })
+                                    // Request was successful
+                        
+                            .catch(error => {
+                                // Handle network errors
+                                console.error('Error:', error);
+                            });
+                    }
                 </script>
 
                 <%- include('../layouts/admin/footer.ejs') -%>
 
-                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

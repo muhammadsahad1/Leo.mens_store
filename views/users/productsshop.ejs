@@ -272,7 +272,13 @@
                 <% } %>
               </div>
               <p class="card-text fw-bold"><%= product.name %></p>
-              <span class="fw-bold"> ₹ <%= product.price %> </span>
+              <% if (offerProduct && offerProduct.products.includes(product._id.toString())) { %>
+                <% const offer = offerProduct.offers.find(offer => offer.productId.toString() === product._id.toString()); %>
+                <span class="fw-bold original-price" style="color: red;"> ₹ <%= product.price %> </span>
+                <span class="fw-bold offer-price"> ₹ <%= (product.price / offer.discountAmount)*100%> (Offer Price) </span>
+              <% } else { %>
+                <span class="fw-bold"> ₹ <%= product.price %> </span> 
+              <% } %>
             </div>
           </div>
         </div>

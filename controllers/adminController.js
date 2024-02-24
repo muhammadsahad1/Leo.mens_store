@@ -134,6 +134,7 @@ const loadDashboard = async (req, res) => {
 
     res.render("adminDashboard", {
       orders,
+      
       totalRevenue,
       orderCount,
       productCount,

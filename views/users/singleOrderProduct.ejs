@@ -483,7 +483,7 @@ height: 100vh !important;
                                                         <div class="modal-footer">
                                                         
                                                             <!-- Add a button to submit the cancel reason if needed -->
-                                                            <button type="submit" class="btn btn-dark w-100" id="returnBtn" onclick="returnorder('<%= order._id %>','<%= product.productsId._id%>')">Submit Cancel
+                                                            <button type="submit" class="btn btn-dark w-100"  onclick="returReason('<%= order._id %>','<%= product.productsId._id%>')">Submit return
                                                                 Reason</button>
                                                         </div>
                                                     </div>
@@ -529,16 +529,16 @@ height: 100vh !important;
                                                     Cancel
                                                   </a>
                                                       
-                                                <%}else if(product.status==='returnedRequest' ){%>
-                                                    <p>Product returned</p>
+                                                <%}else if(product.status ==='ReturnedRequested' ){%>
+                                                    <div id="Returntext" ><p class=" fw-bold" style="color: #f37a27;">Return request has been requested</p></div>
                                                 
                                                     
-                                                <%}else if(product.status==='delivered' ){%>
-                                                    <p>Product delivered</p>
-                                                    <a class="btn btn-info " data-toggle="modal" data-target="#returnReasonModal">
+                                                <%}else if(product.status ==='delivered' ){%>
+                                                      <div><span class="fw-bold">Product delivered</span></div>
+                                                    <a class="btn btn-info text-white" id="returnBtn" data-toggle="modal" data-target="#returnReasonModal">
                                                         Return
                                                       </a>
-                                                    <%}else if(product.status==='shipped' ){%>
+                                                    <%}else if(product.status === 'shipped' ){%>
                                                         <p style="color: #a46fb0; font-weight: bold;">Product has been
                                                             shipped
                                                         </p>
@@ -547,8 +547,10 @@ height: 100vh !important;
                                                           </a>
                                                     
 
-                                                        <%}else if(product.status==='cancelled' ){%>
+                                                        <%}else if(product.status ==='cancelled' ){%>
                                                             <p class="text-danger fw-bold">Order has been cancelled</p>
+                                                            <%}else if(product.status ==='Request approve'){%>
+                                                                <p class="text-success fw-bold">Return request approved
                                                             <%}%>
 
                                                             
@@ -595,6 +597,7 @@ height: 100vh !important;
                                     </div>
                                 <%}%>
                             </div>
+                            
                             <section class=" h-custom" style="background-color: #eee;">
 
                                 <p class="mt-4 pt-2 mb-0">Want any help? <a
@@ -673,57 +676,37 @@ height: 100vh !important;
         </div>
     </footer>
 
-    <script>
+    <script> 
     const returnBtn = document.getElementById('returnBtn');
 
-    function returnorder(orderId, productId) {
-    const returnReason = document.getElementById('returnReason').value;
+function returReason(orderId, productId) {
+  const returnReason = document.getElementById('returnReason').value;
+  console.log(orderId, productId);
+  const data = {
+    orderId: orderId,
+    productId: productId,
+    returnReason: returnReason
+  };
 
-    const data = {
-        orderId: orderId,
-        productId: productId,
-        returnReason: returnReason
-    };
-
-    fetch('/return-product', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-
-        body: JSON.stringify(data)
-    }).then((response) => {
-        console.log('Response Status:', response.status);
-
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error(`Http error! status: ${response.status}`);
-        }
-    }).then((data) => {
-        console.log('Response Data:', data);
-
-        if (data.success) {
-            Swal.fire({
-                icon: 'success',
-                text: 'Product successfully returned'
-            }).then(() => {
-                // Remove the "Return" button from the DOM
-                returnBtn.remove();
-                // Reload the page or perform other actions as needed
-                window.location.reload();
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                text: 'Failed to return product'
-            });
-        }
-    }).catch((error) => {
-        console.error('Error:', error);
-    });
+  fetch('/return-reason', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then((response) => {
+    return response.json(); // Parse the JSON response
+  }).then((data) => {
+    if (data.reason) {
+        window.location.reload()
+      
+      // Remove the "Return" button from the DOM
+      returnBtn.remove();
+    }
+  }).catch((error) => {
+    console.error('Error:', error);
+  });
 }
-
 // product cancel function
         function cancelorder(orderId, productId) {
             console.log('Cancel Order:', { orderId, productId });

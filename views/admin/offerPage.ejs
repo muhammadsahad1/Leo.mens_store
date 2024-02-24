@@ -1,0 +1,267 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a class="brand-wrap">
+        <img style="width: 50px;" class="ms-2" src="/img/logoleo.jpg" alt="" />
+      </a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+      </div>
+    </div>
+
+    <%- include('../partials/sidenav.ejs') %>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+        <form class="searchform">
+          <div class="input-group">
+            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="col-nav">
+        <a href="/admin/logout"><i class="btn btn-dark ms-3 rounded-pill">Logout</i></a>
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+            class="material-icons md-apps"></i></button>
+        <ul class="nav">
+
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+              <img class="img-xs rounded-circle" src="/imgs/people/avatar-2.png" alt="User" /></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href=""><i class="material-icons md-exit_to_app"></i>Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </header>
+    <div class="container-fluid" style="margin-top: 30px;">
+
+      <div class="row d-flex justify-content-end">
+        <div class="col-md-2">
+          <button type="button" class="btn btn-primary" onclick="toggleForm()">Add Offers</button>
+        </div>
+      </div>
+
+      <form id="addOfferForm" style="display: none;">
+        <div>
+          <h4 class="fw-bold text-dark mb-4">Add Offer</h4>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6" style="margin-bottom: 16px;">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+          </div>
+          <div class="form-group col-md-6" style="margin-bottom: 16px;">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6" style="margin-bottom: 16px;">
+            <label for="discountAmount">Discount Amount:</label>
+            <input type="number" class="form-control" id="discountAmount" name="discountAmount" value="0" min="0"
+              required>
+          </div>
+
+          <div class="form-group col-md-6" style="margin-bottom: 16px;">
+            <label for="discountType">Discount Type:</label>
+            <select class="form-control" id="discountType" name="discountType" required>
+              <option value="fixed">Fixed Amount</option>
+              <option value="percentage">Percentage</option>
+
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6" style="margin-bottom: 16px;">
+            <label for="startDate">Start Date:</label>
+            <input type="date" class="form-control" id="startDate" name="startDate" required>
+          </div>
+          <div class="form-group col-md-6" style="margin-bottom: 16px;">
+            <label for="endDate">End Date:</label>
+            <input type="date" class="form-control" id="endDate" name="endDate" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="products">Select a Product:</label>
+              <select class="form-control" id="products" name="products" required>
+                  <option value="">Select a product</option>
+                  <% products.forEach((product) => { %>
+                      <option value="<%= product._id %>">
+                          <%= product.name %>
+                      </option>
+                  <% }) %>
+              </select>
+          </div>
+          <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="categories">Select a Category:</label>
+              <select class="form-control" id="categories" name="categories" required>
+                  <option value="">Select a category</option>
+                  <% categories.forEach((category) => { %>
+                      <option value="<%= category._id %>">
+                          <%= category.name %>
+                      </option>
+                  <% }) %>
+              </select>
+          </div>
+      </div>
+        <div class="form-group col-md-6" style="margin-bottom: 16px;">
+          <label for="usageLimit">Usage Limit:</label>
+          <input type="number" class="form-control" id="usageLimit" name="usageLimit" min="0">
+        </div>
+        <div class="form-group col-md-6" style="margin-bottom: 16px;">
+          <label for="usageCount">Usage Count:</label>
+          <input type="number" class="form-control" id="usageCount" name="usageCount" value="0" min="0" readonly>
+        </div>
+        <div class="form-group col-md-6" style="margin-bottom: 16px;">
+          <label for="active">Active:</label>
+          <input type="checkbox" class="form-control" id="active" name="active" checked>
+        </div>
+        <div id="errorContainer" style="color: red; margin-bottom: 16px;"></div>
+        <button type="button" class="btn btn-success" onclick="addOffer()"
+          style="background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Add
+          Offer</button>
+      </form>
+
+      <script>
+        function toggleForm() {
+          const addCouponForm = document.getElementById('addOfferForm');
+          const toggleButton = document.querySelector('.btn-primary');
+
+          if (addCouponForm.style.display === 'none') {
+            addCouponForm.style.display = 'block';
+            toggleButton.textContent = 'Cancel';
+          } else {
+            addCouponForm.style.display = 'none';
+            toggleButton.textContent = 'Add Coupons';
+          }
+        }
+      </script>
+      <h2 style="margin-top: 40px;" class="fw-bold text-dark mb-4">Existing Offer</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Discount Type</th>
+            <th>Discount Amount</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Usage Limit</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%offer.forEach((offerr)=>{%>
+            <tr>
+              <td>
+                <%=offerr.title%>
+              </td>
+              <td>
+                <%=offerr.description%>
+              </td>
+              <td>
+                <%=offerr.discountType%>
+              </td>
+              <td>
+                <%=offerr.discountAmount%>
+              </td>
+              <td>
+                <%=offerr.startDate%>
+              </td>
+              <td>
+                <%=offerr.endDate%>
+              </td>
+              <td>
+                <%=offerr.usageLimit%>
+              </td>
+              <td>
+                <button class="btn btn-danger delete-button" onclick="deleteOffer('<%=offerr._id%>')">Delete</button>
+              </td>
+            </tr>
+            <%})%>
+        </tbody>
+      </table>
+    </div>
+
+
+    <script>
+      function addOffer() {
+        const title = document.getElementById('title').value
+        const description = document.getElementById('description').value
+        const discountType = document.getElementById('discountType').value
+        const discountAmount = document.getElementById('discountAmount').value
+        const startDate = document.getElementById('startDate').value
+        const endDate = document.getElementById('endDate').value
+        const productId = document.getElementById('products').value
+        const categoryId = document.getElementById('categories').value
+        const usageLimit = document.getElementById('usageLimit').value
+        const usageCount = document.getElementById('usageCount').value
+
+        const data = {
+          title: title,
+          description: description,
+          discountType: discountType,
+          discountAmount: discountAmount,
+          startDate: startDate,
+          endDate: endDate,
+          productId: productId,
+          categoryId: categoryId,
+          usageLimit: usageLimit,
+          usageCount: usageCount
+        }
+
+        fetch('/admin/addOffer', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+        }).then((response) => {
+          if (!response.ok) {
+            throw new Error('Response is not Ok')
+          }
+          return response.json()
+        }).then(() => {
+          window.location.reload()
+        })
+          .catch((error) => {
+            console.log(error);
+          })
+      }
+
+
+      // delete offer
+
+      function deleteOffer(offerId) {
+        const data = {
+          offerId: offerId
+        }
+        console.log(offerId);
+        fetch('/admin/deletOffer', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        }).then((response) => {
+          if (response.ok) {
+            window.location.reload()
+          }
+        }).catch(error => {
+          console.log(error);
+        })
+      }
+
+    </script>
+
+    <%- include('../layouts/admin/footer.ejs') -%>

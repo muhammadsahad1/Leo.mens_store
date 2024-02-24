@@ -6,6 +6,8 @@ const admin_Controllers = require('../controllers/adminController')
 const coupon_Controllers = require('../controllers/couponController')
 const products_Controllers = require('../controllers/productsController')
 const category_Controllers = require('../controllers/categoriesController')
+const Order_controller = require('../controllers/orderController')
+const Offer_controller = require('../controllers/offerController')
 const AdminAuth = require('../middleware/adminauth')
 const multer = require('../middleware/multerConfig')
 const config = require('../config/config')
@@ -67,5 +69,13 @@ admin_route
 .post('/addCoupon',coupon_Controllers.addCoupon)
 .post('/deletCoupon',coupon_Controllers.deleteCoupon)
 
+// =============={ Request from customer }==============\\
+.post('/returnConf',Order_controller.returnConfirm)
+
+
+//==============={ offer Managment }===================\\
+.get('/offerPage',Offer_controller.loadOffers)
+.post('/addOffer',Offer_controller.addingOffer)
+.post('/deletOffer',Offer_controller.deletOffer)
 
 module.exports = admin_route ;

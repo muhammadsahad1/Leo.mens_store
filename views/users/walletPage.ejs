@@ -282,39 +282,42 @@ box-shadow: none;
    
           <i class="fas fa-ellipsis-v"></i>
         </div>
-        <p class="text-dark"> name   Account</p>
+        <p class="text-dark"> name Account</p>
         <div class="card-bottom pt-3 px-3 mb-2">
           <div class="d-flex flex-row justify-content-between text-align-center">
             <div class="d-flex flex-column" style="	color: #adb5bd;
-            font-size: 13px;" ><span>Balance amount</span><p>₹ <span class="text-white"> walletAmount</span></p></div>
+            font-size: 13px;" ><span>Balance amount</span><p>₹ <span class="text-white"> <%=walletAmount%></span></p></div>
     
           </div>
         </div>
         <div class="new-div">
-          <div class="car"  >
-           <div class="card-body">
-            <h4 class="card-title text-center">Transaction History</h4>
-            <hr>
-            
-                <div class="d-flex justify-content-between transction- " >
-                  <p ></p>
-                  <p>
-                    ₹  walletHistory.amount 
-                  </p>
-                  <p>
-                    walletHistory.reason 
-                  </p>
-                </div>
-              
-            
-           
-            <button class="btn text-white w-100" style="background-color: #3E454D">Add Money</button>
-
-           </div>
+          <div class="car">
+              <div class="card-body">
+                  <h4 class="card-title text-center">Transaction History</h4>
+                  <hr>
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th>Date</th>
+                              <th>Amount</th>
+                              <th>Reason</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <% walletHistory.forEach((history) => { %>
+                              <tr>
+                                  <% const formattedDate = new Date(history.date); %>
+                                  <td><%= formattedDate.toLocaleDateString('en-US') %></td>
+                                  <td>₹ <%= history.amount %></td>
+                                  <td><%= history.reason %></td>
+                              </tr>
+                          <% }) %>
+                      </tbody>
+                  </table>
+                  <button class="btn text-white w-100" style="background-color: #3E454D"></button>
+              </div>
           </div>
-          
-          <!-- Add your content here -->
-        </div>
+      </div> 
       </div>
     </div>
  
@@ -327,4 +330,12 @@ box-shadow: none;
 </div>
 <!-- main content screen end  -->
 </div>
+<script>
+  function addMoney(){
+    fetch('/addMoneyToWallet',{
+      
+    })
+  }
+</script>
+
 <%- include('../layouts/user/footer.ejs') -%>
