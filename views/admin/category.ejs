@@ -209,6 +209,8 @@
                                                             class="text-center">Cetagory</th>
                                                         <th style="background-color: rgb(22, 22, 22); color: aliceblue;"
                                                             class="text-center">Status</th>
+                                                        <th style="background-color: rgb(22, 22, 22); color: aliceblue;"
+                                                            class="text-center"> offer</th>
 
                                                         <th style="background-color: rgb(22, 22, 22); color: aliceblue;"
                                                             class="text-center">Action</th>
@@ -227,10 +229,17 @@
                                                                     <%= category.name %>
                                                                 </td>
 
+
                                                                 <td class="text-center">
                                                                     <%= category.isList===true ? "List" : "Unlist" %>
                                                                 </td>
-
+                                                                <td class="text-center">
+                                                                    <a href="/admin/offerPage?id=<%= category._id %>"
+                                                                        class="text-dark">
+                                                                        <button
+                                                                            class="btn btn-outline-primary block-button">Add
+                                                                        </button></a>
+                                                                </td>
 
                                                                 <td class="text-center">
                                                                     <button onclick="listUnlist('<%= category._id %>')"
@@ -261,16 +270,16 @@
 
                                                 </tbody>
                                             </table>
+                                        </div>
+                                        <!-- table-responsive.// -->
                             </div>
-                            <!-- table-responsive.// -->
-                        </div>
-                        <!-- col end// -->
+                            <!-- col end// -->
 
-                        <!-- col end// -->
+                            <!-- col end// -->
+                        </div>
+                        <!-- row end// -->
                     </div>
-                    <!-- row end// -->
-                </div>
-                <!-- card-body // -->
+                    <!-- card-body // -->
                 </div>
                 <!-- card end// -->
             </section>

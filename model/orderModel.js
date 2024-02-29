@@ -69,10 +69,10 @@ const OrderSchema = mongoose.Schema({
         type: String,
         default: "none",
       },
-  returnReason: {
-    type: String,
-    default: "none",
-  },
+      returnReason: {
+        type: String,
+        default: "none",
+      },
 
       status: {
         type: String,

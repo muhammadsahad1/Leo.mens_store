@@ -1,411 +1,411 @@
 <%- include('../layouts/user/header.ejs') -%>
-<style>
-  .sortbyPrice {
-    cursor: pointer;
-  }
-  .image-container {
-    position: relative;
-    overflow: hidden;
-  }
+  <style>
+    .sortbyPrice {
+      cursor: pointer;
+    }
 
-  .image-container img {
-    width: 100%;
-    height: auto;
-    transition: transform 0.3s ease;
-  }
+    .image-container {
+      position: relative;
+      overflow: hidden;
+    }
 
-  .image-container:hover img {
-    transform: scale(1.2);
-  }
-  .BrandSelect {
-    background-color: rgb(17, 17, 17);
-    color: rgb(255, 255, 255);
-    border: 0;
-    border-radius: 1px;
-    text-align: center;
-    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-      "Lucida Sans", Arial, sans-serif;
-    letter-spacing: 1px;
-    width: 250px;
-    font-weight: bold;
-  }
-</style>
-<header class="header">
-  <div class="header__top">
+    .image-container img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .image-container:hover img {
+      transform: scale(1.2);
+    }
+
+    .BrandSelect {
+      background-color: rgb(17, 17, 17);
+      color: rgb(255, 255, 255);
+      border: 0;
+      border-radius: 1px;
+      text-align: center;
+      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+      letter-spacing: 1px;
+      width: 250px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+  <header class="header">
+    <div class="header__top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p></p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <div class="header__top__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+              </div>
+              <div class="header__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                  <li>USD</li>
+                  <li>EUR</li>
+                  <li>USD</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 col-md-7">
-          <div class="header__top__left">
-            <p></p>
+        <div class="col-lg-3 col-md-3" style="height: 50px">
+          <div class="header__logo">
+            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px" alt="" /></a>
           </div>
         </div>
-        <div class="col-lg-6 col-md-5">
-          <div class="header__top__right">
-            <div class="header__top__links">
-              <a href="#">Sign in</a>
-              <a href="#">FAQs</a>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li class="active"><a href="/productsshop ">Shop</a></li>
+              <li>
+                <a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="">About Us</a></li>
+                  <li><a href="">Shop Details</a></li>
+                  <li><a href="">Shopping Cart</a></li>
+                  <li><a href="">Check Out</a></li>
+                  <li><a href="">Blog Details</a></li>
+                </ul>
+              </li>
+              <li><a href="">Blog</a></li>
+              <li><a href="">Contacts</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="header__nav__option">
+            <div class="dropdown">
+              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <% if(locals.user){ %>
+                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                  <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
+                  <% } else { %>
+                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                    <% } %>
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="userDropdown">
+                <% if(locals.user){ %>
+                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                  <% } else { %>
+                    <a class="dropdown-item" href="/login">Login</a>
+                    <a class="dropdown-item" href="/register">Sign up</a>
+                    <% } %>
+              </div>
+              <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+              <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
             </div>
-            <div class="header__top__hover">
-              <span>Usd <i class="arrow_carrot-down"></i></span>
-              <ul>
-                <li>USD</li>
-                <li>EUR</li>
-                <li>USD</li>
-              </ul>
+          </div>
+        </div>
+        <section>
+  </header>
+  <section class="breadcrumb-option">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb__text">
+            <h4>Shop</h4>
+            <div class="breadcrumb__links">
+              <a href="/">Home</a>
+              <span>Shop</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="container">
+  </section>
+
+  <div class="container mt-4">
     <div class="row">
-      <div class="col-lg-3 col-md-3" style="height: 50px">
-        <div class="header__logo">
-          <a href="/"
-            ><img src="/img/logoleo.jpg" style="width: 80px" alt=""
-          /></a>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6">
-        <nav class="header__menu mobile-menu">
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li class="active"><a href="/productsshop ">Shop</a></li>
-            <li>
-              <a href="#">Pages</a>
-              <ul class="dropdown">
-                <li><a href="">About Us</a></li>
-                <li><a href="">Shop Details</a></li>
-                <li><a href="">Shopping Cart</a></li>
-                <li><a href="">Check Out</a></li>
-                <li><a href="">Blog Details</a></li>
-              </ul>
-            </li>
-            <li><a href="">Blog</a></li>
-            <li><a href="">Contacts</a></li>
-          </ul>
-        </nav>
-      </div>
-
-      <div class="col-lg-3 col-md-3">
-        <div class="header__nav__option">
-          <div class="dropdown">
-            <a
-              class="dropdown-toggle"
-              href="#"
-              role="button"
-              id="userDropdown"
-              data-bs-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <% if(locals.user){ %>
-              <img
-                style="width: 17px"
-                src="/img/icon/person.png"
-                alt="User Profile"
-              />
-              <a href="/Cartpage"
-                ><img src="/img/icon/cart.png" alt="" /> <span></span
-              ></a>
-              <% } else { %>
-              <img style="width: 17px" src="/img/icon/person.png" alt="" />
-              <% } %>
-            </a>
-
-            <div class="dropdown-menu" aria-labelledby="userDropdown">
-              <% if(locals.user){ %>
-              <a class="dropdown-item" href="/Userprofile">My Profile</a>
-              <a class="dropdown-item" href="/logout">Logout</a>
-              <% } else { %>
-              <a class="dropdown-item" href="/login">Login</a>
-              <a class="dropdown-item" href="/register">Sign up</a>
-              <% } %>
-            </div>
-
-            <a href="#" class=""><img src="img/icon/search.png" alt="" /></a>
-            <a href="/wishlist"><img src="img/icon/heart.png" alt="" /></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="canvas__open"><i class="fa fa-bars"></i></div>
-  </div>
-</header>
-
-<section class="breadcrumb-option">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="breadcrumb__text">
-          <h4>Shop</h4>
-          <div class="breadcrumb__links">
-            <a href="/">Home</a>
-            <span>Shop</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Breadcrumb Section End -->
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-lg-3">
-      <div class="shop__sidebar">
-        <div class="shop__sidebar__search">
-          <form id="searchForm">
-            <input
-              class="form-control me-3"
-              type="search"
-              id="search-input"
-              placeholder="Search"
-              aria-label="Search"/>
-            <button
-              class="btn btn-outline-success"
-              id="searchBtn"
-              type="button"
-            >
-              Search
-            </button>
-          </form>
-        </div>
-        <div class="shop__sidebar__accordion">
-          <div class="accordion" id="accordionExample">
-            <div class="card">
-              <div class="card-heading">
-                <a data-toggle="collapse" data-target="#collapseTwo"
-                  >Category</a
-                >
-              </div>
-              <div
-                id="collapseTwo"
-                class="collapse show"
-                data-parent="#accordionExample"
-              >
-                <%if(categories){%> <% categories.forEach(function(cat){%>
-                <div id="searchResult"></div>
-                <div class="card-body mt-2">
-                  <div class="shop__sidebar__brand">
-                    <ul>
-                      <input
-                        type="checkbox"
-                        id="catName"
-                        name="catName"
-                        value="<%=cat.name%>"
-                      />
-                      <label for="vehicle1" class="mt-2 fw-bold text-dark">
-                        <%=cat.name%></label
-                      ><br />
-                    </ul>
-                  </div>
-                </div>
-                <%})%>
-                <button class="BrandSelect">Select brand</button>
-                <%}%>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="shop__product__option__right mt-3">
-          <h6 class="d-flex justify-content-start fw-bold">Sort by Price</h6>
-          <select name="sort" id="sortbyPrice" class="form-select">
-            <option value="increasing">Low To High</option>
-            <option value="decreasing">High To Low</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-9">
-      <div class="row" id="product-container">
-        <% if(Array.isArray(product)) { %> <% product.map(function(product) { %>
-        <div class="col-lg-4 col-md-6 col-sm-6">
-          <div class="card border-0">
-            <div class="card-body">
-              <div class="image-container">
-                <a href="/productdetails?id=<%= product._id %>">
-                  <img src="/img/product/sharp/<%= product.images[0]%>" />
-                </a>
-              </div>
-              <div class="d-flex justify-content-end mt-1">
-                <% if (existWishlist && Array.isArray(existWishlist.products)) {
-                %> <% if (existWishlist.products.filter(item =>
-                item.productId.toString() === product._id.toString()).length >
-                0) { %>
-                <a
-                  href="#"
-                  class="wishlist-icon2"
-                  data-product-id="<%= product._id %>"
-                >
-                  <i
-                    class="fas fa-heart"
-                    style="color: red; width: 15px; display: inline-block"
-                  ></i>
-                </a>
-                <% } else { %>
-                 
-                <a
-                  href="#"
-                  class="wishlist-icon"
-                  data-product-id="<%= product._id %>"
-                >
-                  <img
-                    src="img/icon/heart.png"
-                    alt=""
-                    style="width: 15px; display: inline-block"
-                  />
-                </a>
-                <% } %> 
-                <% }else{%>
-                  <a
-                  href="#"
-                  class="wishlist-icon"
-                  data-product-id="<%= product._id %>"
-                >
-                  <img
-                    src="img/icon/heart.png"
-                    alt=""
-                    style="width: 15px; display: inline-block"
-                  />
-                </a>
-                <% } %>
-              </div>
-              <p class="card-text fw-bold"><%= product.name %></p>
-              <% if (offerProduct && offerProduct.products.includes(product._id.toString())) { %>
-                <% const offer = offerProduct.offers.find(offer => offer.productId.toString() === product._id.toString()); %>
-                <span class="fw-bold original-price" style="color: red;"> ₹ <%= product.price %> </span>
-                <span class="fw-bold offer-price"> ₹ <%= (product.price / offer.discountAmount)*100%> (Offer Price) </span>
-              <% } else { %>
-                <span class="fw-bold"> ₹ <%= product.price %> </span> 
-              <% } %>
-            </div>
-          </div>
-        </div>
-        <% }); %> <% } %>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- <div class="pagination-area mt-15 mb-50">
-  <nav aria-label="Page navigation example">
-      <ul class="pagination">
-          <li class="page-item">
-              <a class="page-link" href="/productsshop?id="><</a>
-          </li>
-
-      <li class="page-item">
-          <a class="page-link" href="/productsshop?id=">
-          </a>
-      </li>
-                  <li class="page-item">
-                      <a class="page-link" href="/productsshop?id=">></a>
-                  </li>
-      </ul>
-  </nav>
-</div> -->
-
-
-
-<footer class="footer mt-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="footer__about">
-          <div class="footer__logo">
-            <a href="#"
-              ><img src="/img/logoleo.jpg" style="height: 50px" alt="logoimg" />
-            </a>
-          </div>
-          <p>
-            The customer is at the heart of our unique business model, which
-            includes design.
-          </p>
-          <a href="#"><img src="img/payment.png" alt="" /></a>
-        </div>
-      </div>
-      <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-        <div class="footer__widget">
-          <h6>Shopping</h6>
-          <ul>
-            <li><a href="#">Clothing Store</a></li>
-            <li><a href="#">Trending Shoes</a></li>
-            <li><a href="#">Accessories</a></li>
-            <li><a href="#">Sale</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-lg-2 col-md-3 col-sm-6">
-        <div class="footer__widget">
-          <h6>Shopping</h6>
-          <ul>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Payment Methods</a></li>
-            <li><a href="#">Delivary</a></li>
-            <li><a href="#">Return & Exchanges</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-        <div class="footer__widget">
-          <h6>NewLetter</h6>
-          <div class="footer__newslatter">
-            <p>
-              Be the first to know about new arrivals, look books, sales &
-              promos!
-            </p>
-            <form action="#">
-              <input type="text" placeholder="Your email" />
-              <button type="submit"><span class="icon_mail_alt"></span></button>
+      <div class="col-lg-3">
+        <div class="shop__sidebar">
+          <div class="shop__sidebar__search">
+            <form id="searchForm">
+              <input class="form-control me-3" type="search" id="search-input" placeholder="Search"
+                aria-label="Search" />
+              <button class="btn btn-outline-success" id="searchBtn" type="button">Search</button>
             </form>
           </div>
+          <div class="shop__sidebar__accordion">
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-heading">
+                  <a data-toggle="collapse" data-target="#collapseTwo">Category</a>
+                </div>
+                <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
+                  <% if (categories) { %>
+
+                    <% categories.forEach(function(category) { %>
+                      <div class="card-body mt-2">
+                        <div class="shop__sidebar__brand">
+                          <ul>
+                            <input type="checkbox" id="catName" name="catName" value="<%= category.name %>" />
+                            <label for="vehicle1" class="mt-2 fw-bold text-dark">
+                              <%= category.name %>
+                            </label><br />
+                            <!-- Check if the category has an associated offer -->
+                            <% if (category.offer) { %>
+                              <!-- Calculate discount percentage -->
+                              <% const discountPercentage=category.offer.discountAmount; %>
+                                <!-- Log discount percentage for debugging -->
+                                <% console.log("Discount Percentage:", discountPercentage); %>
+                                  <!-- Display discount percentage -->
+                                  <span class="fw-bold " style="color: green;">Discount: <%= discountPercentage %>%
+                                  </span>
+                                  <% } %>
+                          </ul>
+                        </div>
+                      </div>
+                      <% }); %>
+                        <% } %>
+                          <div class="BrandSelect">
+                            Select Brand
+                            <!-- Options go here -->
+                          </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="shop__product__option__right mt-3">
+            <h6 class="d-flex justify-content-start fw-bold">Sort by Price</h6>
+            <select name="sort" id="sortbyPrice" class="form-select">
+              <option value="increasing">Low To High</option>
+              <option value="decreasing">High To Low</option>
+            </select>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <div class="footer__copyright__text">
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          <p>
-            Copyright ©
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            2020 All rights reserved | This template is made with
-            <i class="fa fa-heart-o" aria-hidden="true"></i> by
-            <a href="https://colorlib.com" target="_blank">Colorlib</a>
-          </p>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+      <div class="col-lg-9" id="rel">
+        <div class="row" id="product-container">
+          <!-- Offer Products -->
+          <% if (Array.isArray(offerProducts)) { %>
+            <% offerProducts.forEach(function(product) { %>
+              <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card border-0">
+                  <div class="card-body">
+                    <div class="image-container">
+                      <a href="/productdetails?id=<%= product._id %>">
+                        <img src="/img/product/sharp/<%= product.images[0]%>" />
+                      </a>
+                    </div>
+                    <div class="d-flex justify-content-end mt-1">
+                      <%if(locals.user){%>
+                        <% if (existWishlist && existWishlist.products.some(item=> item.productId.toString() ===
+                          product._id.toString())) { %>
+                          <!-- Render remove from wishlist icon -->
+                          <a href="#" class="wishlist-icon2" data-product-id="<%= product._id %>">
+                            <i class="fas fa-heart" style="color: red;"></i>
+                          </a>
+                          <%}else{%>
+                            <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
+                              <i class="far fa-heart" style="color: #888;"></i>
+                            </a>
+                            <%}%>
+                              <% } else { %>
+                                <!-- Render add to wishlist icon -->
+                                <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
+                                  <i class="far fa-heart" style="color: #888;"></i>
+                                </a>
+                                <% } %>
+                    </div>
+                    <p class="card-text fw-bold ">
+                      <%= product.name %>
+                    </p>
+                    <% if (discountAmountMap[product.offer._id.toString()]) { %>
+                      <% // Calculate discounted price %>
+                        <% const discountPercentage=discountAmountMap[product.offer._id.toString()]; %>
+                          <% const discountedPrice=product.price - (product.price * (discountPercentage / 100)); %>
+                            <!-- Display discounted price -->
+                            <span class="fw-bold ">Discounted Price: ₹ <%= discountedPrice.toFixed()%></span>
+                            <span class="fw-bold text-danger">Original Price: ₹ <%= product.price %></span>
+                            <% } else { %>
+                              <!-- Display regular price if no discountAmount available -->
+                              <span class="fw-bold">Regular Price: ₹ <%= product.price %> </span>
+                              <% } %>
+                  </div>
+                </div>
+              </div>
+              <% }); %>
+                <% } %>
+                  <!-- Regular Products -->
+                  <% if (Array.isArray(regularProducts)){%>
+                    <% regularProducts.forEach(function(product) { %>
+                      <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card border-0">
+                          <div class="card-body">
+                            <div class="image-container">
+                              <a href="/productdetails?id=<%= product._id %>">
+                                <img src="/img/product/sharp/<%= product.images[0]%>" />
+                              </a>
+                            </div>
+                            <div class="d-flex justify-content-end mt-1">
+                              <% if(locals.user){ %>
+                                <% if (existWishlist && existWishlist.products.some(item=> item.productId.toString()
+                                  === product._id.toString())) { %>
+                                  <!-- Render remove from wishlist icon -->
+                                  <a href="#" class="wishlist-icon2" data-product-id="<%= product._id %>">
+                                    <i class="fas fa-heart" style="color: red;"></i>
+                                  </a>
+                                  <%}%>
+                                    <% } else { %>
+                                      <!-- Render add to wishlist icon -->
+                                      <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
+                                        <i class="far fa-heart" style="color: #888;"></i>
+                                      </a>
+                                      <% } %>
+                            </div>
+                            <p class="card-text fw-bold">
+                              <%= product.name %>
+                            </p>
+                            <span class="fw-bold">₹ <%= product.price %> </span>
+                          </div>
+                        </div>
+                      </div>
+                      <% }); %>
+                        <% } %>
+
+                          <div class="pagination-area mt-5 mb-50 d-flex justify-content-center">
+                            <nav aria-label="Page navigation example">
+                              <ul class="pagination">
+                                <li class="page-item">
+                                  <a class="page-link text-dark" href="/productsshop?id=<%= previous %>">
+                                    < </a>
+                                </li>
+                                <% for(let i=1; i < totalpages; i++) { %>
+                                  <li class="page-item">
+                                    <a class="page-link text-dark" href="/productsshop?id=<%= i %>">
+                                      <%= i %>
+                                    </a>
+                                  </li>
+                                  <% } %>
+                                    <li class="page-item">
+                                      <a class="page-link text-dark" href="/productsshop?id=<%= next %>">></a>
+                                    </li>
+                              </ul>
+                            </nav>
+                          </div>
         </div>
       </div>
     </div>
   </div>
-</footer>
+  </div>
+  <div class="canvas__open"><i class="fa fa-bars"></i></div>
+  </div>
+  <footer class="footer mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="footer__about">
+            <div class="footer__logo">
+              <a href="#"><img src="/img/logoleo.jpg" style="height: 50px" alt="logoimg" />
+              </a>
+            </div>
+            <p>
+              The customer is at the heart of our unique business model, which
+              includes design.
+            </p>
+            <a href="#"><img src="img/payment.png" alt="" /></a>
+          </div>
+        </div>
+        <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+          <div class="footer__widget">
+            <h6>Shopping</h6>
+            <ul>
+              <li><a href="#">Clothing Store</a></li>
+              <li><a href="#">Trending Shoes</a></li>
+              <li><a href="#">Accessories</a></li>
+              <li><a href="#">Sale</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6">
+          <div class="footer__widget">
+            <h6>Shopping</h6>
+            <ul>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Payment Methods</a></li>
+              <li><a href="#">Delivary</a></li>
+              <li><a href="#">Return & Exchanges</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+          <div class="footer__widget">
+            <h6>NewLetter</h6>
+            <div class="footer__newslatter">
+              <p>
+                Be the first to know about new arrivals, look books, sales &
+                promos!
+              </p>
+              <form action="#">
+                <input type="text" placeholder="Your email" />
+                <button type="submit"><span class="icon_mail_alt"></span></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="footer__copyright__text">
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            <p>
+              Copyright ©
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              2020 All rights reserved | This template is made with
+              <i class="fa fa-heart-o" aria-hidden="true"></i> by
+              <a href="https://colorlib.com" target="_blank">Colorlib</a>
+            </p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <input type="hidden" value="<%=id%>" id="userId">
+  <!-- For search -->
+  <script>
+    // sort price
+    document.getElementById("sortbyPrice").addEventListener("change", (event) => {
+      let selectOption = event.target.value;
+      fetch("/sortPrice", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sortOption: selectOption }),
+      })
 
-<!-- For search -->
-<script>
-  // sort price
-  document.getElementById("sortbyPrice").addEventListener("change", (event) => {
-    let selectOption = event.target.value;
-    console.log(selectOption);
-    fetch("/sortPrice", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ sortOption: selectOption }),
-    })
-    
         .then((response) => {
-        if (response.ok) {
+          if (response.ok) {
             return response.json(); // Parse response JSON
-        } else {
+          } else {
             throw new Error('Network response was not ok.');
-        }
-    }).then((data)=>{ 
+          }
+        }).then((data) => {
 
-  
+
           const productContainer = document.getElementById("product-container");
           productContainer.innerHTML = "";
           data.product.forEach((element, i) => {
@@ -467,252 +467,266 @@
             productContainer.appendChild(outerContainer);
           });
         })
-        
-      .catch((error) => {
-        console.log(error);
-      });
-  });
 
-  // For Remove wishlist
+        .catch((error) => {
+          console.log(error);
+        });
+    });
 
-  document.querySelectorAll(".wishlist-icon2").forEach((icon) => {
-    icon.addEventListener("click", (event) => {
-      event.preventDefault();
-      const productId = icon.getAttribute("data-product-id");
+    // For Remove wishlist
+    function attachHeartEventListeners() {
+    document.querySelectorAll(".wishlist-icon2").forEach((icon) => {
+      icon.addEventListener("click", (event) => {
+        event.preventDefault();
+        const productId = icon.getAttribute("data-product-id");
 
-      console.log(productId);
+        console.log(productId);
 
-      const data = {
-        productId: productId,
-      };
-      fetch("/removeWishlist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }).then((response) => {
-        if (response.ok) {
-          window.location.reload();
-        }
+        const data = {
+          productId: productId,
+        };
+        fetch("/removeWishlist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then((response) => {
+          if (response.ok) {
+            window.location.reload();
+          }
+        });
       });
     });
-  });
 
-  //  For Addwishlist
+    //  For Addwishlist
 
-  document.querySelectorAll(".wishlist-icon").forEach((icon) => {
-    icon.addEventListener("click", (event) => {
-      event.preventDefault();
-      const productId = icon.getAttribute("data-product-id");
-
-      console.log(productId);
-
-      fetch("/addWishlist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ productId }),
-      }).then((response) => {
-        if (response.ok) {
-          window.location.reload();
+    document.querySelectorAll(".wishlist-icon").forEach((icon) => {
+      icon.addEventListener("click", (event) => {
+        const userId = document.getElementById('userId').value
+        if (!userId) {
+          Swal.fire({
+            icon: 'info',
+            title : 'Must need to login',
+            showConfirmButton : false,
+            timer : 1700
+          })
         }
+        event.preventDefault();
+        const productId = icon.getAttribute("data-product-id");
+
+        console.log(productId);
+
+        fetch("/addWishlist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productId }),
+        }).then((response) => {
+          if (response.ok) {
+            window.location.reload();
+          }
+        });
       });
-    });
-  });
-
-  // For search
-
-  const searchBtn = document.getElementById("searchBtn");
-  searchBtn.addEventListener("click", () => {
-    const searchInput = document.getElementById("search-input").value;
-    search(searchInput);
-  });
-  function search(searchData) {
-    const data = {
-      search: searchData,
-    };
-
-    console.log(typeof data, data);
-
-    $.ajax({
-      type: "POST",
-      url: "/search",
-      data: JSON.stringify(data),
-      contentType: "application/json",
-      success: function (response) {
-        if (response.pass === true) {
-          const productContainer = document.getElementById("product-container");
-          productContainer.innerHTML = "";
-          response.product.forEach((element, i) => {
-            const outerContainer = document.createElement("div");
-            outerContainer.className = "col-lg-4 col-md-6 col-sm-6";
-
-            const cardDiv = document.createElement("div");
-            cardDiv.className = "card border-0";
-
-            const cardBodyDiv = document.createElement("div");
-            cardBodyDiv.className = "card-body";
-
-            const imageContainerDiv = document.createElement("div");
-            imageContainerDiv.className = "image-container";
-
-            const productImageAnchor = document.createElement("a");
-            productImageAnchor.href = `/productdetails?id=${element._id}`;
-
-            const productImg = document.createElement("img");
-            productImg.src = `/img/product/sharp/${element.images[0]}`;
-            productImg.alt = "Product Image";
-
-            productImageAnchor.appendChild(productImg);
-            imageContainerDiv.appendChild(productImageAnchor);
-            cardBodyDiv.appendChild(imageContainerDiv);
-
-            // Heart icon
-            const heartDiv = document.createElement("div");
-            heartDiv.className = "d-flex justify-content-end mt-1";
-
-            const heartAnchor = document.createElement("a");
-            heartAnchor.href = "#";
-
-            const heartImg = document.createElement("img");
-            heartImg.src = "img/icon/heart.png";
-            heartImg.alt = "Heart Icon";
-            heartImg.style.width = "15px";
-
-            heartAnchor.appendChild(heartImg);
-            heartDiv.appendChild(heartAnchor);
-            cardBodyDiv.appendChild(heartDiv);
-
-            // Product Name
-            const productName = document.createElement("p");
-            productName.className = "card-text fw-bold";
-            productName.textContent = element.name;
-
-            cardBodyDiv.appendChild(productName);
-
-            // Product Price
-            const productPrice = document.createElement("span");
-            productPrice.className = "fw-bold";
-            productPrice.textContent = `₹ ${element.price}`;
-
-            cardBodyDiv.appendChild(productPrice);
-
-            cardDiv.appendChild(cardBodyDiv);
-            outerContainer.appendChild(cardDiv);
-            productContainer.appendChild(outerContainer);
-          });
-        }
-      },
-      error: function (error) {
-        console.error(error);
-      },
     });
   }
+    // For search
 
-  // For Caregory Select
-
-  const categorySelect = document.querySelectorAll('input[name="catName"]');
-  const selectBtn = document.querySelector(".BrandSelect");
-  selectBtn.addEventListener("click", function () {
-    const selectCat = [];
-    categorySelect.forEach((cb) => {
-      if (cb.checked) {
-        selectCat.push(cb.value);
-      }
+    const searchBtn = document.getElementById("searchBtn");
+    searchBtn.addEventListener("click", () => {
+      const searchInput = document.getElementById("search-input").value;
+      search(searchInput);
     });
+    function search(searchData) {
+      // if (searchInput == '') {
+      //   event.preventDefault()
+      // }
+      const data = {
+        search: searchData,
+      };
 
-    $.ajax({
-      url: "catgorySelect",
-      method: "POST",
-      contentType: "application/json",
-      data: JSON.stringify({ selectCategory: selectCat }),
-      success: (response) => {
-        if (response.pass === true) {
-          const productContainer = document.getElementById("product-container");
-          productContainer.innerHTML = "";
-          response.product.forEach((element, i) => {
-            const outerContainer = document.createElement("div");
-            outerContainer.className = "col-lg-4 col-md-6 col-sm-6";
+      console.log(typeof data, data);
 
-            const cardDiv = document.createElement("div");
-            cardDiv.className = "card border-0";
+      $.ajax({
+        type: "POST",
+        url: "/search",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function (response) {
+          if (response.pass === true) {
 
-            const cardBodyDiv = document.createElement("div");
-            cardBodyDiv.className = "card-body";
+            const productContainer = document.getElementById("product-container");
+            productContainer.innerHTML = "";
+            response.product.forEach((element, i) => {
+              const outerContainer = document.createElement("div");
+              outerContainer.className = "col-lg-4 col-md-6 col-sm-6";
 
-            const imageContainerDiv = document.createElement("div");
-            imageContainerDiv.className = "image-container";
+              const cardDiv = document.createElement("div");
+              cardDiv.className = "card border-0";
 
-            const productImageAnchor = document.createElement("a");
-            productImageAnchor.href = `/productdetails?id=${element._id}`;
+              const cardBodyDiv = document.createElement("div");
+              cardBodyDiv.className = "card-body";
 
-            const productImg = document.createElement("img");
-            productImg.src = `/img/product/sharp/${element.images[0]}`;
-            productImg.alt = "Product Image";
+              const imageContainerDiv = document.createElement("div");
+              imageContainerDiv.className = "image-container";
 
-            productImageAnchor.appendChild(productImg);
-            imageContainerDiv.appendChild(productImageAnchor);
-            cardBodyDiv.appendChild(imageContainerDiv);
+              const productImageAnchor = document.createElement("a");
+              productImageAnchor.href = `/productdetails?id=${element._id}`;
 
-            const heartDiv = document.createElement("div");
-            heartDiv.className = "d-flex justify-content-end mt-1";
+              const productImg = document.createElement("img");
+              productImg.src = `/img/product/sharp/${element.images[0]}`;
+              productImg.alt = "Product Image";
 
-            const heartAnchor = document.createElement("a");
-            heartAnchor.href = "#";
+              productImageAnchor.appendChild(productImg);
+              imageContainerDiv.appendChild(productImageAnchor);
+              cardBodyDiv.appendChild(imageContainerDiv);
 
-            const heartImg = document.createElement("img");
-            heartImg.src = "img/icon/heart.png";
-            heartImg.alt = "Heart Icon";
-            heartImg.style.width = "15px";
+              // Heart icon
+              const heartDiv = document.createElement("div");
+              heartDiv.className = "d-flex justify-content-end mt-1";
 
-            heartAnchor.appendChild(heartImg);
-            heartDiv.appendChild(heartAnchor);
-            cardBodyDiv.appendChild(heartDiv);
+              const heartAnchor = document.createElement("a");
+              heartAnchor.href = "#";
 
-            // Product Name
-            const productName = document.createElement("p");
-            productName.className = "card-text fw-bold";
-            productName.textContent = element.name;
+              const heartImg = document.createElement("img");
+              heartImg.src = "img/icon/heart.png";
+              heartImg.alt = "Heart Icon";
+              heartImg.style.width = "15px";
 
-            cardBodyDiv.appendChild(productName);
+              heartAnchor.appendChild(heartImg);
+              heartDiv.appendChild(heartAnchor);
+              cardBodyDiv.appendChild(heartDiv);
 
-            // Product Price
-            const productPrice = document.createElement("span");
-            productPrice.className = "fw-bold";
-            productPrice.textContent = `₹ ${element.price}`;
+              // Product Name
+              const productName = document.createElement("p");
+              productName.className = "card-text fw-bold";
+              productName.textContent = element.name;
+              cardBodyDiv.appendChild(productName);
 
-            cardBodyDiv.appendChild(productPrice);
+              // Product Price
+              const productPrice = document.createElement("span");
+              productPrice.className = "fw-bold";
+              productPrice.textContent = `₹ ${element.price}`;
 
-            cardDiv.appendChild(cardBodyDiv);
-            outerContainer.appendChild(cardDiv);
-            productContainer.appendChild(outerContainer);
-          });
-        }
-      },
-    });
-  });
+              cardBodyDiv.appendChild(productPrice);
 
-// function to handle click pagination
-
-function loadpage(page){
-        $.ajax({
-            url :`/admin/ums?page=${page}`,
-            type : 'GET',
-            success : function (data){
-        $('#rel').html(data)
-            },
-            error : function(error){
-        console.log("Error" ,error)
-            }
-        })
+              cardDiv.appendChild(cardBodyDiv);
+              outerContainer.appendChild(cardDiv);
+              productContainer.appendChild(outerContainer);
+            });
+            $('#searchForm').load(' #searchForm');
+          }
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
     }
 
+    // For Caregory Select
 
+    const categorySelect = document.querySelectorAll('input[name="catName"]');
+    const selectBtn = document.querySelector(".BrandSelect");
+    selectBtn.addEventListener("click", function () {
+      const selectCat = [];
+      categorySelect.forEach((cb) => {
+        if (cb.checked) {
+          selectCat.push(cb.value);
+        }
+      });
 
-</script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      $.ajax({
+        url: "catgorySelect",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ selectCategory: selectCat }),
+        success: (response) => {
+          if (response.pass === true) {
+            const productContainer = document.getElementById("product-container");
+            productContainer.innerHTML = "";
+            response.product.forEach((element, i) => {
+              const outerContainer = document.createElement("div");
+              outerContainer.className = "col-lg-4 col-md-6 col-sm-6";
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<%- include('../layouts/user/footer.ejs') -%>
+              const cardDiv = document.createElement("div");
+              cardDiv.className = "card border-0";
+
+              const cardBodyDiv = document.createElement("div");
+              cardBodyDiv.className = "card-body";
+
+              const imageContainerDiv = document.createElement("div");
+              imageContainerDiv.className = "image-container";
+
+              const productImageAnchor = document.createElement("a");
+              productImageAnchor.href = `/productdetails?id=${element._id}`;
+
+              const productImg = document.createElement("img");
+              productImg.src = `/img/product/sharp/${element.images[0]}`;
+              productImg.alt = "Product Image";
+
+              productImageAnchor.appendChild(productImg);
+              imageContainerDiv.appendChild(productImageAnchor);
+              cardBodyDiv.appendChild(imageContainerDiv);
+
+              const heartDiv = document.createElement("div");
+              heartDiv.className = "d-flex justify-content-end mt-1";
+
+              const heartAnchor = document.createElement("a");
+              heartAnchor.href = "#";
+
+              const heartImg = document.createElement("img");
+              heartImg.src = "img/icon/heart.png";
+              heartImg.alt = "Heart Icon";
+              heartImg.style.width = "15px";
+
+              heartAnchor.appendChild(heartImg);
+              heartDiv.appendChild(heartAnchor);
+              cardBodyDiv.appendChild(heartDiv);
+
+              // Product Name
+              const productName = document.createElement("p");
+              productName.className = "card-text fw-bold";
+              productName.textContent = element.name;
+
+              cardBodyDiv.appendChild(productName);
+
+              // Product Price
+              const productPrice = document.createElement("span");
+              productPrice.className = "fw-bold";
+              productPrice.textContent = `₹ ${element.price}`;
+
+              cardBodyDiv.appendChild(productPrice);
+
+              cardDiv.appendChild(cardBodyDiv);
+              outerContainer.appendChild(cardDiv);
+              productContainer.appendChild(outerContainer);
+            });
+          }
+        },
+      });
+    });
+
+    // function to handle click pagination
+    attachHeartEventListeners();
+
+// Pagination function to handle click pagination
+function loadpage(page) {
+  $.ajax({
+    url: `/productsshop?page=${page}`,
+    type: 'GET',
+    success: function (data) {
+      $('#rel').html(data);
+      // Attach event listeners to heart icons after new content is loaded
+      attachHeartEventListeners();
+    },
+    error: function (error) {
+      console.log("Error", error)
+    }
+  })
+}
+
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <%- include('../layouts/user/footer.ejs') -%>

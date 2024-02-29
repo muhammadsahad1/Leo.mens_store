@@ -1,5 +1,19 @@
 <%- include('../layouts/user/header.ejs') -%>
   <style>
+    .overflow-container {
+      overflow: auto;
+      max-height: 300px;
+      /* Set your desired maximum height */
+      scroll-behavior: none;
+    }
+
+    .overflow-container {
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+    }
+
     #innames {
       color: black;
     }
@@ -278,9 +292,8 @@
                 <div class="container mt-5">
                   <div class="row">
                     <!-- Assuming addresses is an array of user addresses -->
-                    <div class="col-md-12">
-                      <h2>User Addresses</h2>
-                      <form action="#" id="addressForm">
+                    <div class="col-md-12 overflow-container">
+                      <form id="addressForm">
                         <!-- Loop through each user address -->
                         <% Uaddress.forEach((address, index)=> { %>
                           <div class="card mb-3">
@@ -305,9 +318,7 @@
                               <div class="form-check">
                                 <input class="form-check-input" type="radio" name="selectedAddress"
                                   id="address<%= index %>" value="<%= index %>" />
-                                <label class="form-check-label" for="address<%= index %>">
-                                  Select this address
-                                </label>
+                                <label class="form-check-label" for="address<%= index %>">Select this address</label>
                               </div>
                             </div>
                           </div>
@@ -317,11 +328,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="container mt-3">
-                  <button type="button" class="btn btn-dark rounded-0" data-toggle="modal" data-target="#addressModal">
-                    Add New Address
-                  </button>
-                </div>
+
               </div>
               <% let count; %>
                 <% let totalAmount=0 %>
@@ -491,35 +498,45 @@
           event.preventDefault();
           const couponCode = $('#couponCode').val();
           console.log(couponCode);
-          $.ajax({
-            url: '/applyCouponCode',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ couponCode: couponCode }),
-            success: function (response) {
-              if (response.used) {
-                Swalfire(response.message)
-              } else if (response.success) {
+          if (couponCode) {
 
-                const totalAmountElemnt = document.getElementById('totalAmount')
-                totalAmountElemnt.innerHTML = response.subtotal
+            $.ajax({
+              url: '/applyCouponCode',
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({ couponCode: couponCode }),
+              success: function (response) {
+                if (response.used) {
+                  Swalfire(response.message)
+                } else if (response.success) {
 
-                SuccessSwal(response.message)
-              } else if (response.limit) {
-                Swalfire(response.message)
-              } else if (response.expired) {
-                Swalfire(response.message)
-              } else if (response.CodeErr) {
-                Swalfire(response.message)
+                  const totalAmountElemnt = document.getElementById('totalAmount')
+                  totalAmountElemnt.innerHTML = response.subtotal
+
+                  SuccessSwal(response.message)
+                } else if (response.limit) {
+                  Swalfire(response.message)
+                } else if (response.expired) {
+                  Swalfire(response.message)
+                } else if (response.CodeErr) {
+                  Swalfire(response.message)
+                }
+
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                // Handle errors
+                console.error('Error:', errorThrown);
+                // You can also display an error message to the user if needed
               }
-
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              // Handle errors
-              console.error('Error:', errorThrown);
-              // You can also display an error message to the user if needed
-            }
-          });
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'please enter a coupon code',
+              showConfirmButton: false,
+              timer: 1700
+            })
+          }
         }
 
         function Swalfire(text) {
@@ -617,10 +634,10 @@
           }
 
         }
-        
-      
-    
-  // Swal for payment method
+
+
+
+        // Swal for payment method
         function Swaal() {
           Swal.fire({
             icon: 'info',
@@ -661,7 +678,7 @@
               image: "/img/logoleo.jpg",
               order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
               handler: (response) => {
-                verifyPayament(response, order);
+                verifyPayment(response,order);
               },
               prefill: {
                 //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
@@ -680,6 +697,7 @@
             var rzp1 = new Razorpay(options);
 
             rzp1.on("payment.failed", (err) => {
+
               console.log(err);
             });
             rzp1.open();
@@ -688,7 +706,7 @@
           }
         }
 
-        function verifyPayament(payment, order) {
+        function verifyPayment(payment, order) {
           try {
             console.log("ajaxil vannu");
             $.ajax({
@@ -703,12 +721,10 @@
                   window.location.href = "/orderSuccessPage";
                 } else {
                   Swal.fire({
-                    position: "center",
-                    icon: "erorr",
-                    title: "Payment failed",
-                    showConfirmButton: false,
-                    timer: 1500,
-                  });
+                    icon: 'error',
+                    title: 'Your payment is failed',
+                    showConfirmButton: false
+                  })
                 }
               },
             });

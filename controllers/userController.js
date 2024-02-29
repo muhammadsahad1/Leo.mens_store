@@ -543,9 +543,7 @@ const resetpassword = async (req, res) => {
     const userid = req.body.userId;
     const token = req.body.token;
     const ConfirmPassword = req.body.confirmpassword;
-    console.log("first pass", ConfirmPassword);
     const user = await User.findOne({ _id: userid });
-    console.log("user", user);
     if (!user) {
       res.status(400).send("resetpassword request is failed");
     }
@@ -574,19 +572,16 @@ const resetpassword = async (req, res) => {
 const LoadInvoicePage = async (req, res) => {
   try {
     const { orderid, index, productId } = req.query;
-    console.log("prooooooooid", productId);
     const order = await Order.findOne({ _id: orderid });
     const ORDER = await Order.findOne({ _id: orderid });
     const Product = await Products.findOne({ _id: productId });
-    console.log("products", Product);
-    console.log("product name", Product.name);
+
     res.render("invoice", {
       product: Product,
       Order: ORDER,
       order: order.products[index],
       deliveryAddress: order.delivery_address,
     });
-    console.log("orderProducts", order.products[index]);
   } catch (error) {
     res.status(404).send("INVOICE REQUEST HAS FAILED");
   }
@@ -600,8 +595,6 @@ const LoadWallet = async (req, res) => {
     const name = userData.name;
     const walletHistory = userData.walletHistory
     const walletAmount = userData.wallet;
-    console.log(walletHistory ,"wallet history ");
-    console.log(walletAmount);
     res.render("walletPage", { name: name, walletAmount : walletAmount ,walletHistory :walletHistory});
   } catch (error) {
     res.status(404).send("request failed"); 

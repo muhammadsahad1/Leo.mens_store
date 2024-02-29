@@ -90,30 +90,7 @@
             <input type="date" class="form-control" id="endDate" name="endDate" required>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6" style="margin-bottom: 16px;">
-              <label for="products">Select a Product:</label>
-              <select class="form-control" id="products" name="products" required>
-                  <option value="">Select a product</option>
-                  <% products.forEach((product) => { %>
-                      <option value="<%= product._id %>">
-                          <%= product.name %>
-                      </option>
-                  <% }) %>
-              </select>
-          </div>
-          <div class="form-group col-md-6" style="margin-bottom: 16px;">
-              <label for="categories">Select a Category:</label>
-              <select class="form-control" id="categories" name="categories" required>
-                  <option value="">Select a category</option>
-                  <% categories.forEach((category) => { %>
-                      <option value="<%= category._id %>">
-                          <%= category.name %>
-                      </option>
-                  <% }) %>
-              </select>
-          </div>
-      </div>
+    
         <div class="form-group col-md-6" style="margin-bottom: 16px;">
           <label for="usageLimit">Usage Limit:</label>
           <input type="number" class="form-control" id="usageLimit" name="usageLimit" min="0">
@@ -156,7 +133,8 @@
             <th>Discount Amount</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Usage Limit</th>
+            <th>apply product</th>
+            <th>apply category</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -181,8 +159,18 @@
               <td>
                 <%=offerr.endDate%>
               </td>
+
+              <!-- apply for product -->
               <td>
-                <%=offerr.usageLimit%>
+                <input type="hidden" id="productsId" value='<%= productId %>'>
+      
+                  <button class="btn btn-primary apply-btn" onclick="applyOffer('<%=offerr._id%>')">apply</button>
+              </td>
+              <!--  apply for category -->
+              <td>
+                <input type="hidden" id="categoryId" value='<%= categoryId %>'>
+  
+                  <button class="btn btn-primary apply-btn" onclick="applyOfferCat('<%=offerr._id%>')">apply</button>
               </td>
               <td>
                 <button class="btn btn-danger delete-button" onclick="deleteOffer('<%=offerr._id%>')">Delete</button>
@@ -202,8 +190,6 @@
         const discountAmount = document.getElementById('discountAmount').value
         const startDate = document.getElementById('startDate').value
         const endDate = document.getElementById('endDate').value
-        const productId = document.getElementById('products').value
-        const categoryId = document.getElementById('categories').value
         const usageLimit = document.getElementById('usageLimit').value
         const usageCount = document.getElementById('usageCount').value
 
@@ -214,8 +200,6 @@
           discountAmount: discountAmount,
           startDate: startDate,
           endDate: endDate,
-          productId: productId,
-          categoryId: categoryId,
           usageLimit: usageLimit,
           usageCount: usageCount
         }
@@ -238,6 +222,74 @@
             console.log(error);
           })
       }
+
+      // apply offer to product
+      function applyOffer(offerId) {
+        const productIdElement = document.getElementById('productsId');
+        const productId = productIdElement ? productIdElement.value : null;
+
+        console.log(productId);
+
+        if (productId !== null) {
+          const data = {
+            offerId: offerId,
+            productId: productId,
+          };
+
+          console.log(data);
+
+          fetch('/admin/applyOffer', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          }).then((response) => {
+            if (response.ok) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Offer applied successfully',
+                showConfirmButton: false,
+                timer: 1500
+              });
+            } else {
+              console.log("Can't apply offer.");
+            }
+          }).catch(error => console.log(error));
+        } else {
+          console.log("Product ID not found.");
+        }
+      }
+      // for categoryapply 
+      function applyOfferCat(offerId) {
+
+        let categoryId = document.getElementById('categoryId').value
+        console.log(categoryId);
+
+        const data = {
+          offerId: offerId,
+          categoryId: categoryId,
+        }
+        console.log(data);
+        fetch('/admin/applyOfferCat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }, body: JSON.stringify(data)
+        }).then((response) => {
+          if (response.ok) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Offer applied successfully',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          } else {
+            console.log("Can't applied");
+          }
+        }).catch(error => console.log(error))
+      }
+
 
 
       // delete offer
@@ -262,6 +314,9 @@
         })
       }
 
-    </script>
 
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <%- include('../layouts/admin/footer.ejs') -%>

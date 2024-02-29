@@ -17,7 +17,7 @@ const placeOrders = async (req, res) => {
     const userid = req.session.user._id;
     const userName = req.session.user.name;
     const { payment_method, Amount, index, couponCode } = req.body;
-    console.log("payment_method,",payment_method);
+    console.log("payment_method,", payment_method);
     const Usercart = await Cart.findOne({ userid: userid })
       .populate("userid")
       .populate("products.productsId");
@@ -34,7 +34,12 @@ const placeOrders = async (req, res) => {
     const address = user.addresses[index];
     const delivery_address = `${address.name}, ${address.addressline}, ${address.city}, ${address.state} - ${address.pincode}, Phone: ${address.phone}`;
 
+    
     const status = payment_method === "COD" ? "Placed" : "Pending";
+    if (Amount >= 1000 && payment_method === "COD") {
+      res.json({ message: "Orders above $1000 are not eligible for cash on delivery." });
+      return;
+    }
     const date = Date.now();
     const order = new Order({
       userId: userid,
@@ -46,6 +51,7 @@ const placeOrders = async (req, res) => {
       payment: payment_method,
       products: product,
     });
+
     console.log("order savee", order);
     const ordersaved = await order.save();
 
@@ -66,13 +72,13 @@ const placeOrders = async (req, res) => {
       }
       console.log("quantity decrease ");
       res.json({ success: true });
-    } else if (payment_method === "wallet") { 
+    } else if (payment_method === "wallet") {
       if (Amount <= user.wallet) {
         console.log("wallet checked");
         await User.updateOne(
           { _id: userid },
           {
-            $inc: { wallet: - Amount },
+            $inc: { wallet: -Amount },
             $push: {
               walletHistory: {
                 date: new Date(),
@@ -82,9 +88,7 @@ const placeOrders = async (req, res) => {
             },
           }
         );
-        await Order.updateOne({_id:ordersaved._id},{$set:{
-          status : "Placed"
-        }})
+        await Order.updateOne({ _id: ordersaved._id }, { $set: { status: "Placed" } });
         for (let i = 0; i < product.length; i++) {
           let productsId = product[i].productsId;
           let productquantity = product[i].quantity;
@@ -97,10 +101,10 @@ const placeOrders = async (req, res) => {
             }
           );
         }
-        res.json({ success : true})
+        res.json({ success: true })
         console.log("payment walltil  ninn cheythu");
-      }else{
-        res.json({ message : 'Insufficient balance in your wallet to complete the payment'})
+      } else {
+        res.json({ message: 'Insufficient balance in your wallet to complete the payment' })
       }
     } else if (ordersaved.status === "Pending") {
       console.log("kitti pending");
@@ -117,12 +121,13 @@ const placeOrders = async (req, res) => {
         console.log("order is = ", order);
         res.json({ order: order });
       });
-  
+
     }
   } catch (error) {
     console.log(error);
   }
-};
+}
+
 
 // verify Payment
 
@@ -131,12 +136,10 @@ const verifyPayment = async (req, res) => {
     const userId = req.session.user._id;
     const { payment, order } = req.body;
     const hmac = crypto.createHmac("sha256", "GpMMTQeCJms3hyG5Z3thBSDA");
-    const aas = hmac.update(
+    hmac.update(
       payment.razorpay_order_id + "|" + payment.razorpay_payment_id
     );
     const hmacvalue = hmac.digest("hex");
-    // console.log(hmacvalue);
-    // console.log(payment.razorpay_signature);
 
     if (hmacvalue === payment.razorpay_signature) {
       const cart = await Cart.findOne({ userid: userId }).populate(
@@ -153,18 +156,23 @@ const verifyPayment = async (req, res) => {
           { $inc: { "products.$.StockQuantity": -productQty } }
         );
       }
-    }
-    await Order.findByIdAndUpdate(
-      { _id: order.receipt },
-      { $set: { status: "Placed", paymentId: payment.razorpay_payment_id } }
-    );
+    
+      await Order.findByIdAndUpdate(
+        { _id: order.receipt },
+        { $set: { status: "Placed", paymentId: payment.razorpay_payment_id } }
+      );
 
-    await Cart.deleteOne({ userid: userId });
-    res.json({ PaymentSuccess: true });
+      await Cart.deleteOne({ userid: userId });
+      res.json({ PaymentSuccess: true });
+    } else {
+      res.status(400).json({ error: "Invalid payment signature", PaymentSuccess: false });
+    }
   } catch (error) {
-    res.status(400).send("verify payment request is failed");
+    console.error("Error occurred during payment verification:", error);
+    res.status(500).json({ error: "An error occurred while verifying the payment", PaymentSuccess: false });
   }
 };
+
 
 // load Order successpage
 const loadorderSuccess = async (req, res) => {

@@ -1,7 +1,8 @@
 
 const Products = require('../model/productsModel')
 const Cart = require('../model/cartModel');
-const User = require('../model/userModel')
+const User = require('../model/userModel');
+const Offer = require('../model/offerModel')
 
 // ================================== { User Cart } ========================== \\
 
@@ -40,11 +41,21 @@ const AddCart = async (req, res) => {
     if (!userId) {
       res.json({ success: false })
     }
-    console.log(userId);
-    console.log("product : ", productId);
-    console.log("quantity: ", quantity);
+
 
     const productData = await Products.findOne({ _id: productId })
+
+    let price = productData.price 
+    if(productData.offer){
+      const offer = await Offer.findOne({_id:productData.offer})
+      const discountType = offer.discountType
+      if(discountType === 'percentage'){
+        const discountAmount = offer.discountAmount;
+        price = productData.price - ( productData.price * (discountAmount/100))
+      }
+    }
+
+
     const cart = await Cart.findOne({ userid: userId })
     if (cart) {
       const existsProduct = cart.products.find((pro) => pro.productsId.toString() === productId)
@@ -57,7 +68,7 @@ const AddCart = async (req, res) => {
           {
             $inc: {
               "products.$.quantity": quantity,
-              "products.$.totalPrice": quantity * existsProduct.price
+              "products.$.totalPrice": quantity * price
             }
           })
         res.json({ success: true })
@@ -70,7 +81,7 @@ const AddCart = async (req, res) => {
                 productsId: productId,
                 price: productData.price,
                 quantity: quantity,
-                totalPrice: quantity * productData.price,
+                totalPrice: quantity * price,
                 sizes: size
               }
             }
@@ -84,13 +95,12 @@ const AddCart = async (req, res) => {
             productsId: productId,
             price: productData.price,
             quantity: quantity,
-            totalPrice: quantity * productData.price,
+            totalPrice: quantity * price,
             sizes: size
 
           }
         ]
       })
-      console.log("----------------", productId);
       await NewCart.save()
       console.log("new cart added");
     }
@@ -131,10 +141,8 @@ const cartRemover = async (req, res) => {
 const loadCheckout = async (req, res) => {
   try {
     const userId = req.session.user._id;
-    console.log("userid", userId);
     const usercart = await Cart.findOne({ userid: userId }).populate('products.productsId')
     const user = await User.findOne({ _id: userId })
-    console.log("usercart proooo", usercart);
     const userAddress = user.addresses;
     res.render('checkoutpage', { Usercart: usercart, Uaddress: userAddress, })
   } catch (error) {

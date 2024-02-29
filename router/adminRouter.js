@@ -76,6 +76,8 @@ admin_route
 //==============={ offer Managment }===================\\
 .get('/offerPage',Offer_controller.loadOffers)
 .post('/addOffer',Offer_controller.addingOffer)
+.post('/applyOfferCat',Offer_controller.applyOfferCat)
 .post('/deletOffer',Offer_controller.deletOffer)
+.post('/applyOffer',Offer_controller.applyOffer)
 
-module.exports = admin_route ;
+module.exports = admin_route;

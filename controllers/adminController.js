@@ -60,9 +60,9 @@ const verifylogin = async (req, res) => {
 };
 
 // ================================= { load Dashboard } =============================== \\
-
 const loadDashboard = async (req, res) => {
   try {
+    // Aggregate to get total revenue
     const aggregateResult = await Order.aggregate([
       { $match: { "products.status": "delivered" } },
       {
@@ -74,15 +74,21 @@ const loadDashboard = async (req, res) => {
     ]);
 
     const totalRevenue = aggregateResult[0]?.totalRevenue || 0;
+
+    // Fetch all orders
     const orders = await Order.find({})
       .populate("userId")
       .populate("products.productsId");
+
+    // Variables to track order statuses
     let delivered = 0;
     let cancelled = 0;
     let returns = 0;
     let placed = 0;
-    orders.map((order) => {
-      order.products.map((pro) => {
+
+    // Iterate through orders to count statuses
+    orders.forEach((order) => {
+      order.products.forEach((pro) => {
         if (pro.status == "delivered") {
           delivered++;
         } else if (pro.status == "placed") {
@@ -94,15 +100,26 @@ const loadDashboard = async (req, res) => {
         }
       });
     });
-    const orderCount = await Order.find({}).count();
-    const productCount = await Products.find({}).count();
-    const categoryCount = await Catgories.find({}).count();
-    const usersCount = await User.find({ verified: true }).count();
+
+    // Count users with wallets
+    const walletUser = await User.countDocuments({
+      wallet: { $exists: true, $ne: null },
+    });
+
+    // Count total orders, products, categories, and verified users
+    const orderCount = await Order.countDocuments({});
+    const productCount = await Products.countDocuments({});
+    const categoryCount = await Catgories.countDocuments({});
+    const usersCount = await User.countDocuments({ verified: true });
+
+    // Count orders with payment method COD and razorpay (paypal) excluding cancelled orders
     const CODcount = await Order.countDocuments({ payment: "COD" });
     const razorpayCount = await Order.countDocuments({
       payment: "paypal",
       status: { $ne: "cancelled" },
     });
+
+    // Calculate monthly revenue
     const currentMonth = new Date();
     const startOfMonth = new Date(
       currentMonth.getFullYear(),
@@ -132,9 +149,58 @@ const loadDashboard = async (req, res) => {
 
     const monthlyRevenue = monthly.map((value) => value.monthlyRevenue)[0] || 0;
 
+    // Aggregate to get the total quantity sold for each product
+    const topProducts = await Order.aggregate([
+      { $unwind: "$products" },
+      { $match: { "products.status": "delivered" } },
+      {
+        $group: {
+          _id: "$products.productsId",
+          totalQuantitySold: { $sum: "$products.quantity" },
+        },
+      },
+      { $sort: { totalQuantitySold: -1 } },
+      { $limit: 10 },
+    ]);
+
+    // Retrieve product details for the top products
+    const topProductsDetails = await Products.find({
+      _id: { $in: topProducts.map((product) => product._id) },
+    }).populate("categoriesId");
+    const topCategories = await Order.aggregate([
+      { $unwind: "$products" },
+      { $match: { "products.status": "delivered" } },
+      {
+        $lookup: {
+          from: "products",
+          localField: "products.productsId",
+          foreignField: "_id",
+          as: "productDetails"
+        }
+      },
+      { $unwind: "$productDetails" },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "productDetails.categoriesId",
+          foreignField: "_id",
+          as: "categoryDetails"
+        }
+      },
+      { $unwind: "$categoryDetails" },
+      {
+        $group: {
+          _id: "$categoryDetails._id",
+          categoryName: { $first: "$categoryDetails.name" },
+          totalQuantitySold: { $sum: "$products.quantity" }
+        }
+      },
+      { $sort: { totalQuantitySold: -1 } },
+      { $limit: 10 }
+    ]);
+    console.log("topCategories", topCategories);
     res.render("adminDashboard", {
       orders,
-      
       totalRevenue,
       orderCount,
       productCount,
@@ -143,17 +209,22 @@ const loadDashboard = async (req, res) => {
       CODcount,
       razorpayCount,
       monthlyRevenue,
+      walletUser,
       delivered,
       placed,
       cancelled,
       returns,
+      topProducts,
+      topProductsDetails,
+      topCategories
     });
   } catch (error) {
     console.log(error);
+    // Handle errors
   }
 };
 
-// ============================={ LoadUser Management }======================== \\
+// ============================={ LoadUser Management } ======================== \\
 
 const loadUserMangement = async (req, res) => {
   try {
@@ -194,11 +265,7 @@ const loadUserMangement = async (req, res) => {
 const userBlock = async (req, res) => {
   try {
     const user_id = req.body.id;
-
-    console.log(user_id);
     const userData = await User.findOne({ _id: user_id });
-
-    console.log(userData, "control user.....");
 
     if (userData.isBlocked) {
       await User.findByIdAndUpdate(
@@ -242,7 +309,7 @@ const loadOrderDetails = async (req, res) => {
       page = totalpages;
     }
 
-    const order = await Order.find({})  
+    const order = await Order.find({})
       .populate("userId")
       .populate("products.productsId");
     res.render("orderDetails", {
@@ -275,7 +342,6 @@ const singleorderDetails = async (req, res) => {
 // change singleOrderProduct
 const changeProductStatus = async (req, res) => {
   try {
-    console.log(req.body);
     const { orderId, productId, status, userId } = req.body;
     const orderData = await Order.findOneAndUpdate(
       { _id: orderId, userId: userId, "products.productsId": productId },
@@ -283,8 +349,7 @@ const changeProductStatus = async (req, res) => {
         $set: { "products.$.status": status },
       }
     );
-    console.log("orderrdataa", orderData);
-    console.log(orderData);
+
     res.json({ change: true });
   } catch (error) {
     res.status(400).send("change status falied");
@@ -306,7 +371,6 @@ const LoadSalesPage = async (req, res) => {
 
 const createSalesReport = async (req, res) => {
   try {
-    console.log(req.body);
     const startDate = new Date(req.body.startDate);
     const endDate = new Date(req.body.endDate);
 
@@ -316,7 +380,6 @@ const createSalesReport = async (req, res) => {
       .populate("userId")
       .populate("products.productsId");
 
-    console.log("fOrder", findorders);
     res.render("report", { orders: findorders });
   } catch (error) {
     res.status(404).send("Your Create Sales Report request failed");

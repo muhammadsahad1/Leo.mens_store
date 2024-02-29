@@ -1,307 +1,320 @@
-
 <%- include('../layouts/admin/header.ejs') -%>
 
-        <div class="screen-overlay"></div>
-        <aside class="navbar-aside" id="offcanvas_aside">
-            <div class="aside-top">
-                <a class="brand-wrap">
-                    <img style="width: 50px;" class="ms-2" src="/img/logoleo.jpg" alt="" />
-                </a>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a class="brand-wrap">
+                <img style="width: 50px;" class="ms-2" src="/img/logoleo.jpg" alt="" />
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i
+                        class="text-muted material-icons md-menu_open"></i></button>
+            </div>
+        </div>
+
+        <%- include('../partials/sidenav.ejs') %>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                        <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-nav">
+                <a href="/admin/logout"><i class="btn btn-dark ms-3 rounded-pill">Logout</i></a>
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                        class="material-icons md-apps"></i></button>
+                <ul class="nav">
+
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                            aria-expanded="false"> <img class="img-xs rounded-circle" src="/imgs/people/avatar-2.png"
+                                alt="User" /></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href=""><i
+                                    class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </header>
+        <section class="content-main">
+            <div class="content-header">
                 <div>
-                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                    <h2 class="content-title card-title fw-bold">Dashboard</h2>
+                    <p>Whole data about your business here</p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-primary-light"><i
+                                    class="text-primary material-icons md-monetization_on"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Revenue</h6>
+                                <span>₹ <%=totalRevenue%></span>
+                                <span class="text-sm"> Shipping fees are not included </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-success-light"><i
+                                    class="text-success material-icons md-local_shipping"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Orders</h6>
+                                <span>
+                                    <%= orderCount%>
+                                </span>
+                                <span class="text-sm"> Excluding orders in transit </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-warning-light"><i
+                                    class="text-warning material-icons md-qr_code"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Products</h6>
+                                <span>
+                                    <%=productCount%>
+                                </span>
+                                <span class="text-sm"> In <%= categoryCount %> Categories </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-info-light"><i
+                                    class="text-info material-icons md-shopping_basket"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Monthly Earning</h6>
+                                <span>₹ <%= monthlyRevenue %></span>
+                                <span class="text-sm"> Based in your local time. </span>
+                            </div>
+                        </article>
+                    </div>
                 </div>
             </div>
-         
-            <%- include('../partials/sidenav.ejs') %>
-        </aside>
-        <main class="main-wrap">
-            <header class="main-header navbar">
-                <div class="col-search">
-                    <form class="searchform">
-                        <div class="input-group">
-                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
-                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-nav">
-                    <a href="/admin/logout"><i class="btn btn-dark ms-3 rounded-pill">Logout</i></a>
-                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
-                    <ul class="nav">
-                
-                        <li class="dropdown nav-item">
-                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/imgs/people/avatar-2.png" alt="User" /></a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                    
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href=""><i class="material-icons md-exit_to_app"></i>Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                
-            </header>
-            <section class="content-main">
-                <div class="content-header">
-                    <div>
-                        <h2 class="content-title card-title fw-bold">Dashboard</h2>
-                        <p>Whole data about your business here</p>
-                    </div>
-                    
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="card card-body mb-4">
-                            <article class="icontext">
-                                <span class="icon icon-sm rounded-circle bg-primary-light"><i
-                                        class="text-primary material-icons md-monetization_on"></i></span>
-                                <div class="text">
-                                    <h6 class="mb-1 card-title">Revenue</h6>
-                                    <span>₹ <%=totalRevenue%></span>
-                                    <span class="text-sm"> Shipping fees are not included </span>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card card-body mb-4">
-                            <article class="icontext">
-                                <span class="icon icon-sm rounded-circle bg-success-light"><i
-                                        class="text-success material-icons md-local_shipping"></i></span>
-                                <div class="text">
-                                    <h6 class="mb-1 card-title">Orders</h6>
-                                    <span> <%= orderCount%></span>
-                                    <span class="text-sm"> Excluding orders in transit </span>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card card-body mb-4">
-                            <article class="icontext">
-                                <span class="icon icon-sm rounded-circle bg-warning-light"><i
-                                        class="text-warning material-icons md-qr_code"></i></span>
-                                <div class="text">
-                                    <h6 class="mb-1 card-title">Products</h6>
-                                    <span><%=productCount%></span>
-                                    <span class="text-sm"> In <%= categoryCount %> Categories </span>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card card-body mb-4">
-                            <article class="icontext">
-                                <span class="icon icon-sm rounded-circle bg-info-light"><i
-                                        class="text-info material-icons md-shopping_basket"></i></span>
-                                <div class="text">
-                                    <h6 class="mb-1 card-title">Monthly Earning</h6>
-                                    <span>₹ <%= monthlyRevenue %></span>
-                                    <span class="text-sm"> Based in your local time. </span>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                </div>
 
 
 
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="card card-body mb-4">
-                            <article class="icontext">
-                                <span class="icon icon-sm rounded-circle bg-primary-light"><i class="fa-solid fa-user"></i></span>
-                                <div class="text">
-                                    <h6 class="mb-1 card-title">Total customers</h6>
-                                    <span> <%=usersCount%> </span>
-                                    <span class="text-sm">No of customers </span>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card card-body mb-4">
-                            <article class="icontext">
-                                <span class="icon icon-sm rounded-circle bg-success-light">
-                                    <i
-                                        class="text-success material-icons md-local_shipping"></i>
-                                    </span>
-                                <div class="text">
-                                    <h6 class="mb-1 card-title">COD</h6>
-                                    <span> <%=CODcount%></span>
-                                    <span class="text-sm">Cash on delivery count </span>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card card-body mb-4">
-                            <article class="icontext">
-                                <span class="icon icon-sm rounded-circle bg-warning-light">
-                                    <i class="fas fa-money-check"></i>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-primary-light"><i
+                                    class="fa-solid fa-user"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Total customers</h6>
+                                <span>
+                                    <%=usersCount%>
                                 </span>
-                                <div class="text">
-                                    <h6 class="mb-1 card-title">Online payments</h6>
-                                    <span> <%=razorpayCount%></span>
-                                    <span class="text-sm"> Online payments count</span>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card card-body mb-4">
-                            <article class="icontext">
-                                <span class="icon icon-sm rounded-circle bg-info-light"><i class="fa-solid fa-wallet"></i></span>
-                                <div class="text">
-                                    <h6 class="mb-1 card-title">Wallet</h6>
-                                    <span>0</span>
-                                    <span class="text-sm"> Wallet payment count </span>
-                                </div>
-                            </article>
-                        </div>
+                                <span class="text-sm">No of customers </span>
+                            </div>
+                        </article>
                     </div>
                 </div>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-success-light">
+                                <i class="text-success material-icons md-local_shipping"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">COD</h6>
+                                <span>
+                                    <%=CODcount%>
+                                </span>
+                                <span class="text-sm">Cash on delivery count </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-warning-light">
+                                <i class="fas fa-money-check"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Online payments</h6>
+                                <span>
+                                    <%=razorpayCount%>
+                                </span>
+                                <span class="text-sm"> Online payments count</span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-info-light"><i
+                                    class="fa-solid fa-wallet"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">
+                                    <Wallet>
+                                </h6>
+                                <span>
+                                    <%=walletUser%>
+                                </span>
+                                <span class="text-sm"> Wallet payment count </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-                <!-- HTML structure for canvas -->
-                <div class="row mt-2">
-                    <div class="col-xl-6 col-lg-12">
-                        <div class="d-flex justify-content-start "><h5 class="text-dark fw-bold">Sales statistics</h5></div>
-                        <div style="width: 50% ;">
-                            <canvas id="PieChart" class="mt-2"></canvas> <!-- Make sure the ID matches -->
-                        </div>
+            <!-- HTML structure for canvas -->
+            <div class="row mt-2">
+                <div class="col-xl-6 col-lg-12">
+                    <div class="d-flex justify-content-start ">
+                        <h5 class="text-dark fw-bold">Sales statistics</h5>
                     </div>
-                    <div class="col-xl-6 col-lg-12">
-                        <div style="width: 100%; height: 100%;">
-                            <canvas id="dailySalesBarChart"></canvas>
-                        </div>
+                    <div style="width: 50% ;">
+                        <canvas id="PieChart" class="mt-2"></canvas> <!-- Make sure the ID matches -->
                     </div>
                 </div>
-                
-                <!-- Monthly sales report -->
-                <!-- <div style="font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f4f4f4">
-                    <div style="max-width: 800px; margin: 50px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                        <h1 style="text-align: center;">Monthly Sales</h1>
-                        <canvas id="monthlySalesChart" style="height: 300px;"></canvas>
+                <div class="col-xl-6 col-lg-12">
+                    <div style="width: 100%; height: 100%;">
+                        <canvas id="dailySalesBarChart"></canvas>
                     </div>
-                </div> -->
-                 <!-- monthyly sales report -->
-                <!-- <div class="card mb-4">
-                    <header class="card-header">
-                        <h4 class="card-title">Latest orders</h4>
-                        <div class="row align-items-center">
-                            <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                                <div class="custom_select">
-                                    <select class="form-select select-nice">
-                                        <option selected>All Categories</option>
-                                        <option>Women's Clothing</option>
-                                        <option>Men's Clothing</option>
-                                        <option>Cellphones</option>
-                                        <option>Computer & Office</option>
-                                        <option>Consumer Electronics</option>
-                                        <option>Jewelry & Accessories</option>
-                                        <option>Home & Garden</option>
-                                        <option>Luggage & Bags</option>
-                                        <option>Shoes</option>
-                                        <option>Mother & Kids</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-6">
-                                <input type="date" value="02.05.2021" class="form-control" />
-                            </div>
-                            <div class="col-md-2 col-6">
-                                <div class="custom_select">
-                                    <select class="form-select select-nice">
-                                        <option selected>Status</option>
-                                        <option>All</option>
-                                        <option>Paid</option>
-                                        <option>Chargeback</option>
-                                        <option>Refund</option>
-                                    </select>
+                </div>
+            </div>
+            </div>
+            </div>
+
+            <div class="container mt-5">
+                <h1 class="mb-4" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: xx-large;">Top 10 Best Selling Products</h1>
+
+                <div class="row">
+                    <%topProductsDetails.forEach((el, i)=> {%>
+
+                        <div class="col-md-4 mb-4">
+                            <div class="card" style="width: 18rem">
+                                <img src="/img/product/sharp/<%= el.images[0]%>" style="width: 300px; height: 300px"
+                                    class="card-img-top" alt="Product 1" />
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= el.name%>
+                                    </h5>
+                                    <p class="card-text">
+                                        Price: <%= el.price%>
+                                    </p>
+                                    <p class="card-text">Brand: <%= el.categoriesId.name%>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                    </header>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <div class="table-responsive">
-                                <table class="table align-middle table-nowrap mb-0">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th class="align-middle" scope="col">Order ID</th>
-                                            <th class="align-middle" scope="col">Billing Name</th>
-                                            <th class="align-middle" scope="col">Date</th>
-                                            <th class="align-middle" scope="col">Total</th>
-                                            <th class="align-middle" scope="col">Payment Method</th>
-                                        </tr>
-                                    </thead>
-                                                 
-                                    <tbody>
-                                        <tr>
-                                          
-                                            <td><a href="#" class="fw-bold"> order._id </a></td>
-                                            <td> order.userId.name</td>
-                                            onst formattedDate = order.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-                                            <td> formattedDate</td>
-                                            <td> order.totalAmount </td>
-                                            <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i> order.paymentMethod </td>
-                                         
-                                        </tr>
+                        <%})%>
+                        <h1 class="mb-4" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: xx-large;">Top 10 Best Selling categories</h1>
+                        <table class="table">
+                            <thead>
                                 
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> -->
-                        <!-- table-responsive end// -->
-                    </div>
-                </div>
-
-
-                <div class="card-body mt-3">
-                    <div class="table-responsive">
-                        <div class="d-flex justify-content-center"><h4 class="text-dark fw-bold">Ordered details</h4></div>
-                      <table class="table align-middle table-nowrap mb-0 mt-2">
-                        <thead class="table-light fw-bold" >
-                          <tr>
-                        
-                            <th scope="col">Order Id</th>
-                            <th scope="col">Billing Name</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Payment Method</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <%if(orders){%>
-                            <%console.log("ordersssssssssssss",orders)%>
-                            <%orders.forEach((order)=>{%>
-                              <%order.products.forEach((product,i)=>{%>
-                                <%if(product.status === 'delivered'){%>
-                                  <tr>
+                                <tr>
+                                    <th>Category Name</th>
+                    
+                                    <th>total Quantity Sold</th>
                                     
-                                  <td ><%=order._id %></td>
-                                  <td ><%=order.userId.name%></td>
-                                  <%const total = product.productsId.price * product.quantity%>
-                                  <td ><%=total%></td>
-                                  <% const formattedDate = order.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
-                                  <td ><%=formattedDate%></td>
-                                  <td ><%=order.payment %></td>
-                                
                                 </tr>
-                                <%}%>
-                                <%})%>
-                                <% }) %>
-                                <%}else{%>
-                            
-                                  <h2>No orders in this date</h2>
+                            </thead>
+                                <tbody>
+                                    
+                                    <%topCategories.forEach((field)=>{%>
+                                    
+                                    <tr>
+                                        
+                                    
+                                        <td><%=field.categoryName%></td>
+                                        <td><%=field.totalQuantitySold%></td>
+                                        </td>
+                                    </tr>
+                                    
+                                    <%})%>
                               
-                            <%}%>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
+                              </tbody>
+                          
+                                  
+                            </tbody>
+                          </table>
+                            <div class="card-body mt-3">
+                                <div class="table-responsive">
+                                    <div class="d-flex justify-content-center">
+                                        <h4 class="text-dark fw-bold">Ordered details</h4>
+                                    </div>
+                                    <table class="table align-middle table-nowrap mb-0 mt-2">
+                                        <thead class="table-light fw-bold">
+                                            <tr>
+
+                                                <th scope="col">Order Id</th>
+                                                <th scope="col">Billing Name</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Total</th>
+                                                <th scope="col">Payment Method</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%if(orders){%>
+
+                                                <%orders.forEach((order)=>{%>
+                                                    <%order.products.forEach((product,i)=>{%>
+                                                        <%if(product.status === 'delivered' ){%>
+                                                            <tr >
+                                                                <td>
+                                                                    <%=order._id %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=order.userId.name%>
+                                                                </td><% const
+                                                                formattedDate=order.date.toLocaleString('en-US',
+                                                                { weekday: 'short' , month: 'short' ,
+                                                                day: 'numeric' , year: 'numeric' ,
+                                                                hour: 'numeric' , minute: 'numeric' ,
+                                                                second: 'numeric' , hour12: true }); %>
+                                                                <td>
+                                                                    <%=formattedDate%>
+                                                                </td>
+                                                                <%const total=product.productsId.price *
+                                                                    product.quantity%>
+                                                                    <td>
+                                                                        <%=total%>
+                                                                    </td>
+                                                                    
+                                                                        <td>
+                                                                            <%=order.payment %>
+                                                                        </td>
+
+                                                            </tr>
+                                                            <%}%>
+                                                                <%})%>
+                                                                    <% }) %>
+                                                                        <%}else{%>
+
+                                                                            <h2>No orders in this date</h2>
+
+                                                                            <%}%>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                </div>
 
 
 
@@ -311,22 +324,22 @@
                     <input type="hidden" value="<%=placed%>" id="placed">
                     <input type="hidden" value="<%=returns%>" id="returns">
                 </section>
-                
-                
+
+
                 <script>
                     // Sample data for the pie chart
-                    const delivered =  document.getElementById('delivered').value;
-                    const cancelled =  document.getElementById('cancelled').value;
-                    const placed =  document.getElementById('placed').value;
-                    const returns =  document.getElementById('returns').value;
-                    
+                    const delivered = document.getElementById('delivered').value;
+                    const cancelled = document.getElementById('cancelled').value;
+                    const placed = document.getElementById('placed').value;
+                    const returns = document.getElementById('returns').value;
+
                     const sahad = {
-                        delivered : delivered,
-                        cancelled : cancelled,
-                        placed : placed,
-                        returns : returns
+                        delivered: delivered,
+                        cancelled: cancelled,
+                        placed: placed,
+                        returns: returns
                     };
-                
+
                     const orderStatusData = {
                         labels: Object.keys(sahad),
                         datasets: [{
@@ -334,7 +347,7 @@
                             backgroundColor: ['#ffcc00', '#00cc99', '#ff6666', '#3366ff'] // Different colors for each segment
                         }]
                     };
-                
+
                     // Initialize pie chart
                     const PieChart = document.getElementById('PieChart').getContext('2d');
                     new Chart(PieChart, {
@@ -345,33 +358,32 @@
                         }
                     });
                 </script>
-            <!-- content-main end// -->
-            <footer class="main-footer font-xs">
-                <div class="row pb-30 pt-15">
-                    <div class="col-sm-6">
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script>
-                        &copy; Nest - HTML Ecommerce Template .
+                <!-- content-main end// -->
+                <footer class="main-footer font-xs">
+                    <div class="row pb-30 pt-15">
+                        <div class="col-sm-6">
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>
+                            &copy; Nest - HTML Ecommerce Template .
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end">All rights reserved</div>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-end">All rights reserved</div>
-                    </div>
-                </div>
-            </footer>
-        </main>
-        <script src="/js/vendors/jquery-3.6.0.min.js"></script>
-        <script src="/js/vendors/bootstrap.bundle.min.js"></script>
-        <script src="/js/vendors/select2.min.js"></script>
-        <script src="/js/vendors/perfect-scrollbar.js"></script>
-        <script src="/js/vendors/jquery.fullscreen.min.js"></script>
-        <script src="/js/vendors/chart.js"></script>
-        <!-- Main Script -->
-        <script src="/js/main.js?v=1.1" type="text/javascript"></script>
-        <script src="/js/custom-chart.js" type="text/javascript"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-        <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
-        <script src="assets/js/custom-chart.js" type="text/javascript"></script>
-    
-        <%- include('../layouts/admin/footer.ejs') -%>
+                </footer>
+    </main>
+    <script src="/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/js/vendors/select2.min.js"></script>
+    <script src="/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/js/vendors/jquery.fullscreen.min.js"></script>
+    <script src="/js/vendors/chart.js"></script>
+    <!-- Main Script -->
+    <script src="/js/main.js?v=1.1" type="text/javascript"></script>
+    <script src="/js/custom-chart.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+    <script src="assets/js/custom-chart.js" type="text/javascript"></script>
 
+    <%- include('../layouts/admin/footer.ejs') -%>

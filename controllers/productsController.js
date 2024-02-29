@@ -2,8 +2,7 @@ const Products = require("../model/productsModel");
 const Category = require("../model/categoryModel");
 const Wishlist = require("../model/wishlistModel");
 const User = require("../model/userModel");
-const Offer = require('../model/offerModel')
-
+const Offer = require("../model/offerModel");
 const Cart = require("../model/cartModel");
 const sharp = require("sharp");
 
@@ -201,52 +200,93 @@ const editProducts = async (req, res) => {
 // ========================================={ ui shop }===========================\\
 
 // ===================== Load shop
+
 const loadshoppage = async (req, res) => {
   try {
-    const id = req.session.user._id;
-    const user = await User.findById(id);
-    const products = await Products.find({ isListed: true });
-    const productIds = products.map((product) => product._id);
-    const categories = await Category.find({ isList: true });
-    const categoriesId = categories.map((category) => category._id);
-    const offerProduct = await Offer.findOne({ products: productIds, categories: categoriesId });
-    
-    let discountamount = 0; // Initialize discountamount here
+    let page = 1;
+    if (req.query.id) {
+      page = req.query.id;
+    }
 
-    if (offerProduct) {
-      const productPrice = products.reduce((acc, product) => acc + product.price, 0); // Assuming there's a price property for each product
-      discountamount = (offerProduct.discount / productPrice) * 100;
+    let limit = 6;
+    let previous = page > 1 ? page - 1 : 1;
+    let next = page + 1;
 
-      // Apply the discount amount to each product's price
-      products.forEach(product => {
-        product.price -= (product.price * discountamount) / 100;
+    const count = await User.find({ isAdmin: false }).count();
+    const totalpages = Math.ceil(count / limit);
+    if (next > totalpages) {
+      next = totalpages;
+    }
+
+    const allProducts = await Products.find({ isListed: true })
+      .populate("offer")
+      .limit(limit)
+      .skip((page - 1) * limit)
+      .exec();
+    const pro = allProducts.filter((pro) => pro.price);
+    const offerProducts = allProducts.filter((product) => product.offer);
+    const regularProducts = allProducts.filter((product) => !product.offer);
+    const offerIds = offerProducts.map((product) => product.offer._id);
+
+    const offers = await Offer.find({ _id: { $in: offerIds } });
+
+    // Extract discountAmount from fetched offers for products
+    const discountAmountMap = {};
+    offers.forEach((offer) => {
+      discountAmountMap[offer._id.toString()] = offer.discountAmount;
+    });
+
+    // Fetch category offers
+    const categories = await Category.find({ isList: true })
+      .populate("offer")
+      .exec();
+
+    const categoryDiscountAmountMap = {};
+    categories.forEach((category) => {
+      if (category.offer) {
+        categoryDiscountAmountMap[category._id.toString()] =
+          category.offer.discountAmount;
+      }
+    });
+
+    const id = req.session.user?._id;
+
+    const commonData = {
+      offerProducts: offerProducts,
+      regularProducts: regularProducts,
+      categories: categories,
+      discountAmountMap: discountAmountMap,
+      categoryDiscountAmountMap: categoryDiscountAmountMap,
+      page: page,
+      next: next,
+      previous: previous,
+      totalpages: totalpages,
+    };
+
+    if (id) {
+      const existWishlist = await Wishlist.findOne({
+        user: id,
+        "products.productId": {
+          $in: allProducts.map((product) => product._id),
+        },
+      });
+
+      const user = await User.findById(id);
+
+      res.render("productsshop", {
+        user: user,
+        id: id,
+        existWishlistPro: existWishlist ? true : false,
+        existWishlist,
+        products: existWishlist ? existWishlist.products : [],
+        ...commonData,
+      });
+    } else {
+      res.render("productsshop", {
+        id: id,
+        ...commonData,
       });
     }
-
-    const existWishlist = await Wishlist.findOne({
-      user: id,
-      "products.productId": { $in: productIds },
-    });
-
-
-    
-    let productss = [];
-    if (existWishlist) {
-      productss = existWishlist.products;
-    }
-
-    
-    res.render("productsshop", {
-      user: user,
-      product: products,
-      categories: categories,
-      id: id,
-      existWishlistPro: existWishlist ? true : false,
-      existWishlist,
-      products: productss,
-      offerProduct,
-      discountamount
-    });
   } catch (error) {
     console.log(error);
     res.status(500).send("Error loading shop page");
@@ -259,11 +299,39 @@ const productdetailspage = async (req, res) => {
   try {
     const id = req.query.id;
     const Userid = req.session.user;
-    const findproduct = await Products.findOne({ _id: id });
+    const findproduct = await Products.findOne({ _id: id }).populate(
+      "categoriesId"
+    );
     const products = await Products.find({});
 
-    // Check if the product is already in the user's cart
     const existscart = await Cart.findOne({ userid: Userid });
+
+    let CatPrice = findproduct.price
+      
+    if (findproduct.categoriesId.offer) {
+      const offer = await Offer.findOne({
+        _id: findproduct.categoriesId.offer._id,
+      });
+      if (offer) {
+        const discountType = offer.discountType;
+        if (discountType === "percentage") {
+          CatPrice -= findproduct.price * (offer.discountAmount / 100);
+        }
+      }
+    }
+
+    let price = findproduct.price;
+
+    if (findproduct.offer) {
+      console.log("ketiiii");
+      const offer = await Offer.findOne({ _id: findproduct.offer });
+
+      if (offer) {
+        if (offer.discountType === "percentage") {
+          price -= findproduct.price * (offer.discountAmount / 100);
+        }
+      }
+    }
 
     if (existscart) {
       const existsProduct = existscart.products.find(
@@ -275,6 +343,8 @@ const productdetailspage = async (req, res) => {
         res.render("productdetails", {
           product: findproduct,
           user: Userid,
+          offerPrice: price,
+          CatPrice : CatPrice,
           products: products,
           isInCart: true,
         });
@@ -286,6 +356,8 @@ const productdetailspage = async (req, res) => {
     res.render("productdetails", {
       product: findproduct,
       user: Userid,
+      offerPrice: price,
+      CatPrice : CatPrice,
       products: products,
       isInCart: false,
     });
@@ -295,13 +367,11 @@ const productdetailspage = async (req, res) => {
   }
 };
 
-// search product
+// ============= > search product
 
 const searchProduct = async (req, res) => {
   try {
-    console.log(req.body);
     const searchName = req.body.search;
-    console.log(searchName);
     const foundProduct = await Products.find({
       name: { $regex: searchName, $options: "i" },
     });
@@ -316,7 +386,6 @@ const searchProduct = async (req, res) => {
 
 const selectCategory = async (req, res) => {
   try {
-    console.log(req.body);
     const selectCategory = req.body.selectCategory;
     const findCategoryId = await Category.find({
       name: { $in: selectCategory },

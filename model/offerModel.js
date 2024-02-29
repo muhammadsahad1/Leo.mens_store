@@ -13,9 +13,9 @@ const offerSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  discountAmount : {
-    type : Number,
-    require : true
+  discountAmount: {
+    type: Number,
+    require: true,
   },
   startDate: {
     type: String,
@@ -25,29 +25,18 @@ const offerSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  products: [
-    {
-      type: ObjectId,
-      ref: "products",
-    },
-  ],
-  categories: [
-    {
-      type: ObjectId,
-      ref: "categories",
-    },
-  ],
+
   usageLimit: {
     type: Number,
   },
   usageCount: {
     type: Number,
     default: 0,
-  },
+  }, 
   active: {
     type: Boolean,
     default: true,
   },
 });
 
-module.exports = mongoose.model('Offers',offerSchema)
+module.exports = mongoose.model("Offers", offerSchema);

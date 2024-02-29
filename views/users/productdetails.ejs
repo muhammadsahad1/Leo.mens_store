@@ -157,9 +157,6 @@
             </div>
           </div>
         </div>
-
-
-
       </div>
       <div class="canvas__open"><i class="fa fa-bars"></i></div>
     </div>
@@ -206,7 +203,6 @@
             </ul>
           </div>
 
-
           <div class="col-lg-4 col-md-9">
             <div class="tab-content">
 
@@ -221,26 +217,24 @@
             </div>
           </div>
 
-
-
-
           <div class="col-lg-5">
             <div class=" ">
               <h4 class="fw-bold">
                 <%= product.name %>
               </h4>
-              <div class="rating">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star-o"></i>
-                <span> - 4 Reviews</span>
-              </div>
+              
 
-
-              <h3 class="fs-5 fw-bold" id="productPrice">₹ <%=product.price %><span> </span> <span class=""
-                    style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"></span></h3>
+              <%if(CatPrice){%>
+                <h3 class="fs-5 fw-bold" id="productPrice">₹ <%=CatPrice %><span> </span> <span class=""
+                  style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"></span></h3>
+                  <%}else if(offerPrice){%>
+                  
+                    <h3 class="fs-5 fw-bold" id="productPrice">₹ <%=offerPrice%><span> </span> <span class=""
+                      style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"></span></h3>
+              <%}else{%>
+                <h3 class="fs-5 fw-bold" id="productPrice">₹ <%=product.price %><span> </span> <span class=""
+                      style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"></span></h3>
+              <%}%>
               <p></p>
               <div class="product__details__option">
                 <div class="product__details__option__size">
@@ -543,12 +537,14 @@
         <div class="col-lg-12 text-center">
           <div class="footer__copyright__text">
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-
+            
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </div>
         </div>
       </div>
     </div>
+    
+    <input type="hidden" value="<%=user%>" id="userId">
   </footer>
   <!-- Footer Section End -->
 
@@ -574,8 +570,6 @@
 
 
 
-
-
   <script>
 
     console.log('hiiiiiiiiiiiiiiiiiii')
@@ -595,7 +589,7 @@
       let value = parseInt(document.getElementById('number'), 10)
       value = isNaN(value) ? 0 : value
       if (value < document.getElementById('number').max) {
-        value++
+        value ++
         document.getElementById('number').value = value
       }
 
@@ -606,8 +600,16 @@
 
       const Quantity = document.getElementById('number').value;
       const selectSize = document.querySelector('input[name="size"]:checked');
+      const userId = document.getElementById('userId').value
       const Size =   selectSize ? selectSize.value : null;
-
+      if(!userId){
+        Swal.fire({
+          icon : 'info',
+          title : 'Must need to login',
+          showConfirmButton : false,
+          timer : 1700
+        })
+      }
       if(!Size) {
         Swal.fire({
           icon: 'info',

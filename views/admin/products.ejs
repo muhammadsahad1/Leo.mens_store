@@ -120,6 +120,7 @@
 
                                     <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Quantity</th>
                                     <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Price</th>
+                                    <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Offer</th>
                                     <th  style="background-color: rgb(22, 22, 22); color: aliceblue;" class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -147,6 +148,11 @@
                                         
                                         <td align="center">
                                             <%= field.price %>
+                                        </td>
+                                        <td align="center">
+                                            <a href="/admin/offerPage?id=<%= field._id %>" class="text-dark">
+                                                <button class="btn btn-outline-primary block-button">Add</button></a>
+                                        
                                         </td>
                                         <td align="center">
                                             <a href="/admin/editproducts?id=<%= field._id %>" class="text-dark">
@@ -196,6 +202,8 @@
 
     <%- include('../layouts/admin/footer.ejs') -%>
         <script>
+
+
             function listUnlist(fieldId) {
                 const productData = { id: fieldId }
                 console.log(productData);
