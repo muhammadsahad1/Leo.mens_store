@@ -159,12 +159,17 @@ const verifyPayment = async (req, res) => {
     
       await Order.findByIdAndUpdate(
         { _id: order.receipt },
-        { $set: { status: "Placed", paymentId: payment.razorpay_payment_id } }
-      );
+        { $set: { status: "Placed", paymentId: payment.razorpay_payment_id } });
 
       await Cart.deleteOne({ userid: userId });
       res.json({ PaymentSuccess: true });
     } else {
+      const changedOrder = await Order.findByIdAndUpdate(
+        { _id: order.receipt },
+        { $set: { status: " pending" } } 
+     );
+
+     console.log("changedOrder",changedOrder);
       res.status(400).json({ error: "Invalid payment signature", PaymentSuccess: false });
     }
   } catch (error) {
@@ -172,6 +177,78 @@ const verifyPayment = async (req, res) => {
     res.status(500).json({ error: "An error occurred while verifying the payment", PaymentSuccess: false });
   }
 };
+
+// continue failedPayment 
+const failedPaymentCountinue = async (req,res)=>{
+try {
+
+  const {orderId }= req.body
+  const order = await Order.findOne({_id:orderId}).populate('userId')
+  const option = {
+    amount: order.total_amount* 100,
+    currency: "INR",
+    receipt: "" + order._id,};
+
+  instance.orders.create(option, function (err, order) {
+    if (err) {
+      console.log(err);
+    }
+    console.log("order is = ", order);
+    res.json({ order: order });
+  });
+} catch (error) {
+  res.status(400).send('your countine payment request is failed')
+  console.log(error);
+}
+}
+
+// CountinueVerify-payment
+const CountinueVerifypayment = async (req,res)=>{
+  try {
+    const userId = req.session.user._id;
+    const { payment, order } = req.body;
+    const hmac = crypto.createHmac("sha256", "GpMMTQeCJms3hyG5Z3thBSDA");
+    hmac.update(
+      payment.razorpay_order_id + "|" + payment.razorpay_payment_id
+    );
+    const hmacvalue = hmac.digest("hex");
+
+    if (hmacvalue === payment.razorpay_signature) {
+      const cart = await Cart.findOne({ userid: userId }).populate(
+        "products.productsId"
+      );
+      const products = cart.products;
+
+      for (let i = 0; i < cart.products.length; i++) {
+        const productId = products[i].productsId._id;
+        const productQty = products[i].quantity;
+
+        await Product.findOneAndUpdate(
+          { _id: productId },
+          { $inc: { "products.$.StockQuantity": -productQty } }
+        );
+      }
+    
+      await Order.findByIdAndUpdate(
+        { _id: order.receipt },
+        { $set: { status: "Placed", paymentId: payment.razorpay_payment_id } });
+
+      await Cart.deleteOne({ userid: userId });
+      res.json({ PaymentSuccess: true });
+      console.log("successed");
+    } else {
+      const changedOrder = await Order.findByIdAndUpdate(
+        { _id: order.receipt },
+        { $set: { status: " pending" } } 
+     );
+
+     console.log("changedOrder",changedOrder);
+      res.status(400).json({ error: "Invalid payment signature", PaymentSuccess: false });
+    }
+  } catch (error) {
+    res.status(400).send('your countine payment Verification request is failed')
+  }
+}
 
 
 // load Order successpage
@@ -188,12 +265,10 @@ const loadorderSuccess = async (req, res) => {
 const LoadMyOrders = async (req, res) => {
   try {
     const userid = req.session.user._id;
-    const orderDetails = await Order.find({ userId: userid }).populate(
-      "userId"
-    );
-    // const orderArray = Array.isArray(orderDetails) ? orderDetails : [orderDetails]
-    // console.log("order---", orderDetails);
-    res.render("myOrder", { order: orderDetails });
+    const Amount = req.query.id;
+    console.log("Amounttttttt",Amount);
+    const orderDetails = await Order.find({ userId: userid }).populate("userId").sort({date : -1})
+    res.render("myOrder", { order: orderDetails ,Amount:Amount});
   } catch (error) {
     console.log(error);
   }
@@ -206,13 +281,13 @@ const SingleOrderDetail = async (req, res) => {
     const userId = req.session.user._id;
     if (userId) {
       const { orderId } = req.query;
-      console.log("orderIddd", orderId);
+      
       const SingleOrder = await Order.findById({ _id: orderId })
         .populate("userId")
         .populate("products.productsId");
 
       console.log("singleOrder" + SingleOrder);
-      res.render("orderDetails", { myOrder: SingleOrder });
+      res.render("orderDetails", { myOrder: SingleOrder ,order : SingleOrder});
     }
   } catch (error) {
     console.log(error);
@@ -300,16 +375,6 @@ const returnReason = async (req, res) => {
     );
     console.log("passed");
     res.json({ reason: true });
-    // console.log("returnorder");
-    // const productdetail = await Order.findOne(
-    //   { _id: orderId, "products.productsId": productId },
-    //   { "products.$": 1 }
-    // );
-    // const productQty = productdetail.products[0].quantity;
-    // await Product.findOneAndUpdate(
-    //   { _id: productId },
-    //   { $inc: { stockQuantity: productQty } }
-    // );
   } catch (error) {
     res.status(400).send("request is failed");
   }
@@ -375,6 +440,8 @@ const returnConfirm = async (req, res) => {
 module.exports = {
   placeOrders,
   verifyPayment,
+  failedPaymentCountinue,
+  CountinueVerifypayment,
   loadorderSuccess,
   LoadMyOrders,
   SingleOrderDetail,
@@ -382,6 +449,5 @@ module.exports = {
   cancelOrder,
   returnReason,
   returnConfirm,
-
   // loadSingleOrder
 };

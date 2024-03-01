@@ -395,6 +395,7 @@
                                   </section>
                                   <button type="submit" class="site-btn"
                                     onclick="placeOrder('<%= totalAmount %>',event)">PLACE ORDER</button>
+
                                 </div>
                               </div>
                               <!-- Checkout Section End -->
@@ -569,7 +570,6 @@
           const policyChecked = policyCheck.checked;
           const couponCode = $('#couponCode').val();
 
-
           const indexInput = document.querySelector(
             'input[name="selectedAddress"]:checked'
           );
@@ -608,8 +608,6 @@
               couponCode: couponCode
               // Add other data properties as needed
             };
-            console.log("Selected Index:", index);
-            console.log("Payment Method:", payment);
 
             $.ajax({
               url: "/place-Order",
@@ -632,10 +630,7 @@
               },
             });
           }
-
         }
-
-
 
         // Swal for payment method
         function Swaal() {
@@ -667,6 +662,7 @@
           })
         }
 
+
         function razorPay(order) {
           try {
             var options = {
@@ -678,7 +674,7 @@
               image: "/img/logoleo.jpg",
               order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
               handler: (response) => {
-                verifyPayment(response,order);
+                verifyPayment(response, order);
               },
               prefill: {
                 //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
@@ -696,11 +692,14 @@
 
             var rzp1 = new Razorpay(options);
 
-            rzp1.on("payment.failed", (err) => {
+            const totalAmount = parseFloat(document.getElementById('totalAmount').innerText);
 
-              console.log(err);
+            rzp1.on("payment.failed", () => {
+              window.location.href = `/myOrder?id=${totalAmount}`;
+              console.log("totalAmount", totalAmount)
             });
             rzp1.open();
+
           } catch (error) {
             console.log(error);
           }
