@@ -1,4 +1,4 @@
-
+const Order = require('../model/orderModel')
 const Products = require('../model/productsModel')
 const Cart = require('../model/cartModel');
 const User = require('../model/userModel');
@@ -144,7 +144,8 @@ const loadCheckout = async (req, res) => {
     const usercart = await Cart.findOne({ userid: userId }).populate('products.productsId')
     const user = await User.findOne({ _id: userId })
     const userAddress = user.addresses;
-    res.render('checkoutpage', { Usercart: usercart, Uaddress: userAddress, })
+    const order = await Order.findOne({userId : userId})
+    res.render('checkoutpage', { Usercart: usercart, Uaddress: userAddress, order:order})
   } catch (error) {
     console.log(error);
   }

@@ -518,20 +518,22 @@ height: 100vh !important;
                                                 </div>
                                             </div>
                                         </div>
-
-                                        </div>
-                                        <div class="col-4" id="editReview" data-rating="review?.rating "
-                                            data-review="review?.review">
-                                            <%if(product.status==='placed' ){%>
-                                                <p style="color: #3dcc1e; font-weight: bold;">Product is placed
-                                                </p>
-                                                <a class="btn btn-danger text-white" data-toggle="modal" data-target="#cancelReasonModal">
-                                                    Cancel
-                                                  </a>
-                                                      
-                                                <%}else if(product.status ==='ReturnedRequested' ){%>
-                                                    <div id="Returntext" ><p class=" fw-bold" style="color: #f37a27;">Return request has been requested</p></div>
-                                                
+                                        
+                                    </div>
+                                    <div class="col-4" id="editReview" data-rating="review?.rating "
+                                    data-review="review?.review">
+                                    <%if(product.status === 'placed' ){%>
+                                        <p style="color: #3dcc1e; font-weight: bold;">Product is placed
+                                        </p>
+                                        <a class="btn btn-danger text-white" data-toggle="modal" data-target="#cancelReasonModal">
+                                            Cancel
+                                        </a>
+                                        
+                                        <%}else if(product.status ==='ReturnedRequested' ){%>
+                                            <div id="Returntext" ><p class=" fw-bold" style="color: #f37a27;">Return request has been requested</p></div>
+                                            
+                                            <%}else if(order.status ==='Pending' ){%>
+                                                <p class="text-danger fw-bold">Order pending</p>
                                                     
                                                 <%}else if(product.status ==='delivered' ){%>
                                                       <div><span class="fw-bold">Product delivered</span></div>
@@ -547,7 +549,8 @@ height: 100vh !important;
                                                           </a>
                                                     
 
-                                                        <%}else if(product.status ==='cancelled' ){%>
+                                                        
+                                                          <%}else if(product.status ==='cancelled' ){%>
                                                             <p class="text-danger fw-bold">Order has been cancelled</p>
                                                             <%}else if(product.status ==='Request approve'){%>
                                                                 <p class="text-success fw-bold">Return request approved

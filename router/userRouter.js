@@ -86,7 +86,9 @@ user_route
   // process to checkout 
   .get('/checkout', Cart_controller.loadCheckout)
 
-  
+  // after failure online payment
+  .post('/countinuePayment',Order_controller.failedPaymentCountinue)
+  .post('/CountinueVerify-payment',Order_controller.CountinueVerifypayment)
   // place order
   .post('/place-Order', Order_controller.placeOrders)
   .get('/orderSuccessPage', Order_controller.loadorderSuccess)

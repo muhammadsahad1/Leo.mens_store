@@ -321,7 +321,7 @@ const productdetailspage = async (req, res) => {
     }
 
     let price = findproduct.price;
-
+    
     if (findproduct.offer) {
       console.log("ketiiii");
       const offer = await Offer.findOne({ _id: findproduct.offer });
@@ -337,7 +337,7 @@ const productdetailspage = async (req, res) => {
       const existsProduct = existscart.products.find(
         (pro) => pro.productsId.toString() === id
       );
-
+      
       if (existsProduct) {
         // Product is already in the cart
         res.render("productdetails", {

@@ -1,5 +1,22 @@
 <%- include('../layouts/user/header.ejs') -%>
   <style>
+    /* Style for the button */
+    #retryPayment {
+      background-color: #58ca1b;
+      /* GB Silver color */
+      color: #ffffff;
+      /* Black text */
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      /* Rectangle shape */
+      cursor: pointer;
+      /* Center horizontally */
+      align-items: center;
+      /* Center vertically */
+      font-weight: bold;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -124,7 +141,7 @@
   <div class="bg-body-tertiary" style=" margin:0 auto; padding: 15px 15px;">
     <!-- <div class="container-fluid"> -->
     <div class="row">
-      <div class="col-md-3" >
+      <div class="col-md-3">
         <div
           style="padding: 16px; margin-bottom: 12px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);">
           <div class="d-flex" style="flex-wrap: wrap;  padding: 16px; margin-bottom: 12px;">
@@ -173,14 +190,14 @@
       <div class="col-md-9">
         <div class="d-flex flex-column">
           <div class="div" style="width: 85%; background-color: #fff; ">
-            <div class="input-group " >
+            <div class="input-group ">
               <input type="text" class="form-control" placeholder="Recipient's username"
                 aria-label="Recipient's username" aria-describedby="button-addon2">
               <button class="btn btn-dark" type="button" id="button-addon2">Search orders</button>
             </div>
           </div>
 
-          
+
           <% if(myOrder){%>
             <% console.log(myOrder) %>
               <% myOrder.products.forEach(function(field,i){%>
@@ -231,21 +248,12 @@
                             class=" <%= field.status === 'delivered' ? 'bg-success' : ''%><%=  field.status === 'placed' ? 'border border-success' : ''  %> "
                             style="width: 10px; height: 10px;  margin-bottom: 13px; margin-right: 1rem; border-radius: 50%; border: 2px;">
                           </div>
-                          <div>
-                            <p class="text-muted">your product as placed</p>
-                          </div>
-                        
+                          <%if(order.status==='Pending' ){%>
+                            <p class="text-danger"> payment pending</p>
+                            <%}%>
 
-                        </div>  
-                        
-                        <!-- <div class="d-flex">
-                                                            <span class="me-2"><i class="fa-solid fa-star" style="color: #00328a;"></i></i></span>
-                                                            
-                                                           <a href="" style="text-decoration: none;">
-                                                           
-                                                            <span style="color: #00328a;">Rate & review product</span>
-                                                           </a>
-                                                        </div> -->
+                        </div>
+
                       </div>
 
                       <div>
@@ -276,12 +284,21 @@
 
 
         </div>
+        <%if(myOrder.status==='Pending' ){%>
+          <div class="d-flex justify-content-center mt-4">
+            <button onclick="countinuePayment('<%=order._id%>')" id="retryPayment">Retry online payment</button>
+          </div>
+          <%}%>
 
       </div>
 
       <!-- </div> -->
     </div>
   </div>
+
+
+
+
   <script src="js/jquery-3.3.1.min.js"></script>
   <!-- <script src="js/bootstrap.min.js"></script> -->
   <script src="js/jquery.nice-select.min.js"></script>
@@ -297,11 +314,110 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
   <%- include('../layouts/user/footer.ejs') -%>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+      function singleOrder(productId, index, orderId) {
 
-     <script>
-function singleOrder(productId,index,orderId){
+        console.log(productId, index, orderId)
+        location.href = `/single-product?productId=${productId}&index=${index}&orderId=${orderId}`
 
-  console.log(productId,index,orderId)
-  location.href = `/single-product?productId=${productId}&index=${index}&orderId=${orderId}`
-}
-</script> 
+      }
+
+      // countine Payment
+      function countinuePayment(id) {
+        event.preventDefault()
+        fetch('/countinuePayment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ orderId: id })
+        }).then((response) => {
+          return response.json(); // Parse the response JSON
+        }).then((data) => {
+          console.log(data.order);
+          if (data.order) {
+            razorPay(data.order); // Access the order from the parsed JSON
+          } else {
+            console.log("last else here");
+          }
+        }).catch((error) => {
+          console.error('Error:', error);
+        });
+      }
+
+      document.getElementById('retryPayment').addEventListener('click', function () {
+        razorPay(order)
+      })
+      function razorPay(order) {
+        try {
+          var options = {
+            key: "rzp_test_fB02vUjG7B86w1", // Enter the Key ID generated from the Dashboard
+            amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: "INR",
+            name: "LEO fashion", //your business name
+            description: "Test Transaction",
+            image: "/img/logoleo.jpg",
+            order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            handler: (response) => {
+              countinueVerifyPayment(response, order);
+            },
+            prefill: {
+              //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+              name: "LEO fashion", //your customer's name
+              email: "muhammadsahad2022@gmail.com",
+              contact: "9995762762", //Provide the customer's phone number for better conversion rates
+            },
+            notes: {
+              address: "LEO fashion",
+            },
+            theme: {
+              color: "#000000",
+            },
+          };
+
+          var rzp1 = new Razorpay(options);
+
+          rzp1.on("payment.failed", () => {
+            window.location.href = "/myOrder";
+          });
+
+          rzp1.open();
+
+
+
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      // countinueVerifyPayment
+      function countinueVerifyPayment(payment, order) {
+        try {
+          console.log("ajaxil vannu");
+          $.ajax({
+            url: "/CountinueVerify-payment",
+            method: "POST",
+            data: {
+              payment,
+              order,
+            },
+            success: function (response) {
+              if (response.PaymentSuccess) {
+                window.location.href = "/orderSuccessPage";
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Your payment is failed',
+                  showConfirmButton: false
+                })
+              }
+            },
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+
+    </script>
