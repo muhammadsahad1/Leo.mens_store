@@ -693,7 +693,6 @@
             var rzp1 = new Razorpay(options);
 
             const totalAmount = parseFloat(document.getElementById('totalAmount').innerText);
-
             rzp1.on("payment.failed", () => {
               window.location.href = `/myOrder?id=${totalAmount}`;
               console.log("totalAmount", totalAmount)

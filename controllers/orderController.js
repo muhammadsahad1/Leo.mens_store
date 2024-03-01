@@ -281,7 +281,6 @@ const SingleOrderDetail = async (req, res) => {
     const userId = req.session.user._id;
     if (userId) {
       const { orderId } = req.query;
-      
       const SingleOrder = await Order.findById({ _id: orderId })
         .populate("userId")
         .populate("products.productsId");
