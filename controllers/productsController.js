@@ -289,6 +289,7 @@ const loadshoppage = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.render('404Page')
     res.status(500).send("Error loading shop page");
   }
 };

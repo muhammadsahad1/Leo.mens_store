@@ -269,13 +269,13 @@
                                     <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
                                       <i class="far fa-heart" style="color: #888;"></i>
                                     </a>
-                                  <%}%>
-                                    <% } else { %>
-                                      <!-- Render add to wishlist icon -->
-                                      <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
-                                        <i class="far fa-heart" style="color: #888;"></i>
-                                      </a>
-                                      <% } %>
+                                    <%}%>
+                                      <% } else { %>
+                                        <!-- Render add to wishlist icon -->
+                                        <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
+                                          <i class="far fa-heart" style="color: #888;"></i>
+                                        </a>
+                                        <% } %>
                             </div>
                             <p class="card-text fw-bold">
                               <%= product.name %>
@@ -479,73 +479,81 @@
 
     // For Remove wishlist
     function attachHeartEventListeners() {
-    document.querySelectorAll(".wishlist-icon2").forEach((icon) => {
-      icon.addEventListener("click", (event) => {
-        event.preventDefault();
-        const productId = icon.getAttribute("data-product-id");
+      document.querySelectorAll(".wishlist-icon2").forEach((icon) => {
+        icon.addEventListener("click", (event) => {
+          event.preventDefault();
+          const productId = icon.getAttribute("data-product-id");
 
-        console.log(productId);
+          console.log(productId);
 
-        const data = {
-          productId: productId,
-        };
-        fetch("/removeWishlist", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }).then((response) => {
-          if (response.ok) {
-            window.location.reload();
-          }
+          const data = {
+            productId: productId,
+          };
+          fetch("/removeWishlist", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }).then((response) => {
+            if (response.ok) {
+              window.location.reload();
+            }
+          });
         });
       });
-    });
 
-    //  For Addwishlist
+      //  For Addwishlist
 
-    document.querySelectorAll(".wishlist-icon").forEach((icon) => {
-      icon.addEventListener("click", (event) => {
-        const userId = document.getElementById('userId').value
-        if (!userId) {
-          Swal.fire({
-            icon: 'info',
-            title : 'Must need to login',
-            showConfirmButton : false,
-            timer : 1700
-          })
-        }
-        event.preventDefault();
-        const productId = icon.getAttribute("data-product-id");
-
-        console.log(productId);
-
-        fetch("/addWishlist", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ productId }),
-        }).then((response) => {
-          if (response.ok) {
-            window.location.reload();
+      document.querySelectorAll(".wishlist-icon").forEach((icon) => {
+        icon.addEventListener("click", (event) => {
+          const userId = document.getElementById('userId').value
+          if (!userId) {
+            Swal.fire({
+              icon: 'info',
+              title: 'Must need to login',
+              showConfirmButton: true,
+              showCancelButton: true, 
+              confirmButtonText: 'Login',
+              cancelButtonText: 'Cancel',
+              
+            }).then((result) => {
+              if(result.isConfirmed)
+              {
+                window.location.href = '/login'
+              }
+            })
           }
+          event.preventDefault();
+          const productId = icon.getAttribute("data-product-id");
+
+          console.log(productId);
+
+          fetch("/addWishlist", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ productId }),
+          }).then((response) => {
+            if (response.ok) {
+              window.location.reload();
+            }
+          });
         });
       });
-    });
-  }
+    }
     // For search
 
     const searchBtn = document.getElementById("searchBtn");
     searchBtn.addEventListener("click", () => {
       const searchInput = document.getElementById("search-input").value;
-      search(searchInput);
+      if (searchInput.trim() != '') {
+        search(searchInput);
+      }
+
     });
     function search(searchData) {
-      // if (searchInput == '') {
-      //   event.preventDefault()
-      // }
       const data = {
         search: searchData,
       };
@@ -620,6 +628,25 @@
               productContainer.appendChild(outerContainer);
             });
             $('#searchForm').load(' #searchForm');
+            if (response.product.length === 0) {
+              // Display a SweetAlert2 message when no products are found
+              Swal.fire({
+                icon: 'info',
+                title: 'No product available',
+                text: 'Your search did not match any products.',
+                showConfirmButton: true
+              }).then(() => {
+                window.location.reload()
+              })
+            }
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'someting went wrong !',
+              showConfirmButton: false
+            }).then(() => {
+              window.location.reload()
+            })
           }
         },
         error: function (error) {
@@ -714,21 +741,21 @@
     // function to handle click pagination
     attachHeartEventListeners();
 
-// Pagination function to handle click pagination
-function loadpage(page) {
-  $.ajax({
-    url: `/productsshop?page=${page}`,
-    type: 'GET',
-    success: function (data) {
-      $('#rel').html(data);
-      // Attach event listeners to heart icons after new content is loaded
-      attachHeartEventListeners();
-    },
-    error: function (error) {
-      console.log("Error", error)
+    // Pagination function to handle click pagination
+    function loadpage(page) {
+      $.ajax({
+        url: `/productsshop?page=${page}`,
+        type: 'GET',
+        success: function (data) {
+          $('#rel').html(data);
+          // Attach event listeners to heart icons after new content is loaded
+          attachHeartEventListeners();
+        },
+        error: function (error) {
+          console.log("Error", error)
+        }
+      })
     }
-  })
-}
 
   </script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

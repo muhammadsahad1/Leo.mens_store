@@ -112,6 +112,9 @@ user_route
   //applyCOupon 
   .post('/applyCouponCode',Coupon_Controller.applyCoupon)
 
+  // about 
+  .get('/about',users_controller.about)
+
   // logout
   .get('/logout', users_controller.userlogout)
 

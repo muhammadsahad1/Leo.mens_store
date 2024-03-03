@@ -1,4 +1,5 @@
 
+const { boolean } = require('joi')
 const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
@@ -48,7 +49,11 @@ const userSchema = mongoose.Schema({
     type: Boolean
 
   },
-
+  referalUsed:{
+    type:Boolean,
+    required:true,
+    default:false
+},
   addresses: [    
     {
     name: { type: String },
@@ -80,7 +85,13 @@ const userSchema = mongoose.Schema({
     reason : {
       type :String ,
     }
-  }]
+  }],
+
+  referalUsed : {
+    type : String
+  },
+
+
 
 })
 

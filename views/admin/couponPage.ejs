@@ -167,6 +167,79 @@
     const discountAmount = document.getElementById('discountAmount').value
     const minOrderAmount = document.getElementById('minOrderAmount').value
 
+    const CouponRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/;
+
+
+if (couponCode.length === 0) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Enter coupon code',
+        showConfirmButton: false,
+        timer: 1700
+    });
+    return;
+}
+
+if (!CouponRegex.test(couponCode)) {
+    Swal.fire({
+        icon: 'error',
+        text: 'Coupon code can only contain letters and numbers.',
+        showConfirmButton: false,
+        timer: 1700
+    });
+    return;
+}
+    if(discountType.trim() ==''){
+      Swal.fire({
+        icon : 'error',
+        title : 'Enter discountType',
+        showConfirmButton : false,
+        timer : 1700
+      })
+      return
+    }
+
+    if(startDate.trim()==''){
+      Swal.fire({
+        icon : 'error',
+        title : 'Enter startDate',
+        showConfirmButton : false,
+        timer : 1700
+      })
+      return
+    }
+    
+    if(expirationDate.trim()==''){
+      Swal.fire({
+        icon : 'error',
+        title : 'Enter expirationDate',
+        showConfirmButton : false,
+        timer : 1700
+      })
+      return
+    }
+
+    if(discountAmount.trim()=='' || isNaN(discountAmount) || parseFloat(discountAmount) <=0){
+      Swal.fire({
+        icon : 'error',
+        title : 'Please enter a valid discount amount.',
+        showConfirmButton : false,
+        timer : 1700
+      })
+      return
+    }
+
+    if(minOrderAmount.trim()=='' || isNaN(minOrderAmount) || parseFloat(minOrderAmount) <=0){
+      Swal.fire({
+        icon : 'error',
+        title : 'Please enter a valid minimum order amount.',
+        showConfirmButton : false,
+        timer : 1700
+      })
+      return
+    }
+    
+    
     const data = {
       code : couponCode,
       discountType : discountType,

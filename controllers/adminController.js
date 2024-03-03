@@ -72,7 +72,6 @@ const loadDashboard = async (req, res) => {
         },
       },
     ]);
-
     const totalRevenue = aggregateResult[0]?.totalRevenue || 0;
 
     // Fetch all orders
@@ -223,6 +222,57 @@ const loadDashboard = async (req, res) => {
     // Handle errors
   }
 };
+
+
+    //filtering sales Monthly & yearly
+    
+    const filterSales = async (req, res) => {
+      try {
+        const { data } = req.body;
+        console.log("data", data);
+        const desiredMonth = data; // Example for January 2024
+        const startDate = new Date(desiredMonth + "-01T00:00:00Z"); // Start of month
+        const endDate = new Date(desiredMonth + "-31T23:59:59Z"); // End of month (adjusted for days in February)
+        console.log("startDate", startDate);
+        const monthData = await Order.aggregate([
+          {
+            $match: {
+              status: 'Placed'&&'Pending',
+              date: { $gte: startDate, $lt: endDate }
+            }
+          },
+          {
+            $group: {
+              _id: {
+                $dateToString: {
+                  format: '%d',
+                  date: '$date'
+                },
+              },
+              totalAmount: { $sum: "$total_amount" }
+            },
+          }
+        ])  
+        const newDate = Array.from({ lenght:30}).fill(0)
+        monthData.filter((item)=>{
+          console.log(item);
+          const monthlyIndex = parseInt(item._id,10) - 1
+          console.log(monthlyIndex);
+          if(monthlyIndex >=0 && monthlyIndex < 30)
+          {
+            newDate[monthlyIndex] = item.totalAmount
+          }
+        })
+        console.log("newDate",newDate);
+    
+        console.log("monthlyData", monthData);
+        res.json({ newDate,data})
+      } catch (error) {
+        res.status(404).send('Your filter request has failed');
+      }
+    }
+
+
 
 // ============================={ LoadUser Management } ======================== \\
 
@@ -399,6 +449,7 @@ const adminlogout = async (req, res) => {
 module.exports = {
   adminLogin,
   loadDashboard,
+  filterSales,
   verifylogin,
   loadUserMangement,
   loadOrderDetails,

@@ -1,25 +1,32 @@
 const Offers = require("../model/offerModel");
-const Product = require('../model/productsModel');
-const categroy = require('../model/categoryModel')
+const Product = require("../model/productsModel");
+const categroy = require("../model/categoryModel");
+const Referral = require("../model/offerModel");
 
 // Load Offer Mangament
- 
+
 const loadOffers = async (req, res) => {
   try {
-    const { id }= req.query;
-    console.log("Idddddddd",id);
+    const { id } = req.query;
     const categories = await categroy.find({});
     const products = await Product.find({});
     const offerList = await Offers.find({});
-    
-    res.render("offerPage", { offer: offerList,products:products, categories : categories , categoryId : id,productId : id});
+
+    res.render("offerPage", {
+      offer: offerList,
+      products: products,
+      categories: categories,
+      categoryId: id,
+      productId: id,
+    });
   } catch (error) {
     res.status(404).send("Load offers page request is failed");
     console.log(error);
   }
 };
 
-// ========================== > Add Offers
+// ========================== Add Offers ========================== \\
+
 const addingOffer = async (req, res) => {
   try {
     console.log("body >>>> ", req.body);
@@ -50,7 +57,7 @@ const addingOffer = async (req, res) => {
 
     // Save the new offer
     const offer = await newOffer.save();
-    
+
     // Send success response
     res.json({ saved: true });
 
@@ -69,46 +76,52 @@ const deletOffer = async (req, res) => {
   try {
     const { offerId } = req.body;
     await Offers.deleteOne({ _id: offerId });
-    res.status(200).json({ success: true, message: "offer deleted successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "offer deleted successfully" });
   } catch (error) {
     res.status(404).send(" offer request failed");
   }
 };
 
-  // ===================== > apply offer
+// ===================== > apply offer for product
 
-  const applyOffer = async(req,res)=>{
-    try {
-      const {offerId,productId} = req.body;
-      console.log("proyId",productId);
-    
-        await Product.updateOne({_id:productId},{$set : {offer : offerId}})
-          res.json({success: true})
-      
-    } catch (error) {
-      res.status(404).send('applyOffer request is failed')
-    
-  }
-}
-
-// apply offer to category
-
-const applyOfferCat = async(req,res)=>{
+const applyOffer = async (req, res) => {
   try {
-    const {offerId,categoryId} = req.body;
-  
-      await categroy.updateOne({_id:categoryId},{$set : {offer : offerId}})
-        res.json({success: true})
-        console.log("category saved");
+    const { offerId, productId } = req.body;
+    console.log("proyId", productId);
+
+    await Product.updateOne({ _id: productId }, { $set: { offer: offerId } });
+    res.json({ success: true });
   } catch (error) {
-    res.status(404).send('applyOffer request is failed')
+    res.status(404).send("applyOffer request is failed");
   }
-}
+};
+
+// ===================== > apply offer to category
+
+const applyOfferCat = async (req, res) => {
+  try {
+    const { offerId, categoryId } = req.body;
+
+    await categroy.updateOne({ _id: categoryId }, { $set: { offer: offerId } });
+    res.json({ success: true });
+    console.log("category saved");
+  } catch (error) {
+    res.status(404).send("applyOffer request is failed");
+  }
+};
+
+//  ( UI )
+
+//  ============================= Referral Offer ========================== \\
+
+
 
 module.exports = {
   loadOffers,
   addingOffer,
   deletOffer,
   applyOffer,
-  applyOfferCat
+  applyOfferCat,
 };

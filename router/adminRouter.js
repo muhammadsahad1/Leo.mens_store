@@ -63,6 +63,7 @@ admin_route
 // ======================={ sales }==================\\
 .get('/sales',admin_Controllers.LoadSalesPage)
 .post('/createReport',admin_Controllers.createSalesReport)
+.post('/filter-sales',admin_Controllers.filterSales)
 
 // ======================={ coupon }==================\\
 .get('/couponPage',coupon_Controllers.loadCouponlist)

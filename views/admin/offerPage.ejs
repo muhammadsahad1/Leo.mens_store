@@ -193,15 +193,93 @@
         const usageLimit = document.getElementById('usageLimit').value
         const usageCount = document.getElementById('usageCount').value
 
-        const data = {
-          title: title,
-          description: description,
-          discountType: discountType,
-          discountAmount: discountAmount,
-          startDate: startDate,
-          endDate: endDate,
-          usageLimit: usageLimit,
-          usageCount: usageCount
+        if (title.trim() === '') {
+          Swal.fire({
+        icon: 'error',
+        title: 'Enter Offer Title',
+        showConfirmButton: false,
+        timer: 1700
+    });
+    return;
+    
+    }
+
+    
+    if (discountType.trim() === '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Enter discountType',
+        showConfirmButton: false,
+        timer: 1700
+      });
+    
+      return;
+    }
+    
+    if (discountAmount.trim() === '' || isNaN(discountAmount) || parseFloat(discountAmount) <= 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Please enter a valid discount amount.',
+        showConfirmButton: false,
+        timer: 1700
+      });
+    
+      return;
+    }
+    
+    if (startDate.trim() === '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Enter startDate',
+        showConfirmButton: false,
+        timer: 1700
+      });
+    return;
+    
+    }
+
+    if (endDate.trim() === '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'EnterendDate',
+        showConfirmButton: false,
+        timer: 1700
+      });
+    return;
+    
+  }
+  
+  if (usageLimit.trim() === '' || isNaN(usageLimit) || parseInt(usageLimit) < 0) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Enter usageLimit',
+        showConfirmButton: false,
+        timer: 1700
+      });
+    return;
+    
+  }
+  
+  if (usageCount.trim() === '' || isNaN(usageCount) || parseInt(usageCount) < 0) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Enter coupon code',
+      showConfirmButton: false,
+      timer: 1700
+    });
+    return;
+        
+  }
+  
+  const data = {
+    title: title,
+    description: description,
+    discountType: discountType,
+    discountAmount: discountAmount,
+    startDate: startDate,
+    endDate: endDate,
+    usageLimit: usageLimit,
+    usageCount: usageCount
         }
 
         fetch('/admin/addOffer', {
@@ -218,14 +296,15 @@
         }).then(() => {
           window.location.reload()
         })
-          .catch((error) => {
-            console.log(error);
-          })
+        .catch((error) => {
+          console.log(error);
+        })
+        
+        
       }
-
-      // apply offer to product
-      function applyOffer(offerId) {
-        const productIdElement = document.getElementById('productsId');
+        // apply offer to product
+        function applyOffer(offerId) {
+          const productIdElement = document.getElementById('productsId');
         const productId = productIdElement ? productIdElement.value : null;
 
         console.log(productId);

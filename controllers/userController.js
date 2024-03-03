@@ -601,15 +601,14 @@ const LoadWallet = async (req, res) => {
   }
 };
 
-// Add money to wallet 
-// const addMoneywallet = async(req,res)=>{
-//   try {
-//     const { money }=req.body;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
+// about
+const about = async(req,res)=>{
+  try {
+    res.render('about')
+  } catch (error) {
+    console.log();
+  }
+}
 //=========== userlogout \\
 
 const userlogout = async (req, res) => {
@@ -645,5 +644,6 @@ module.exports = {
   LoadInvoicePage,
   LoadWallet,
   // addMoneywallet,
+  about,
   userlogout,
 };

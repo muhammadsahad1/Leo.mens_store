@@ -183,26 +183,43 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
             <!-- HTML structure for canvas -->
-            <div class="row mt-2">
+            <div class="row mt-2 grid-container">
                 <div class="col-xl-6 col-lg-12">
                     <div class="d-flex justify-content-start ">
                         <h5 class="text-dark fw-bold">Sales statistics</h5>
                     </div>
-                    <div style="width: 50% ;">
-                        <canvas id="PieChart" class="mt-2"></canvas> <!-- Make sure the ID matches -->
+                    <div>
+                        <canvas id="PieChart" class="mt-2"></canvas>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-12">
-                    <div style="width: 100%; height: 100%;">
+                    <div class="chart-container">
                         <canvas id="dailySalesBarChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <div class="filters">
+                            <label for="startDate">select month</label>
+                            <input class="btn" style="border: 1px solid black" type="month" id="filter"
+                                placeholder="select month" />
+                            <button type="button" onclick="return applyFilter();" id="filterButton"
+                                class="btn btn-sm btn-dark">
+                                Apply
+                            </button>
+                            <button id="removeFilter" style="display: none;" onclick="clearFilter();"
+                                class="btn btn-danger btn-sm">remove</button>
+                        </div>
+                        <canvas id="monthlySalesChart"></canvas>
                     </div>
                 </div>
             </div>
             </div>
             </div>
 
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <div class="container mt-5">
-                <h1 class="mb-4" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: xx-large;">Top 10 Best Selling Products</h1>
+                <h1 class="mb-4"
+                    style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: xx-large;">
+                    Top 10 Best Selling Products</h1>
 
                 <div class="row">
                     <%topProductsDetails.forEach((el, i)=> {%>
@@ -224,36 +241,40 @@
                             </div>
                         </div>
                         <%})%>
-                        <h1 class="mb-4" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: xx-large;">Top 10 Best Selling categories</h1>
-                        <table class="table">
-                            <thead>
-                                
-                                <tr>
-                                    <th>Category Name</th>
-                    
-                                    <th>total Quantity Sold</th>
-                                    
-                                </tr>
-                            </thead>
-                                <tbody>
-                                    
-                                    <%topCategories.forEach((field)=>{%>
-                                    
+                            <h1 class="mb-4"
+                                style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: xx-large;">
+                                Top 10 Best Selling categories</h1>
+                            <table class="table">
+                                <thead>
+
                                     <tr>
-                                        
-                                    
-                                        <td><%=field.categoryName%></td>
-                                        <td><%=field.totalQuantitySold%></td>
-                                        </td>
+                                        <th>Category Name</th>
+
+                                        <th>total Quantity Sold</th>
+
                                     </tr>
-                                    
-                                    <%})%>
-                              
-                              </tbody>
-                          
-                                  
-                            </tbody>
-                          </table>
+                                </thead>
+                                <tbody>
+
+                                    <%topCategories.forEach((field)=>{%>
+
+                                        <tr>
+                                            <td>
+                                                <%=field.categoryName%>
+                                            </td>
+                                            <td>
+                                                <%=field.totalQuantitySold%>
+                                            </td>
+                                            </td>
+                                        </tr>
+
+                                        <%})%>
+
+                                </tbody>
+
+
+                                </tbody>
+                            </table>
                             <div class="card-body mt-3">
                                 <div class="table-responsive">
                                     <div class="d-flex justify-content-center">
@@ -275,28 +296,29 @@
 
                                                 <%orders.forEach((order)=>{%>
                                                     <%order.products.forEach((product,i)=>{%>
-                                                        <%if(product.status === 'delivered' ){%>
-                                                            <tr >
+                                                        <%if(product.status==='delivered' ){%>
+                                                            <tr>
                                                                 <td>
                                                                     <%=order._id %>
                                                                 </td>
                                                                 <td>
                                                                     <%=order.userId.name%>
-                                                                </td><% const
-                                                                formattedDate=order.date.toLocaleString('en-US',
-                                                                { weekday: 'short' , month: 'short' ,
-                                                                day: 'numeric' , year: 'numeric' ,
-                                                                hour: 'numeric' , minute: 'numeric' ,
-                                                                second: 'numeric' , hour12: true }); %>
-                                                                <td>
-                                                                    <%=formattedDate%>
                                                                 </td>
-                                                                <%const total=product.productsId.price *
-                                                                    product.quantity%>
+                                                                <% const
+                                                                    formattedDate=order.date.toLocaleString('en-US', {
+                                                                    weekday: 'short' , month: 'short' , day: 'numeric' ,
+                                                                    year: 'numeric' , hour: 'numeric' ,
+                                                                    minute: 'numeric' , second: 'numeric' , hour12: true
+                                                                    }); %>
                                                                     <td>
-                                                                        <%=total%>
+                                                                        <%=formattedDate%>
                                                                     </td>
-                                                                    
+                                                                    <%const total=product.productsId.price *
+                                                                        product.quantity%>
+                                                                        <td>
+                                                                            <%=total%>
+                                                                        </td>
+
                                                                         <td>
                                                                             <%=order.payment %>
                                                                         </td>
@@ -315,8 +337,19 @@
                                 </div>
                             </div>
                 </div>
-
-
+                <footer class="main-footer font-xs">
+                    <div class="row pb-30 pt-15">
+                        <div class="col-sm-6">
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>
+                            &copy; Nest - HTML Ecommerce Template .
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end">All rights reserved</div>
+                        </div>
+                    </div>
+                </footer>
 
                 <section>
                     <input type="hidden" value="<%=delivered%>" id="delivered">
@@ -324,9 +357,91 @@
                     <input type="hidden" value="<%=placed%>" id="placed">
                     <input type="hidden" value="<%=returns%>" id="returns">
                 </section>
-
-
                 <script>
+
+
+
+                    // apply filter 
+                    async function applyFilter() {
+                        const filter = document.getElementById('filter').value
+                        console.log("filters", filter);
+                        if (filter) {
+
+                            const response = await axios.post('/admin/filter-sales', {
+                                data: filter
+                            });
+                            document.getElementById('removeFilter').style.display = 'inline-block'
+                            updateChart(response.data.data, response.data.newDate)
+                            console.log(response.data.data, response.data.newDate);
+                        }
+                    }
+
+                    // for clear the filter
+                    function clearFilter() {
+                        window.location.reload()
+                    }
+
+                    function createMonthArray(year, month) {
+                        const daysInMonth = new Date(year, month, 0).getDate();
+                        console.log(daysInMonth);
+                        const monthArray = Array.from(
+                            { length: daysInMonth },
+                            (_, index) => index + 1
+                        );
+                        return monthArray;
+                    }
+
+                    const ctx = document.getElementById('monthlySalesChart').getContext('2d');
+                    const monthlySalesChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                            datasets: [{
+                                label: 'Profit',
+                                data: [/* Your profit data for each month */],
+                                fill: false,
+                                borderColor: 'rgb(75, 192, 192)',
+                                tension: 0.1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                },
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: "Monthly Sales Overview",
+                                    font: {
+                                        size: 16,
+                                        weight: "bold",
+                                    },
+                                },
+                            },
+                        },
+                    });
+
+                    // update the chart
+                    function updateChart(month, newDate) {
+                        const monthData = month.toString().split("-");
+                        const day = createMonthArray(monthData[0], monthData[1]);
+                        // Ensure monthlySalesChart exists before updating
+                        if (monthlySalesChart) {
+                            monthlySalesChart.data.labels = day;
+                            monthlySalesChart.data.datasets[0].data = newDate;
+                            monthlySalesChart.update();
+                        } else {
+                            console.error("Chart instance not found. Cannot update.");
+                        }
+
+                    }
+
                     // Sample data for the pie chart
                     const delivered = document.getElementById('delivered').value;
                     const cancelled = document.getElementById('cancelled').value;
@@ -359,19 +474,20 @@
                     });
                 </script>
                 <!-- content-main end// -->
-                <footer class="main-footer font-xs">
-                    <div class="row pb-30 pt-15">
-                        <div class="col-sm-6">
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>
-                            &copy; Nest - HTML Ecommerce Template .
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end">All rights reserved</div>
-                        </div>
-                    </div>
-                </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </main>
     <script src="/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="/js/vendors/bootstrap.bundle.min.js"></script>
@@ -380,10 +496,10 @@
     <script src="/js/vendors/jquery.fullscreen.min.js"></script>
     <script src="/js/vendors/chart.js"></script>
     <!-- Main Script -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/main.js?v=1.1" type="text/javascript"></script>
     <script src="/js/custom-chart.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
     <script src="assets/js/custom-chart.js" type="text/javascript"></script>
-
     <%- include('../layouts/admin/footer.ejs') -%>
