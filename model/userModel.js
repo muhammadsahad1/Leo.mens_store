@@ -49,10 +49,16 @@ const userSchema = mongoose.Schema({
     type: Boolean
 
   },
+  referralCode : {
+    type : String 
+  },
   referalUsed:{
     type:Boolean,
     required:true,
     default:false
+},
+bonus:{
+  type:Number
 },
   addresses: [    
     {
@@ -86,11 +92,6 @@ const userSchema = mongoose.Schema({
       type :String ,
     }
   }],
-
-  referalUsed : {
-    type : String
-  },
-
 
 
 })

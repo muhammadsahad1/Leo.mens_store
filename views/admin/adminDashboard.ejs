@@ -192,26 +192,30 @@
                         <canvas id="PieChart" class="mt-2"></canvas>
                     </div>
                 </div>
+
                 <div class="col-xl-6 col-lg-12">
                     <div class="chart-container">
                         <canvas id="dailySalesBarChart"></canvas>
                     </div>
-                    <div class="chart-container">
-                        <div class="filters">
-                            <label for="startDate">select month</label>
-                            <input class="btn" style="border: 1px solid black" type="month" id="filter"
-                                placeholder="select month" />
-                            <button type="button" onclick="return applyFilter();" id="filterButton"
-                                class="btn btn-sm btn-dark">
-                                Apply
-                            </button>
-                            <button id="removeFilter" style="display: none;" onclick="clearFilter();"
-                                class="btn btn-danger btn-sm">remove</button>
+                    <div class="row" id="gragh" data-monthlyData="<%= JSON.stringify(monthlyData) %>">
+                        <div class="chart-container">
+                            <div class="filters">
+                                <label for="startDate">select month</label>
+                                <input class="btn" style="border: 1px solid black" type="month" id="filter"
+                                    placeholder="select month" />
+                                <button type="button" onclick="return applyFilter();" id="filterButton"
+                                    class="btn btn-sm btn-dark">
+                                    Apply
+                                </button>
+                                <button id="removeFilter" style="display: none;" onclick="clearFilter();"
+                                    class="btn btn-danger btn-sm">remove</button>
+                            </div>
+                            <div>
+                                <canvas id="monthlySalesChart" style="background-color: white"></canvas>
+                            </div>
                         </div>
-                        <canvas id="monthlySalesChart"></canvas>
                     </div>
                 </div>
-            </div>
             </div>
             </div>
 
@@ -359,90 +363,7 @@
                 </section>
                 <script>
 
-
-
-                    // apply filter 
-                    async function applyFilter() {
-                        const filter = document.getElementById('filter').value
-                        console.log("filters", filter);
-                        if (filter) {
-
-                            const response = await axios.post('/admin/filter-sales', {
-                                data: filter
-                            });
-                            document.getElementById('removeFilter').style.display = 'inline-block'
-                            updateChart(response.data.data, response.data.newDate)
-                            console.log(response.data.data, response.data.newDate);
-                        }
-                    }
-
-                    // for clear the filter
-                    function clearFilter() {
-                        window.location.reload()
-                    }
-
-                    function createMonthArray(year, month) {
-                        const daysInMonth = new Date(year, month, 0).getDate();
-                        console.log(daysInMonth);
-                        const monthArray = Array.from(
-                            { length: daysInMonth },
-                            (_, index) => index + 1
-                        );
-                        return monthArray;
-                    }
-
-                    const ctx = document.getElementById('monthlySalesChart').getContext('2d');
-                    const monthlySalesChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                            datasets: [{
-                                label: 'Profit',
-                                data: [/* Your profit data for each month */],
-                                fill: false,
-                                borderColor: 'rgb(75, 192, 192)',
-                                tension: 0.1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            scales: {
-                                x: {
-                                    beginAtZero: true,
-                                },
-                                y: {
-                                    beginAtZero: true,
-                                },
-                            },
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: "Monthly Sales Overview",
-                                    font: {
-                                        size: 16,
-                                        weight: "bold",
-                                    },
-                                },
-                            },
-                        },
-                    });
-
-                    // update the chart
-                    function updateChart(month, newDate) {
-                        const monthData = month.toString().split("-");
-                        const day = createMonthArray(monthData[0], monthData[1]);
-                        // Ensure monthlySalesChart exists before updating
-                        if (monthlySalesChart) {
-                            monthlySalesChart.data.labels = day;
-                            monthlySalesChart.data.datasets[0].data = newDate;
-                            monthlySalesChart.update();
-                        } else {
-                            console.error("Chart instance not found. Cannot update.");
-                        }
-
-                    }
-
-                    // Sample data for the pie chart
+                    
                     const delivered = document.getElementById('delivered').value;
                     const cancelled = document.getElementById('cancelled').value;
                     const placed = document.getElementById('placed').value;
@@ -473,6 +394,113 @@
                         }
                     });
                 </script>
+                <script>
+                    async function applyFilter() {
+                      console.log("hiiiii");
+                      const filter = document.getElementById("filter").value;
+                      console.log(filter);
+                      if (filter) {
+                        const response = await axios.post("/admin/filter-sales", {
+                          data: filter,
+                        });
+                        console.log("heloo", response.data);
+                        document.getElementById('removeFilter').style.display = 'inline-block';
+                        updateChart(response.data.data, response.data.newData);
+                      }
+                    }
+                  
+                    function clearFilter() {
+                      console.log('hello')
+                      window.location.reload();
+                    }
+                  </script>
+                  
+                  
+                  
+                  <script>
+                    function createMonthArray(year, month) {
+                      const daysInMonth = new Date(year, month, 0).getDate();
+                      console.log(daysInMonth);
+                      const monthArray = Array.from(
+                        { length: daysInMonth },
+                        (_, index) => index + 1
+                      );
+                      return monthArray;
+                    }
+                  </script>
+                  
+                  <!-- MOnthly sales bar graph -->
+                  <script>
+                    const data = JSON.parse(
+                      document.getElementById("gragh").getAttribute("data-monthlyData")
+                    );
+                    const labels = [
+                      "Jan",
+                      "Feb",
+                      "Mar",
+                      "Apr",
+                      "May",
+                      "Jun",
+                      "Jul",
+                      "Aug",
+                      "Sep",
+                      "Oct",
+                      "Nov",
+                      "Dec",
+                    ];
+                    console.log(labels);
+                    const ctx = document.getElementById("monthlySalesChart").getContext("2d");
+                  
+                    const monthlySalesChart = new Chart(ctx, {
+                      type: "bar",
+                      data: {
+                        labels: labels,
+                        datasets: [
+                          {
+                            label: "2024",
+                            data: data,
+                            backgroundColor: "rgba(75, 192, 192, 0.5)", // Bar color
+                            borderColor: "rgba(75, 192, 192, 1)", // Border color
+                            borderWidth: 2, // Border width
+                          },
+                        ],
+                      },
+                      options: {
+                        responsive: true,
+                        scales: {
+                          x: {
+                            beginAtZero: true,
+                          },
+                          y: {
+                            beginAtZero: true,
+                          },
+                        },
+                        plugins: {
+                          title: {
+                            display: true,
+                            text: "Monthly Sales Overview",
+                            font: {
+                              size: 16,
+                              weight: "bold",
+                            },
+                          },
+                        },
+                      },
+                    });
+                  
+                    function updateChart(month, newData) {
+                      const monthData = month.toString().split("-");
+                      const day = createMonthArray(monthData[0], monthData[1]);
+                      // Ensure monthlySalesChart exists before updating
+                      if (monthlySalesChart) {
+                        monthlySalesChart.data.labels = day;
+                        monthlySalesChart.data.datasets[0].data = newData;
+                        monthlySalesChart.update();
+                      } else {
+                        console.error("Chart instance not found. Cannot update.");
+                      }
+                    }
+                  </script>
                 <!-- content-main end// -->
 
 

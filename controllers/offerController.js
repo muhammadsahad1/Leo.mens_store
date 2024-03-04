@@ -1,7 +1,9 @@
 const Offers = require("../model/offerModel");
 const Product = require("../model/productsModel");
 const categroy = require("../model/categoryModel");
-const Referral = require("../model/offerModel");
+const Referral = require("../model/referral");
+const User = require("../model/userModel");
+const { v4: uuidv4 } = require("uuid");
 
 // Load Offer Mangament
 
@@ -116,7 +118,85 @@ const applyOfferCat = async (req, res) => {
 
 //  ============================= Referral Offer ========================== \\
 
+const referralMangement = async (req, res) => {
+  try {
+    const referralOffers = await Referral.find({});
+    console.log("referralOffers,");
+    res.render("referrelManagement", { referralOffers: referralOffers });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+// ============================= > adding referral offer
+
+const createReferralOffer = async (req, res) => {
+  try {
+    const { UserBouns, referredUserBouns } = req.body;
+
+    const newReferral = new Referral({
+      newUserBonus: UserBouns,
+      referredUserBonus: referredUserBouns,
+    });
+    await newReferral.save();
+    console.log("Newreferral", newReferral);
+    res.json({ success: true });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// ================================ > applying referral Code
+
+const ApplyreferrelCode = async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+    const { referralCode } = req.body;
+    console.log("referralCode",referralCode);
+    const userData = await User.findOne({ _id: userId });
+    const Bouns = await Offers.findOne({});
+    if (userData.referalUsed === false) {
+      res.json({ success: false }); 
+      return;
+    }
+      await User.updateOne(
+        { referralCode: referralCode },
+        { $inc: { wallet: Bouns.referredUserBonus } }
+        );
+        await User.updateOne(
+          { referralCode: referralCode },
+          {
+            $push: {
+              walletHistory: {
+                date: new Date(),
+                amount: Bouns.referredUserBonus,
+                reason: "referal Bonus",
+              },
+            },
+          }
+          );
+          await User.updateOne(
+            { _id: userId },
+            {
+              $push: {
+                walletHistory: {
+                  date: new Date(),
+                  reason: "referal Bonus",
+                  amount: Bouns.newUserBonus,
+                },
+        },
+      }
+    );
+    userData.referalUsed = true
+    userData.wallet +=Bouns.newUserBonus
+    await userData.save()
+    
+    res.json({ success: true });
+  } catch (error) {
+    console.log(error);
+    res.json({ success : false})
+  }
+};
 
 module.exports = {
   loadOffers,
@@ -124,4 +204,7 @@ module.exports = {
   deletOffer,
   applyOffer,
   applyOfferCat,
+  referralMangement,
+  createReferralOffer,
+  ApplyreferrelCode,
 };

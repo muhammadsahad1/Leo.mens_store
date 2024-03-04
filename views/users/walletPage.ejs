@@ -1,228 +1,238 @@
 <%- include('../layouts/user/header.ejs') -%>
 
-<style>
-.containerrr {
-  display: flex;
-  flex-wrap: wrap;
-}
+  <style>
+    .containerrr {
+      display: flex;
+      flex-wrap: wrap;
+    }
 
-.sidebarrr {
-  flex: 1;
-  min-width: 20%;
-  max-width: 25%;
-  padding: 20px;
- 
-  color: #fff;
-  min-height: 100vh;
-}
+    .sidebarrr {
+      flex: 1;
+      min-width: 20%;
+      max-width: 25%;
+      padding: 20px;
 
-.main-contenttt {
-  flex: 3;
-  padding: 20px;
-}hr{
-    color:black;
-}
+      color: #fff;
+      min-height: 100vh;
+    }
 
-.user-headerrr {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
+    .main-contenttt {
+      flex: 3;
+      padding: 20px;
+    }
 
-.user-photooo {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  /* Placeholder background color for the user photo */
-  background-color: #ddd;
-}
+    hr {
+      color: black;
+    }
 
-.user-nameee {
-  font-size: .6rem;
-  font-weight: bold;
-}
+    .user-headerrr {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-.menu-headinggg {
-  font-size: .7rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: rgba(127,127,127,1);
-}
+    .user-photooo {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      /* Placeholder background color for the user photo */
+      background-color: #ddd;
+    }
 
-.menu-itemmm {
-  margin-bottom: 10px;
+    .user-nameee {
+      font-size: .6rem;
+      font-weight: bold;
+    }
 
-}
+    .menu-headinggg {
+      font-size: .7rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: rgba(127, 127, 127, 1);
+    }
 
-.menu-itemmm a {
- color: black;
-  text-decoration: none;
-  font-size: .9rem;
-  font-family: 'Quicksand';
-}
-.menu-itemmm.selected {
-background-color: #f0f0f0;
-border-radius: 5px;
-}
+    .menu-itemmm {
+      margin-bottom: 10px;
 
-@media screen and (max-width: 600px) {
+    }
+
     .menu-itemmm a {
- color: black;
-  text-decoration: none;
-  font-size: .5rem;
-}   
+      color: black;
+      text-decoration: none;
+      font-size: .9rem;
+      font-family: 'Quicksand';
+    }
 
-}
+    .menu-itemmm.selected {
+      background-color: #f0f0f0;
+      border-radius: 5px;
+    }
 
+    @media screen and (max-width: 600px) {
+      .menu-itemmm a {
+        color: black;
+        text-decoration: none;
+        font-size: .5rem;
+      }
 
-
-
-/* wallet  */
-.card{
-border: none;
-border-radius: 10px;
-width: 50%;
-
-
-}
-.fa-ellipsis-v{
-font-size: 10px;
-color: #C2C2C4;
-margin-top: 6px;
-cursor: pointer;
-}
-.text-dark{
-font-weight: bold;
-margin-top: 8px;
-font-size: 13px;
-letter-spacing: 0.5px;
-}
-.card-bottom{
-background: #3E454D;
-border-radius: 6px;
-}
-
-.flex-column p{
-letter-spacing: 1px;
-font-size: 18px;
-}
-.btn-secondary{
-height: 40px!important;
-margin-top: 3px;
-}
-.btn-secondary:focus{
-box-shadow: none;
-}
-</style>
-</head>
-<body>
-
-
-  <header class="header">
-    <div class="header__top">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 col-md-7">
-            <div class="header__top__left">
-              <p></p>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-5">
-            <div class="header__top__right">
-              <div class="header__top__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-              </div>
-              <div class="header__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                  <li>USD</li>
-                  <li>EUR</li>
-                  <li>USD</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-3 col-md-3" style="height: 50px;">
-          <div class="header__logo">
-            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-          <nav class="header__menu mobile-menu">
-            <ul>
-              <li class="active"><a href="">Home</a></li>
-              <li><a href="/productsshop ">Shop</a></li>
-              <li><a href="#">Pages</a>
-                <ul class="dropdown">
-                  <li><a href="">About Us</a></li>
-                  <li><a href="">Shop Details</a></li>
-                  <li><a href="">Shopping Cart</a></li>
-                  <li><a href="">Check Out</a></li>
-                  <li><a href="">Blog Details</a></li>
-                </ul>
-              </li>
-              <li><a href="">Blog</a></li>
-              <li><a href="">Contacts</a></li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="header__nav__option">
-            <div class="dropdown">
-              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <% if(locals.user){ %>
-                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
-                  <% } else { %>
-                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
-                    <% } %>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="userDropdown">
-                <% if(locals.user){ %>
-                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
-                  <a class="dropdown-item" href="/logout">Logout</a>
-                  <% } else { %>
-                    <a class="dropdown-item" href="/login">Login</a>
-                    <a class="dropdown-item" href="/register">Sign up</a>
-                    <% } %>
-              </div>
-
-              <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-              <a href="#"><img src="img/icon/heart.png" alt=""></a>
-            </div>
-          </div>
-        </div>
+    }
 
 
 
-      </div>
-      <div class="canvas__open"><i class="fa fa-bars"></i></div>
-    </div>
-  </header>
 
+    /* wallet  */
+    .card {
+      border: none;
+      border-radius: 10px;
+      width: 50%;
+
+
+    }
+
+    .fa-ellipsis-v {
+      font-size: 10px;
+      color: #C2C2C4;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
+    .text-dark {
+      font-weight: bold;
+      margin-top: 8px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+
+    .card-bottom {
+      background: #3E454D;
+      border-radius: 6px;
+    }
+
+    .flex-column p {
+      letter-spacing: 1px;
+      font-size: 18px;
+    }
+
+    .btn-secondary {
+      height: 40px !important;
+      margin-top: 3px;
+    }
+
+    .btn-secondary:focus {
+      box-shadow: none;
+    }
+  </style>
+  </head>
 
   <body>
 
-    <div class="containerrr">
-      <!-- Sidebar -->
-      <div class="sidebarrr" id="sidebar">
-          <div class="user-headerrr">
-              <div class="user-photooo"></div>
-              <div class="user-nameee">
-                  <!-- User name or other user-related information -->
+
+    <header class="header">
+      <div class="header__top">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 col-md-7">
+              <div class="header__top__left">
+                <p></p>
               </div>
+            </div>
+            <div class="col-lg-6 col-md-5">
+              <div class="header__top__right">
+                <div class="header__top__links">
+                  <a href="#">Sign in</a>
+                  <a href="#">FAQs</a>
+                </div>
+                <div class="header__top__hover">
+                  <span>Usd <i class="arrow_carrot-down"></i></span>
+                  <ul>
+                    <li>USD</li>
+                    <li>EUR</li>
+                    <li>USD</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-  
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-3" style="height: 50px;">
+            <div class="header__logo">
+              <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <nav class="header__menu mobile-menu">
+              <ul>
+                <li class="active"><a href="">Home</a></li>
+                <li><a href="/productsshop ">Shop</a></li>
+                <li><a href="#">Pages</a>
+                  <ul class="dropdown">
+                    <li><a href="">About Us</a></li>
+                    <li><a href="">Shop Details</a></li>
+                    <li><a href="">Shopping Cart</a></li>
+                    <li><a href="">Check Out</a></li>
+                    <li><a href="">Blog Details</a></li>
+                  </ul>
+                </li>
+                <li><a href="">Blog</a></li>
+                <li><a href="">Contacts</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="header__nav__option">
+              <div class="dropdown">
+                <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <% if(locals.user){ %>
+                    <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                    <% } else { %>
+                      <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                      <% } %>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                  <% if(locals.user){ %>
+                    <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                    <% } else { %>
+                      <a class="dropdown-item" href="/login">Login</a>
+                      <a class="dropdown-item" href="/register">Sign up</a>
+                      <% } %>
+                </div>
+
+                <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                <a href="#"><img src="img/icon/heart.png" alt=""></a>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+      </div>
+    </header>
+
+
+    <body>
+
+      <div class="containerrr">
+        <!-- Sidebar -->
+        <div class="sidebarrr" id="sidebar">
+          <div class="user-headerrr">
+            <div class="user-photooo"></div>
+            <div class="user-nameee">
+              <!-- User name or other user-related information -->
+            </div>
+          </div>
+
           <!-- Sidebar Menu -->
           <div class="menu-headinggg">General</div>
-          <div class="menu-itemmm"><a href="/manageAddress" aria-current="page" class="bg-light active">Manage Address</a></div>
+          <div class="menu-itemmm"><a href="/manageAddress" aria-current="page" class="bg-light active">Manage
+              Address</a></div>
           <hr>
           <div class="menu-itemmm"><a href="/myOrder">Orders</a></div>
           <hr>
@@ -230,123 +240,198 @@ box-shadow: none;
           <hr>
           <div class="menu-itemmm"><a href="/wallet">Wallet</a></div>
           <hr>
-  
+
           <div class="menu-headinggg">Legal</div>
           <div class="menu-itemmm"><a href="#">Terms of Use</a></div>
           <hr>
           <div class="menu-itemmm"><a href="#">Privacy Policy</a></div>
           <hr>
-  
+
           <div class="menu-headinggg">Personal</div>
           <div class="menu-itemmm"><a href="#">Report a Bug</a></div>
           <hr>
           <div class="menu-itemmm"><a href="/logout">Logout</a></div>
           <hr>
-      </div>
-  
-      <!-- Main Content -->
-      <div class="main-contenttt">
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-contenttt">
           <div class="container py-5">
-              <div class="row">
-                  <div class="col">
-                      <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4 ">
-                          <ol class="breadcrumb mb-0 ">
-                              <li class="breadcrumb-item"><a href="/" style="color: black;">Home</a></li>
-                              <li class="breadcrumb-item active " aria-current="page"><a href="/Userprofile" style="color: black;">User Profile</a></li>
-                          </ol>
-                      </nav>
-                  </div>
+            <div class="row">
+              <div class="col">
+                <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4 ">
+                  <ol class="breadcrumb mb-0 ">
+                    <li class="breadcrumb-item"><a href="/" style="color: black;">Home</a></li>
+                    <li class="breadcrumb-item active " aria-current="page"><a href="/Userprofile"
+                        style="color: black;">User Profile</a></li>
+                  </ol>
+                </nav>
               </div>
-              <div class="row">
-                <div class="col-md-12 mb-4">
-              <!-- Wallet Section -->
-              <div id="edit-profile-section " style="display: block;">
+            </div>
+            <div class="row">
+              <div class="col-md-12 mb-4">
+                <!-- Wallet Section -->
+                <div id="edit-profile-section " style="display: block;">
                   <div class="mt-5">
-                      <h1 class="">Your Wallet</h1>
-  
-                      <div class="table-responsive">
-                          <div class="d-flex ">
-                              <div class="card p-3">
-                                  <div class="d-flex flex-row justify-content-between text-align-center">
-                                      <i class="fas fa-ellipsis-v"></i>
-                                  </div>
-                                  <div class="card-bottom pt-3 px-3 mb-2">
-                                      <div class="d-flex flex-row justify-content-between text-align-center">
-                                          <div class="d-flex flex-column" style="color: #adb5bd; font-size: 13px;">
-                                              <span>Balance amount</span>
-                                              <p>₹ <span class="text-white"> <%=walletAmount%></span></p>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="new-div">
-                                      <div class="car">
-                                          <div class="card-body">
-                                              <h4 class="card-title text-center">Transaction History</h4>
-                                              <hr>
-                                              <table class="table">
-                                                  <thead>
-                                                      <tr>
-                                                          <th>Date</th>
-                                                          <th>Amount</th>
-                                                          <th>Reason</th>
-                                                      </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                      <% walletHistory.forEach((history) => { %>
-                                                      <tr>
-                                                          <% const formattedDate = new Date(history.date); %>
-                                                          <td><%= formattedDate.toLocaleDateString('en-US') %></td>
-                                                          <td>₹ <%= history.amount %></td>
-                                                          <td><%= history.reason %></td>
-                                                      </tr>
-                                                      <% }) %>
-                                                  </tbody>
-                                              </table>
-                                              <button class="btn text-white w-100" style="background-color: #3E454D"></button>
-                                          </div>
-                                      </div>
-                                  </div> 
-                              </div>
+                    <h1 class="">Your Wallet</h1>
+
+                    <div class="table-responsive">
+                      <div class="d-flex ">
+                        <div class="card p-3">
+                          <div class="d-flex flex-row justify-content-between text-align-center">
+                            <i class="fas fa-ellipsis-v"></i>
                           </div>
+                          <div class="card-bottom pt-3 px-3 mb-2">
+                            <div class="d-flex flex-row justify-content-between text-align-center">
+                              <div class="d-flex flex-column" style="color: #adb5bd; font-size: 13px;">
+                                <span>Balance amount</span>
+                                <p>₹ <span class="text-white">
+                                    <%=walletAmount%>
+                                  </span></p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="new-div">
+                            <div class="car">
+                              <div class="card-body">
+                                <h4 class="card-title text-center">Transaction History</h4>
+                                <hr>
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th>Date</th>
+                                      <th>Amount</th>
+                                      <th>Reason</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <% walletHistory.forEach((history)=> { %>
+                                      <tr>
+                                        <% const formattedDate=new Date(history.date); %>
+                                          <td>
+                                            <%= formattedDate.toLocaleDateString('en-US') %>
+                                          </td>
+                                          <td>₹ <%= history.amount %>
+                                          </td>
+                                          <td>
+                                            <%= history.reason %>
+                                          </td>
+                                      </tr>
+                                      <% }) %>
+                                  </tbody>
+                                </table>
+                                <button class="btn text-white w-100" style="background-color: #3E454D"></button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
+                    </div>
                   </div>
+                </div>
               </div>
-          </div>
-      </div>
-  
-      <!-- Referral Section -->
-      <div class="col-md-12 mb-4">
-          <div class="card p-4">
-              <h2 class="text-center mb-4">Referral</h2>
-  
-              <!-- Enter Referral Code Section -->
-              <div class="mb-3">
+            </div>
+
+            <!-- Referral Section -->
+            <div class="col-md-12 mb-4">
+              <div class="card p-4">
+                <h2 class="text-center mb-4">Referral</h2>
+
+                <!-- Enter Referral Code Section -->
+                <div class="mb-3">
                   <p>If you have a referral code use it to get ₹200 rupees wallet amount</p>
                   <h4 class="text-center mb-3">Enter Referral Code</h4>
                   <div class="input-group">
-                      <input type="text" class="form-control" id="referralCode" placeholder="Enter Referral Code">
-                      <button onclick="applyReferralCode('{{userWallet.Referralcode}}')" class="btn btn-secondary">Apply</button>
+                    <input type="text" class="form-control" id="referralCode" placeholder="Enter Referral Code">
+                    <button onclick="applyReferralCode('<%=userData.referralCode%>')"
+                      class="btn btn-secondary">Apply</button>
                   </div>
                   <div id="error-message" class="text-danger mt-2"></div>
-              </div>
-  
-              <!-- Display Referral Link Section -->
-              <div class="mb-3">
+                </div>
+
+                <!-- Display Referral Link Section -->
+                <div class="mb-3">
                   <p>Share it with your friends and get ₹300 rupees wallet amount for every new join</p>
                   <p class="mb-0"><strong>Your Referral Code:</strong></p>
-                  <input type="text" class="form-control mb-2" id="code" value="{{userWallet.Referralcode}}" readonly>
+                  <input type="text" class="form-control mb-2" id="code" value="<%=userData.referralCode%>" readonly>
                   <button onclick="copyReferralCode()" class="btn btn-secondary">Copy Code</button>
                   <p style="margin-top: 5px;" class="mb-0"><strong>Your Referral Link:</strong></p>
-                  <input type="text" class="form-control mb-2" id="referralLink" value="http://localhost:3000/signup?linkCode={{userWallet.Referralcode}}" readonly>
+                  <input type="text" class="form-control mb-2" id="referralLink"
+                    value="http://localhost:3000/signup?linkCode=<%=userData.referralCode%>" readonly>
                   <button onclick="copyReferralLink()" class="btn btn-secondary">Copy Link</button>
+                </div>
               </div>
+            </div>
+
           </div>
-      </div>
-  
-  </div>
-  
-<script>
 
-</script>
+          <script>
 
-<%- include('../layouts/user/footer.ejs') -%>
+          </script>
+
+          <%- include('../layouts/user/footer.ejs') -%>
+
+            <script>
+              function applyReferralCode(dupeCheck) {
+                const referralCode = document.getElementById('referralCode').value
+                if (referralCode.trim() === '') {
+                  Swal.fire({
+                    icon: 'error',
+                    title: "Referral code cannot be empty.",
+                    timer: 1500
+                  })
+                } else
+                  if (referralCode === dupeCheck) {
+                    Swal.fire({
+                      icon: 'error',
+                      title: "invalid referal code.",
+                      timer: 1500
+                    })
+                  } else {
+
+                    const data = {
+                      referralCode: referralCode
+                    }
+                    fetch('/applyReferral', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(data)
+                    }).then((Response) => {
+                      if (Response.ok) {
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Successfully',
+                          text: 'referral code cashback credited successfully',
+                          timer: 1700
+                        })
+                      } else {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'invalid referral code',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
+                      }
+                    })
+                  }
+              }
+              
+              function copyReferralLink() {
+                var referralLink = document.getElementById("referralLink");
+                referralLink.select();
+                document.execCommand("copy");
+                alert('Referral link copied to clipboard!');
+              }
+              function copyReferralCode() {
+                var rcode = document.getElementById("code");
+                rcode.select();
+                document.execCommand("copy");
+                alert('Referral code copied to clipboard!');
+              }
+
+            </script>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

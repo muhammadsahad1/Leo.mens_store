@@ -174,8 +174,8 @@ const loadDashboard = async (req, res) => {
           from: "products",
           localField: "products.productsId",
           foreignField: "_id",
-          as: "productDetails"
-        }
+          as: "productDetails",
+        },
       },
       { $unwind: "$productDetails" },
       {
@@ -183,22 +183,24 @@ const loadDashboard = async (req, res) => {
           from: "categories",
           localField: "productDetails.categoriesId",
           foreignField: "_id",
-          as: "categoryDetails"
-        }
+          as: "categoryDetails",
+        },
       },
       { $unwind: "$categoryDetails" },
       {
         $group: {
           _id: "$categoryDetails._id",
           categoryName: { $first: "$categoryDetails.name" },
-          totalQuantitySold: { $sum: "$products.quantity" }
-        }
+          totalQuantitySold: { $sum: "$products.quantity" },
+        },
       },
       { $sort: { totalQuantitySold: -1 } },
-      { $limit: 10 }
+      { $limit: 10 },
     ]);
+    const monthlyData = Array.from({ length: 12 }).fill(0);
     console.log("topCategories", topCategories);
     res.render("adminDashboard", {
+      monthlyData,
       orders,
       totalRevenue,
       orderCount,
@@ -215,7 +217,7 @@ const loadDashboard = async (req, res) => {
       returns,
       topProducts,
       topProductsDetails,
-      topCategories
+      topCategories,
     });
   } catch (error) {
     console.log(error);
@@ -223,56 +225,52 @@ const loadDashboard = async (req, res) => {
   }
 };
 
+//filtering sales Monthly & yearly
 
-    //filtering sales Monthly & yearly
-    
-    const filterSales = async (req, res) => {
-      try {
-        const { data } = req.body;
-        console.log("data", data);
-        const desiredMonth = data; // Example for January 2024
-        const startDate = new Date(desiredMonth + "-01T00:00:00Z"); // Start of month
-        const endDate = new Date(desiredMonth + "-31T23:59:59Z"); // End of month (adjusted for days in February)
-        console.log("startDate", startDate);
-        const monthData = await Order.aggregate([
-          {
-            $match: {
-              status: 'Placed'&&'Pending',
-              date: { $gte: startDate, $lt: endDate }
-            }
-          },
-          {
-            $group: {
-              _id: {
-                $dateToString: {
-                  format: '%d',
-                  date: '$date'
-                },
-              },
-              totalAmount: { $sum: "$total_amount" }
+const filterSales = async (req, res) => {
+  try {
+    const { data } = req.body;
+    const desiredMonth = data;
+    const startDate = new Date(desiredMonth + "-01T00:00:00Z");
+    const endDate = new Date(
+      new Date(desiredMonth + "-01T00:00:00Z").getFullYear(),
+      new Date(desiredMonth + "-01T00:00:00Z").getMonth() + 1,
+      0
+    );
+
+    const monthData = await Order.aggregate([
+      {
+        $match: {
+          status: "Placed",
+          date: { $gte: startDate, $lt: endDate },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%d",
+              date: "$date",
             },
-          }
-        ])  
-        const newDate = Array.from({ lenght:30}).fill(0)
-        monthData.filter((item)=>{
-          console.log(item);
-          const monthlyIndex = parseInt(item._id,10) - 1
-          console.log(monthlyIndex);
-          if(monthlyIndex >=0 && monthlyIndex < 30)
-          {
-            newDate[monthlyIndex] = item.totalAmount
-          }
-        })
-        console.log("newDate",newDate);
-    
-        console.log("monthlyData", monthData);
-        res.json({ newDate,data})
-      } catch (error) {
-        res.status(404).send('Your filter request has failed');
+          },
+          totalAmount: { $sum: "$total_amount" },
+        },
+      },
+    ]);
+
+    const newData = Array.from({ length: 30 }).fill(0);
+    monthData.forEach((item) => {
+      const monthlyIndex = parseInt(item._id, 10) - 1;
+      if (monthlyIndex >= 0 && monthlyIndex < 30) {
+        newData[monthlyIndex] = item.totalAmount;
       }
-    }
-
-
+    });
+    console.log("newData", newData);
+    res.json({ newData, data });
+  } catch (error) {
+    res.status(404).send("Your filter request has failed");
+  }
+};
 
 // ============================={ LoadUser Management } ======================== \\
 

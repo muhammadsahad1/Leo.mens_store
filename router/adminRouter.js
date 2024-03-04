@@ -81,4 +81,7 @@ admin_route
 .post('/deletOffer',Offer_controller.deletOffer)
 .post('/applyOffer',Offer_controller.applyOffer)
 
+//================{ Referral Management }================\\
+.get('/referrelManagement',Offer_controller.referralMangement)
+.post('/addReferralOffer',Offer_controller.createReferralOffer)
 module.exports = admin_route;

@@ -6,6 +6,7 @@ const product_controller = require('../controllers/productsController')
 const Cart_controller = require('../controllers/cartController')
 const Order_controller = require('../controllers/orderController')
 const Coupon_Controller = require('../controllers/couponController')
+const Offer_controller = require ('../controllers/offerController')
 // const Category_controller = require('../controllers/categoriesController')
 const Wishlist_controller = require('../controllers/wishlistController')
 const session = require('express-session');
@@ -111,6 +112,9 @@ user_route
 
   //applyCOupon 
   .post('/applyCouponCode',Coupon_Controller.applyCoupon)
+
+  // apply Referral
+  .post('/applyReferral',Offer_controller.ApplyreferrelCode)
 
   // about 
   .get('/about',users_controller.about)
