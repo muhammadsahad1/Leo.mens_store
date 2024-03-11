@@ -80,8 +80,6 @@ function validate() {
   let password = document.getElementById('password'); 
 
 
-
-
   if (!/^\w+$/.test(username.value)) {
 
     username.style.border = 'solid 1px red'

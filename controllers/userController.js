@@ -207,8 +207,8 @@ const userVerifyotp = async (req, res) => {
       //  delete the otprecord
 
       await userOtpVerification.deleteOne({ email: email });
-      if (userData.verified) {
-        if (!userData.isBlocked) {
+      if (user.verified) {
+        if (!user.isBlocked) {
           req.session.user = {
             _id: user._id,
             email: user.email,
