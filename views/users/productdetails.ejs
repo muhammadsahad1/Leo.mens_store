@@ -251,26 +251,26 @@
 
 
               <%if(product.stockQuantity<=0){%>
-                <input type="button" class="border-0" class="incdec" onclick="decrementValue()" value="-" />
+                <!-- <input type="button" class="border-0" class="incdec" onclick="decrementValue()" value="-" />
                 <input type="text" class="incdec" name="quantity" value="0" maxlength="2"
                   max="<%= product.stockQuantity %>" size="1" id="number" />
-                <input type="button" class="border-0" class="incdec" onclick="incrementValue()" value="+" />
+                <input type="button" class="border-0" class="incdec" onclick="incrementValue()" value="+" /> -->
 
                 <button class="w-100 mt-4" style="background-color: red; color: aliceblue;">Out Of Stock</button>
                 <%}else{%>
                   <% if(isInCart){ %>
-                    <input type="button" class="border-0" class="incdec" onclick="decrementValue()" value="-" />
+                    <!-- <input type="button" class="border-0" class="incdec" onclick="decrementValue()" value="-" />
                     <input type="text" class="incdec" name="quantity" value="1" maxlength="2"
                       max="<%= product.stockQuantity %>" size="1" id="number" />
-                    <input type="button" class="border-0" class="incdec" onclick="incrementValue()" value="+" />
+                    <input type="button" class="border-0" class="incdec" onclick="incrementValue()" value="+" /> -->
 
                     <button class="w-100 mt-4 btn btn-outline-dark text-white fw-bold"
                       style="background-color: cadetblue;"><a href="/Cartpage">View In Cart</a></button>
                     <%}else{%>
-                      <input type="button" class="border-0" class="incdec" onclick="decrementValue()" value="-" />
+                      <!-- <input type="button" class="border-0" class="incdec" onclick="decrementValue()" value="-" />
                       <input type="text" class="incdec" name="quantity" value="1" maxlength="2"
                         max="<%= product.stock %>" size="1" id="number" />
-                      <input type="button" class="border-0" class="incdec" onclick="incrementValue()" value="+" />
+                      <input type="button" class="border-0" class="incdec" onclick="incrementValue()" value="+" /> -->
 
                       <button id="addToCartBtn" class="w-100 mt-4 btn btn-outline-dark text-dark fw-bold"
                         style="background-color: rgb(185, 185, 185);" onclick="addtocart('<%= product._id %>')">Add To

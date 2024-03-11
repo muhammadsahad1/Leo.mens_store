@@ -2,7 +2,7 @@ const User = require("../model/userModel");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const userOtpverificaton = require("../model/userOtpVerification");
+const userOtpverificaton = require('../model/userOtpVerification')
 const Products = require("../model/productsModel");
 const Token = require("../model/tokenModel");
 const Order = require("../model/orderModel");
@@ -174,7 +174,7 @@ const userVerifyotp = async (req, res) => {
     const userOtpVerification = await userOtpverificaton.findOne({
       email: email,
     });
-
+    console.log("userOtpVerification",userOtpVerification);
     if (!userOtpVerification) {
       console.log("otp is expired");
 
@@ -184,48 +184,46 @@ const userVerifyotp = async (req, res) => {
 
       return;
     }
+    
+    const verify = await userOtpverificaton.findOne({ email: email });
+  
+  
 
-    const { otp: hashedOtp } = userOtpVerification;
-    const validOtp = await bcrypt.compare(OTP, hashedOtp);
-
-    if (validOtp) {
-      console.log("valid");
-      const userData = await User.findOne({ email: email });
-      if (userData) {
-        await User.findByIdAndUpdate(
-          {
-            _id: userData._id,
-          },
-          {
-            $set: {
-              verified: true,
-            },
-          }
-        );
-      }
-
-      //  delete the otprecord
-
-      await userOtpVerification.deleteOne({ email: email });
-      if (userData.verified) {
-        if (!userData.isBlocked) {
+      const { otp: hashedOtp } = verify;
+      const validOtp = await bcrypt.compare(OTP, hashedOtp);
+      console.log("validOtp",validOtp);
+      if (validOtp) {
+        console.log("valid");
+        const userData = await User.findOne({ email: email });
+        console.log("usaerrdata", userData ,"and", userData._id);
+        if (userData) {
+        const working =  await User.findByIdAndUpdate(
+            { _id: userData._id },
+            {
+              $set: {
+                verified: true,
+              },
+            }
+          );
+          const user = await User.findOne({ email: email });
           req.session.user = {
             _id: user._id,
             email: user.email,
             name: user.name,
           };
-          const user = await User.findOne({ email: email });
+          await userOtpverificaton.deleteOne({ email: email });
+            
+          console.log("user", user);
+          // req.flash("successmsg", "Hey, Sign up successfull");
+          res.redirect("/");
 
-          req.flash("successmsg", "Hey, Sign up successfull");
-          res.redirect("/login");
-        } else {
-          console.log("you were blocked from this site");
-
-          req.flash("userblock", "you were blocked from this site");
-
-          res.redirect("/register");
+          console.log("working",working);
+        }else{
+          console.log("user not found");
         }
-      }
+        console.log("userdata", userData);
+        
+      
     } else {
       console.log("reason");
       console.log("otp is incorrect you have again verify");
