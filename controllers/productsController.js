@@ -22,9 +22,7 @@ const loadproducts = async (req, res) => {
 const loadaddproducts = async (req, res) => {
   try {
     const categories = await Category.find({});
-    console.log("working");
-    console.log(categories);
-    res;
+    
     res.render("addproducts", { categories: categories });
   } catch (error) {
     console.log(error);
