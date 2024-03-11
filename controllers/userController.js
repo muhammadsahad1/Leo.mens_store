@@ -211,11 +211,11 @@ const userVerifyotp = async (req, res) => {
             email: user.email,
             name: user.name,
           };
+          res.redirect("/");
           await userOtpverificaton.deleteOne({ email: email });
             
           console.log("user", user);
           // req.flash("successmsg", "Hey, Sign up successfull");
-          res.redirect("/");
 
           console.log("working",working);
         }else{
