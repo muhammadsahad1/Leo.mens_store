@@ -46,7 +46,7 @@ admin_route
 
   .get('/products',AdminAuth.islogin, products_Controllers.loadproducts)
   .post('/listproducts',products_Controllers.listUnlistproducts)
-  .get('/addproducts',products_Controllers.loadaddproducts)
+  .get('/addProducts',products_Controllers.loadaddproducts)
   .post('/addproducts',multer.array('images'),products_Controllers.addproducts)
   .get('/editproducts',AdminAuth.islogin, products_Controllers.loadEditProductPage)
   .post('/editproducts',multer.array('images'),products_Controllers.editProducts)
