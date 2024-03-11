@@ -90,10 +90,11 @@ bonus:{
     },
     reason : {
       type :String ,
+    },
+    type : {
+      type : String
     }
   }],
-
-
 })
 
 module.exports = mongoose.model('User', userSchema)

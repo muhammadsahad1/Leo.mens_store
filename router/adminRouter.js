@@ -11,9 +11,16 @@ const Offer_controller = require('../controllers/offerController')
 const AdminAuth = require('../middleware/adminauth')
 const multer = require('../middleware/multerConfig')
 const config = require('../config/config')
-
+const flash = require('express-flash')
+// const flash = require('connect-flash');
 const nocache = require('nocache');
 
+admin_route.use((req, res, next) => {
+  res.locals.messages = req.flash();
+  next();
+});
+
+admin_route.use(flash())
 admin_route.use(nocache())
 admin_route.use(session({ secret: config.sessionSecret, resave: false, saveUninitialized: false }))
 admin_route.use(express.json())
@@ -47,41 +54,43 @@ admin_route
 
 // ======================== { category } ========================= \\
 
-.get('/category', category_Controllers.loadcategory)
-.get('/addcategory', category_Controllers.loadaddcategory)
+.get('/category', AdminAuth.islogin,category_Controllers.loadcategory)
+.get('/addcategory', AdminAuth.islogin,category_Controllers.loadaddcategory)
 .post('/addcategory',category_Controllers.insertCategory)
 .post('/listcategory',category_Controllers.listUnlistcategory)
-.get('/edit-category', category_Controllers.loadeditcategorypage)
+.get('/edit-category',AdminAuth.islogin, category_Controllers.loadeditcategorypage)
 .post('/edit-category',category_Controllers.editcategory)
 
 
 // ======================{ order } ================\\
-.get('/orderDetails',admin_Controllers.loadOrderDetails)
-.get('/single-orderDetails',admin_Controllers.singleorderDetails)
+.get('/orderDetails',AdminAuth.islogin,admin_Controllers.loadOrderDetails)
+.get('/single-orderDetails',AdminAuth.islogin,admin_Controllers.singleorderDetails)
 .post('/changeOrderStatus',admin_Controllers.changeProductStatus)
 
 // ======================={ sales }==================\\
-.get('/sales',admin_Controllers.LoadSalesPage)
+.get('/sales',AdminAuth.islogin,admin_Controllers.LoadSalesPage)
 .post('/createReport',admin_Controllers.createSalesReport)
 .post('/filter-sales',admin_Controllers.filterSales)
 
 // ======================={ coupon }==================\\
-.get('/couponPage',coupon_Controllers.loadCouponlist)
+.get('/couponPage',AdminAuth.islogin,coupon_Controllers.loadCouponlist)
 .post('/addCoupon',coupon_Controllers.addCoupon)
 .post('/deletCoupon',coupon_Controllers.deleteCoupon)
+.post('/updateCoupon',coupon_Controllers.updateCoupon)
 
 // =============={ Request from customer }==============\\
 .post('/returnConf',Order_controller.returnConfirm)
 
 
 //==============={ offer Managment }===================\\
-.get('/offerPage',Offer_controller.loadOffers)
+.get('/offerPage',AdminAuth.islogin,Offer_controller.loadOffers)
 .post('/addOffer',Offer_controller.addingOffer)
 .post('/applyOfferCat',Offer_controller.applyOfferCat)
 .post('/deletOffer',Offer_controller.deletOffer)
 .post('/applyOffer',Offer_controller.applyOffer)
+.post('/updateOffer',Offer_controller.updateOffer)
 
 //================{ Referral Management }================\\
-.get('/referrelManagement',Offer_controller.referralMangement)
+.get('/referrelManagement',AdminAuth.islogin,Offer_controller.referralMangement)
 .post('/addReferralOffer',Offer_controller.createReferralOffer)
 module.exports = admin_route;

@@ -7,14 +7,20 @@ const Products = require("../model/productsModel");
 const Token = require("../model/tokenModel");
 const Order = require("../model/orderModel");
 const Referral = require("../model/referral");
+const Razorpay = require("razorpay");
+
+var instance = new Razorpay({
+  key_id: "rzp_test_fB02vUjG7B86w1",
+  key_secret: "GpMMTQeCJms3hyG5Z3thBSDA",
+});
 
 // ================= LoadHome
 
 const loadhome = async (req, res) => {
   try {
-
     const showproducts = await Products.find({ isListed: true }).populate(
-      "categoriesId");
+      "categoriesId"
+    );
     const id = req.session.user;
     const user = await User.findOne({ _id: id });
     res.render("home", { products: showproducts, user: user });
@@ -163,14 +169,13 @@ const userVerifyotp = async (req, res) => {
   try {
     const email = req.body.email;
     console.log("email", email);
-    const Bouns = await Referral.findOne({})
+    const Bouns = await Referral.findOne({});
 
     const OTP =
       req.body.digit1 + req.body.digit2 + req.body.digit3 + req.body.digit4;
     const userOtpVerification = await userOtpverificaton.findOne({
       email: email,
     });
-
 
     if (!userOtpVerification) {
       console.log("otp is expired");
@@ -203,7 +208,6 @@ const userVerifyotp = async (req, res) => {
 
       //  delete the otprecord
 
-      
       await userOtpVerification.deleteOne({ email: email });
       if (user.verified) {
         if (!user.isBlocked) {
@@ -213,21 +217,31 @@ const userVerifyotp = async (req, res) => {
             name: user.name,
           };
           const user = await User.findOne({ email: email });
-      const referredUsed = await User.findOne({referralCode :req.session.referralCodelink},{_id:1})
-      if(referralCodelink!=null){
-        user.wallet = Bouns.newUserBonus
-        user.referalUsed = true
-        user.bonus = Bouns.newUserBonus
-        await User.updateOne({referralCode : referralCodelink},{$inc : {wallet : Bouns.referredUserBonus }})
-        await User.updateOne({ walletHistory : {$push : {
-          date : new Date(),
-          amount : Bouns.referredUserBonus,
-          reason : 'referral Bonus'
-        }}})
-      }
-          const referralCode = uuidv4()
+          const referredUsed = await User.findOne(
+            { referralCode: req.session.referralCodelink },
+            { _id: 1 }
+          );
+          if (referralCodelink != null) {
+            user.wallet = Bouns.newUserBonus;
+            user.referalUsed = true;
+            user.bonus = Bouns.newUserBonus;
+            await User.updateOne(
+              { referralCode: referralCodelink },
+              { $inc: { wallet: Bouns.referredUserBonus } }
+            );
+            await User.updateOne({
+              walletHistory: {
+                $push: {
+                  date: new Date(),
+                  amount: Bouns.referredUserBonus,
+                  reason: "referral Bonus",
+                },
+              },
+            });
+          }
+          const referralCode = uuidv4();
           user.referralCode = referralCode;
-          user.save()
+          user.save();
 
           req.flash("successmsg", "Hey, Sign up successfull");
           res.redirect("/login");
@@ -610,22 +624,65 @@ const LoadWallet = async (req, res) => {
     const userId = req.session.user._id;
     const userData = await User.findOne({ _id: userId });
     const name = userData.name;
-    const walletHistory = userData.walletHistory
+    const walletHistory = userData.walletHistory;
+
     const walletAmount = userData.wallet;
-    res.render("walletPage", { userData :userData ,name: name, walletAmount : walletAmount ,walletHistory :walletHistory});
+    res.render("walletPage", {
+      userData: userData,
+      name: name,
+      walletAmount: walletAmount,
+      walletHistory: walletHistory,
+      user: userId,
+    });
   } catch (error) {
-    res.status(404).send("request failed"); 
+    res.status(404).send("request failed");
+  }
+};
+
+// add money to wallet
+
+const credingMoneytoWallet = async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+    const { money } = req.body;
+    const updatedUserWallet = await User.updateOne(
+      { _id: userId },
+      {
+        $inc: { wallet: money },
+        $push: {
+          walletHistory: {
+            date: new Date(),
+            amount: money,
+            reason: "Deposit Money",
+            type: "Deposited",
+          },
+        },
+      }
+    );
+    res.json({ success: true });
+    console.log("userrr", updatedUserWallet);
+  } catch (error) {
+    console.log(error);
   }
 };
 
 // about
-const about = async(req,res)=>{
+const about = async (req, res) => {
   try {
-    res.render('about')
+    res.render("about");
   } catch (error) {
     console.log();
   }
-}
+};
+// contact
+const contactPage = async (req, res) => {
+  try {
+    res.render("contact");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //=========== userlogout \\
 
 const userlogout = async (req, res) => {
@@ -660,6 +717,8 @@ module.exports = {
   resetpassword,
   LoadInvoicePage,
   LoadWallet,
+  credingMoneytoWallet,
+  contactPage,
   // addMoneywallet,
   about,
   userlogout,

@@ -198,6 +198,46 @@ const ApplyreferrelCode = async (req, res) => {
   }
 };
 
+// update Offer 
+const updateOffer = async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      discountType,
+      discountAmount,
+      startDate,
+      endDate,
+      offerId,
+    } = req.body;
+    
+    const find = {
+      _id: offerId,
+    };
+
+    const update = {
+      title: title,
+      description: description,
+      discountType: discountType,
+      endDate: endDate, // Corrected
+      discountAmount: discountAmount,
+      startDate: startDate,
+    };
+
+    const updatedOffer = await Offers.updateOne(find, update);
+
+    if (updatedOffer.nModified === 1) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false, error: "Offer not found or not modified" });
+    }
+  } catch (error) {
+    console.error("Error updating offer:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
+};
+
+
 module.exports = {
   loadOffers,
   addingOffer,
@@ -207,4 +247,5 @@ module.exports = {
   referralMangement,
   createReferralOffer,
   ApplyreferrelCode,
+  updateOffer
 };

@@ -1,6 +1,5 @@
 const Product = require("../model/productsModel");
 const Cart = require('../model/cartModel')
-const wishlistModel = require("../model/wishlistModel");
 const Wishlist = require("../model/wishlistModel");
 
 // ================ ( wishlist page ) ================ \\
@@ -29,40 +28,36 @@ const LoadWishlist = async (req, res) => {
   }
 };
 
-// Adding Wishlist
-const   AddWishlist = async (req, res) => {
+const AddWishlist = async (req, res) => {
   try {
     const userId = req.session.user._id;
-    const wishlist = await Wishlist.findOne({ user: userId });
     const { productId } = req.body;
 
-    if (wishlist) {
-      const exists = wishlist.products.some(product => product.productId.equals(productId));
+    // Check if the user has a wishlist
+    let wishlist = await Wishlist.findOne({ user: userId });
 
-      if (!exists) {
-        await Wishlist.updateOne(
-          { user: userId },
-          { $push: { products: { productId } } }
-        );
-        res.json({ success: true}); 
-      } else {
-        res.json({ success: true }); 
-      }
-    } else {
-      const newWishlist = new Wishlist({
+    // If the wishlist doesn't exist, create a new one
+    if (!wishlist) {
+      wishlist = new Wishlist({
         user: userId,
         products: [{ productId }]
       });
-
-      await newWishlist.save();
-      res.json({ success: true }); // Product added to wishlist and not already in cart
+    } else {
+      // Check if the product is already in the wishlist
+      const exists = wishlist.products.some(product => product.productId.equals(productId));
+      if (!exists) {
+        // Add the product to the wishlist
+        wishlist.products.push({ productId });
+      }
     }
+
+    await wishlist.save();
+    res.json({ success: true });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
 
 // remove Product in Wishlist
 
@@ -80,9 +75,26 @@ const removeWishlist = async(req,res)=>{
   }
 }
 
+// get wishlist 
+const getWishlist = async (req, res) => {
+  try {
+     const userId = req.session.user._id;
+     const wishlist = await Wishlist.findOne({ user: userId });
+     if (!wishlist) {
+       return res.json([]); // Return empty array if no wishlist found
+     }
+     const productIds = wishlist.products.map(item => item.productId._id);
+     res.json(productIds);
+  } catch (error) {
+     console.error(error);
+     res.status(500).send('Server error');
+  }
+ };
+
 module.exports = {
   LoadWishlist,
   AddWishlist,
-  removeWishlist
+  removeWishlist,
+  getWishlist
   
 };

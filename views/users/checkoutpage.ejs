@@ -158,90 +158,90 @@
 
     <header class="header">
       <div class="header__top">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6 col-md-7">
-              <div class="header__top__left">
-                <p></p>
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-6 col-md-7">
+                      <div class="header__top__left">
+                          <p></p>
+                      </div>
+                  </div>
+                  <div class="col-lg-6 col-md-5">
+                      <div class="header__top__right">
+                          <div class="header__top__links">
+                              <a href="/register">Sign in</a>
+                              <a href="#">FAQs</a>
+                          </div>
+                          <div class="header__top__hover">
+                              <span>Usd <i class="arrow_carrot-down"></i></span>
+                              <ul>
+                                  <li>USD</li>
+                                  <li>EUR</li>
+                                  <li>USD</li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div>
-            <div class="col-lg-6 col-md-5">
-              <div class="header__top__right">
-                <div class="header__top__links">
-                  <a href="#">Sign in</a>
-                  <a href="#">FAQs</a>
-                </div>
-                <div class="header__top__hover">
-                  <span>Usd <i class="arrow_carrot-down"></i></span>
-                  <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
       </div>
       <div class="container">
-        <div class="row">
-          <div class="col-lg-3 col-md-3" style="height: 50px">
-            <div class="header__logo">
-              <a href="/"><img src="/img/logoleo.jpg" style="width: 80px" alt="" /></a>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <nav class="header__menu mobile-menu">
-              <ul>
-                <li><a href="/">Home</a></li>
-                <li class="active"><a href="/productsshop ">Shop</a></li>
-                <li>
-                  <a href="#">Pages</a>
-                  <ul class="dropdown">
-                    <li><a href="">About Us</a></li>
-                    <li><a href="">Shop Details</a></li>
-                    <li><a href="">Shopping Cart</a></li>
-                    <li><a href="">Check Out</a></li>
-                    <li><a href="">Blog Details</a></li>
-                  </ul>
-                </li>
-                <li><a href="">Blog</a></li>
-                <li><a href="">Contacts</a></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="header__nav__option">
-              <div class="dropdown">
-                <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  <% if(locals.user){ %>
-                    <img style="width: 17px" src="/img/icon/person.png" alt="User Profile" />
-                    <% } else { %>
-                      <img style="width: 17px" src="/img/icon/person.png" alt="" />
-                      <% } %>
-                </a>
-
-                <div class="dropdown-menu" aria-labelledby="userDropdown">
-                  <% if(locals.user){ %>
-                    <a class="dropdown-item" href="/Userprofile">My Profile</a>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                    <% } else { %>
-                      <a class="dropdown-item" href="/login">Login</a>
-                      <% } %>
-                </div>
-
-                <a href="#" class="search-switch"><img src="img/icon/search.png" alt="" /></a>
-                <a href="#"><img src="img/icon/heart.png" alt="" /></a>
+          <div class="row">
+              <div class="col-lg-3 col-md-3" style="height: 50px;">
+                  <div class="header__logo">
+                      <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+                  </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="canvas__open"><i class="fa fa-bars"></i></div>
-      </div>
-    </header>
+              <div class="col-lg-6 col-md-6">
+                  <nav class="header__menu mobile-menu">
+                      <ul>
+                          <li ><a href="">Home</a></li>
+                          <li class="active"><a href="/productsshop ">Shop</a></li>
+                          <li><a href="#">Pages</a>
+                              <ul class="dropdown">
+                                  <li><a href="/about">
+                                    about
+                              </ul>
+                          </li>
+                          
+                          <li><a href="/contact">Contacts</a></li>
+                      </ul>
+                  </nav>
+              </div>
+              <div class="col-lg-3 col-md-3">
+                  <div class="header__nav__option">
+                      <div class="dropdown">
+                          <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
+                              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <% if(locals.user){ %>
+                                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                                  <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
+                                  <% } else { %>
+                                      <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                                      <% } %>
+                          </a>
 
+                          <div class="dropdown-menu" aria-labelledby="userDropdown">
+                              <% if(locals.user){ %>
+                                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                                  <a class="dropdown-item" href="/logout">Logout</a>
+                                  <% } else { %>
+                                      <a class="dropdown-item" href="/login">Login</a>
+                                      <a class="dropdown-item" href="/register">Sign up</a>
+                                      <% } %>
+                          </div>
+
+                          <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                          <% if(locals.user){ %>
+                            <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                            <% } %>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          <div class="canvas__open"><i class="fa fa-bars"></i></div>
+      </div>
+  </header>
     <!-- Header Section End -->
 
     <!-- Breadcrumb Section Begin -->
@@ -383,16 +383,12 @@
                                     <h2>Payment Policy</h2>
                                     <p>We accept the following payment methods:</p>
                                     <ul>
-                                      <li>Credit cards (Visa, Mastercard, American Express)</li>
-                                      <li>Debit cards</li>
-                                      <li>PayPal</li>
+                                        <li>Credit cards (Visa, Mastercard, American Express)</li>
+                                        <li>Debit cards</li>
+                                        <li>PayPal</li>
                                     </ul>
-
-                                    <input type="checkbox" id="acceptPolicyCheckbox">
-                                    <label for="acceptPolicyCheckbox">I have read and agree to the payment
-                                      policy.</label>
-
-                                  </section>
+                                    <p>To view our payment policy, please <a href="/payment-policy">click here</a>.</p>
+                                </section>
                                   <button type="submit" class="site-btn"
                                     onclick="placeOrder('<%= totalAmount %>',event)">PLACE ORDER</button>
 
@@ -566,14 +562,19 @@
         function placeOrder() {
           event.preventDefault();
           const totalAmount = parseFloat(document.getElementById('totalAmount').innerText);
-          const policyCheck = document.getElementById('acceptPolicyCheckbox')
-          const policyChecked = policyCheck.checked;
           const couponCode = $('#couponCode').val();
 
           const indexInput = document.querySelector(
             'input[name="selectedAddress"]:checked'
           );
 
+          if (totalAmount === 0) {
+            Swal.fire({
+              icon: 'info',
+              title: 'Your cart is empty!',
+              text: 'Please add products to your cart before proceeding to checkout.'
+            });
+          }
           // Check if the indexInput exists and is checked
           if (!indexInput) {
             Swaalll()
@@ -592,14 +593,7 @@
             return;
           }
 
-          if (!policyChecked) {
-            Swal.fire({
-              icon: 'info',
-              title: "Please read and accept the payment policy",
-              showConfirmButton: false,
-              timer: 1700
-            });
-          } else {
+           else {
             // Include the selected address index in the data object
             const data = {
               Amount: totalAmount,

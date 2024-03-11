@@ -13,7 +13,8 @@ const session = require('express-session');
 const config = require('../config/config')
 const auth = require('../middleware/auth')
 const nocache = require('nocache');
-
+const flash = require('express-flash')
+// const flash = require('connect-flash');
 
 
 
@@ -24,16 +25,20 @@ user_route.use(session({ secret: config.sessionSecret, resave: false, saveUninit
 const path = require('path');
 user_route.use(nocache())
 user_route.use(express.static(path.join(__dirname, 'public/assets')))
-
+user_route.use(flash())
 
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
 
-
-// user_route.use((req,res,next)=>{
-// req.locals.user = req.session.user || null ;
-// req.locals.logedIn = req.session.user ? true : false ;
-// })
+  user_route.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    res.locals.logedIn = req.session.user ? true : false;
+    next();
+  });
+user_route.use((req, res, next) => {
+  res.locals.messages = req.flash();
+  next();
+});
 
 user_route
   .get('/', users_controller.loadhome)
@@ -60,9 +65,10 @@ user_route
   // Shop page showing products & details
   .get('/productsshop', product_controller.loadshoppage)
   .get('/productdetails', product_controller.productdetailspage)
-  .post('/search',product_controller.searchProduct)
-  .post('/catgorySelect',product_controller.selectCategory)
-  .post('/sortPrice',product_controller.sortPrice)
+  // .post('/search',product_controller.filter)
+  // .post('/search',product_controller.searchProduct)
+  // .post('/catgorySelect',product_controller.selectCategory)
+  // .post('/sortPrice',product_controller.sortPrice)
 
   // user profile & address manage
   .get('/Userprofile', users_controller.loadProfilepage)
@@ -75,6 +81,7 @@ user_route
 
   // wallet
   .get('/wallet',users_controller.LoadWallet)
+  .post('/addMoneyTowallet',users_controller.credingMoneytoWallet)
 
   // .post('/addMoneyToWallet',users_controller.addMoneywallet)
 
@@ -109,6 +116,7 @@ user_route
   .get('/wishlist',Wishlist_controller.LoadWishlist)
   .post('/addWishlist',Wishlist_controller.AddWishlist)
   .post('/removeWishlist',Wishlist_controller.removeWishlist)
+  .get('/getWishlist',Wishlist_controller.getWishlist)
 
   //applyCOupon 
   .post('/applyCouponCode',Coupon_Controller.applyCoupon)
@@ -116,7 +124,13 @@ user_route
   // apply Referral
   .post('/applyReferral',Offer_controller.ApplyreferrelCode)
 
+  // payment policy 
+  .get('/payment-policy',Order_controller.loadPolicyPage)
   // about 
+
+// contact
+.get('/contact',users_controller.contactPage)
+
   .get('/about',users_controller.about)
 
   // logout

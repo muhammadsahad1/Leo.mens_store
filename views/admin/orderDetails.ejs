@@ -1,293 +1,306 @@
-
-
-
 <%- include('../layouts/admin/header.ejs') -%>
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  a {
-    text-decoration: none;
+        a {
+            text-decoration: none;
 
-  }
+        }
 
-  .status-checkboxes {
-    margin-top: .5rem;
+        .status-checkboxes {
+            margin-top: .5rem;
 
-  }
+        }
 
-  .status-checkboxes .form-check {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
+        .status-checkboxes .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
 
-  .status-checkboxes .form-check-input {
-    margin-top: 0;
-    margin-right: 5px;
-    /* Adjust spacing between checkbox and label */
-  }
+        .status-checkboxes .form-check-input {
+            margin-top: 0;
+            margin-right: 5px;
+            /* Adjust spacing between checkbox and label */
+        }
 
-  .status-checkboxes .form-check-label {
-    margin-bottom: 0;
-  }
-
-
-</style>
+        .status-checkboxes .form-check-label {
+            margin-bottom: 0;
+        }
+    </style>
 
 
 
 
-<div class="screen-overlay"></div>
-<aside class="navbar-aside" id="offcanvas_aside">
-    <div class="aside-top">
-        <a class="brand-wrap">
-            <img style="width: 50px;" src="/img/logoleo.jpg" alt="Nest Dashboard" />
-        </a>
-        <div>
-            <button class="btn btn-icon btn-aside-minimize"><i
-                    class="text-muted material-icons md-menu_open"></i></button>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a class="brand-wrap">
+                <img style="width: 50px;" src="/img/logoleo.jpg" alt="Nest Dashboard" />
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i
+                        class="text-muted material-icons md-menu_open"></i></button>
+            </div>
         </div>
-    </div>
-    <nav>
-        <ul class="menu-aside">
-            <li class="menu-item ">
-                <a class="menu-link" href="/admin/adminDashboard">
-                    <i class="icon material-icons md-home"></i>
-                    <span class="text">Dashboard</span>
-                </a>
-            </li>
-            <li class="menu-item  ">
-                <a class="menu-link" href="/admin/products">
-                    <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Products</span>
-                </a>
-
-            </li>
-
-            <li class="menu-item">
-                <a class="menu-link" href="/admin/ums">
-                    <i class="icon material-icons md-person"></i>
-                    <span class="text">user managmnet</span>
-                </a>
-            </li>
-            <li class="menu-item ">
-                <a class="menu-link" href="/admin/category">
-                    <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Categories</span>
-                </a>
-
-            </li>
-            <li class="menu-item active">
-                <a class="menu-link" href="/admin/orderDetails">
-                    <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Orders</span>
-                </a>
-
-            </li>
-            <li class="menu-item ">
-                <a class="menu-link" href="/admin/coupons"> <i
-                        class="icon material-icons md-monetization_on"></i>
-                    <span class="text">Coupons</span>
-                </a>
-
-            </li>
-            <li class="menu-item ">
-                <a class="menu-link" href="/admin/banners"> <i
-                        class="icon material-icons md-monetization_on"></i>
-                    <span class="text">Banners</span>
-                </a>
-            </li>
-            <li class="menu-item ">
-                <a class="menu-link" href="/admin/referrelManagement">
-                    <i class="icon material-icons md-monetization_on"></i>
-                    <span class="text">Referral</span>
-                </a>
-            </li>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/adminDashboard">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/products">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/ums">
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">User management</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/category">
+                        <i class="icon material-icons md-store"></i>
+                        <span class="text">Categories</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/orderDetails">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/sales">
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Sales</span>
+                    </a>
         
-        </ul>
-        <hr />
-        <br />
-        <br />
-    </nav>
-</aside>
-<main class="main-wrap">
-    <header class="main-header navbar">
-        <div class="col-search">
-            <form class="searchform">
-      
-            </form>
-        </div>
-        <div class="col-nav">
-            <a href="/admin/logout"><i class="btn btn-dark ms-3 rounded-pill">Logout</i></a>
-            <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
-                    class="material-icons md-apps"></i></button>
-            <ul class="nav">
-
-                <li class="dropdown nav-item">
-                    <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
-                        aria-expanded="false"> <img class="img-xs rounded-circle"
-                            src="/imgs/people/avatar-2.png" alt="User" /></a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href=""><i
-                                class="material-icons md-exit_to_app"></i>Logout</a>
-                    </div>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/couponPage">
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Coupon</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/offerPage">
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Offer</span>
+                    </a>
+                </li>
                 </li>
             </ul>
-        </div>
-
-    </header>
-
-
-
-<section class="content-main">
-  <div class="content-header">
-      <div>
-          <h2 class="content-title card-title fw-bold">Order List</h2>
-          <p>Lorem ipsum dolor sit amet.</p>
-      </div>
-  </div>
-  <div class="card mb-4">
-      <header class="card-header">
-          <div class="row gx-3">
-              <div class="col-lg-4 col-md-6 me-auto">
-                  <input type="text" placeholder="Search..." class="form-control" />
-              </div>
-              
-          </div>
-      </header>
-      <!-- card-header end// -->
-      <div class="card-body" id="reloadArea" >
-          <div class="table-responsive">
-              <table class="table table-hover">
-                  <thead>
-                      <tr>
-                          <th>Index</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Total</th>
-                          <th scope="col">Status</th>
-                          <th scope="col">Date</th>
-                          <th scope="col">Action</th>
-                      
-                      </tr>
-                  </thead>
-                  <tbody>
-                  <%if(order) {%>
-                       <%order.forEach((item, i) => {%>
-
-                          <tr>
-                              <td><%= i + 1%></td>
-                              <td><b><%= item.userId.name%></b></td>
-                              <td><%= item.userId.email%></td>
-                              <td><%= item.total_amount%></td>
-                              <%if(item.status === 'delivered'){%>
-                                <td><span class="badge rounded-pill alert-warning"><%= item.status%></span></td>
-                            <%}else{%>
-                                <td><span class="badge rounded-pill alert-warning"><%= item.status%></span></td>
-                                <%}%>
-                              <% const formattedDate = item.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
-                              <td><%= formattedDate%></td>
-                              <td class="">
-                                 <a href="/admin/single-orderDetails?orderId=<%= item._id%>"> More details</a>
-                                 
-                                  <!-- dropdown //end -->
-                              </td>
-                             
-                          </tr>
-
-                       <%})%>
-                      
-                  <%} else {%>
-                      <td>
-                        NO ORDER DETIALS AVAILBLE
-                      </td>
-
-
-                  <%}%>
-
-                      
-                     
-                  </tbody>
-              </table>
-          </div>
-          <!-- table-responsive //end -->
-      </div>
-      <!-- card-body end// -->
-  </div>
-  <!-- card end// -->
-
         
-  <div class="pagination-area mt-15 mb-50 d-flex justify-content-center">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="/admin/orderDetails?id=<%=previous%>"><</a>
-            </li>
-    <%for(let i = 1;i <= totalpages;i++){%>
-        <li class="page-item">
-            <a class="page-link" href="/admin/orderDetails?id=<%=i%>"><%=i%>
-            </a>
-        </li>
-    <%}%>
-        
-                    <li class="page-item">
-                        <a class="page-link" href="/admin/orderDetails?id=<%=next%>">></a>
+            <br />
+            <br />
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+
+                </form>
+            </div>
+            <div class="col-nav">
+                <a href="/admin/logout"><i class="btn btn-dark ms-3 rounded-pill">Logout</i></a>
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                        class="material-icons md-apps"></i></button>
+                <ul class="nav">
+
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                            aria-expanded="false"> <img class="img-xs rounded-circle" src="/imgs/people/avatar-2.png"
+                                alt="User" /></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href=""><i
+                                    class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
                     </li>
-        </ul>
-    </nav>
-</div>
+                </ul>
+            </div>
 
-<script>
-    
-// function to handle click pagination
-
-function loadpage(page){
-        $.ajax({
-            url :`/admin/orderDetails?page=${page}`,
-            type : 'GET',
-            success : function (data){
-           $('#reloadArea').html(data)
-            },
-            error : function(error){
-        console.log("Error" ,error)
-            }
-        })
-    }
-
-</script>
+        </header>
 
 
 
-</section>
-<!-- content-main end// -->
-<footer class="main-footer font-xs">
-  <div class="row pb-30 pt-15">
-      <div class="col-sm-6">
-          <script>
-              document.write(new Date().getFullYear());
-          </script>
-          &copy; Nest - HTML Ecommerce Template .
-      </div>
-      <div class="col-sm-6">
-          <div class="text-sm-end">All rights reserved</div>
-      </div>
-  </div>
-</footer>
-</main>
-<script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
-<script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
-<script src="assets/js/vendors/select2.min.js"></script>
-<script src="assets/js/vendors/perfect-scrollbar.js"></script>
-<script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
-<!-- Main Script -->
-<script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
-</body>
-</html>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title fw-bold">Order List</h2>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 col-md-6 me-auto">
+                            <input type="text" placeholder="Search..." class="form-control" />
+                        </div>
 
-  <%- include('../layouts/admin/footer.ejs') -%>
+                    </div>
+                </header>
+                <!-- card-header end// -->
+                <div class="card-body" id="reloadArea">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Index</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%if(order) {%>
+                                    <%order.forEach((item, i)=> {%>
+
+                                        <tr>
+                                            <td>
+                                                <%= i + 1%>
+                                            </td>
+                                            <td><b>
+                                                    <%= item.userId.name%>
+                                                </b></td>
+                                            <td>
+                                                <%= item.userId.email%>
+                                            </td>
+                                            <td>
+                                                <%= item.total_amount%>
+                                            </td>
+                                            <%if(item.status==='delivered' ){%>
+                                                <td><span class="badge rounded-pill alert-warning">
+                                                        <%= item.status%>
+                                                    </span></td>
+                                                <%}else{%>
+                                                    <td><span class="badge rounded-pill alert-warning">
+                                                            <%= item.status%>
+                                                        </span></td>
+                                                    <%}%>
+                                                        <% const formattedDate=item.date.toLocaleString('en-US', {
+                                                            weekday: 'short' , month: 'short' , day: 'numeric' ,
+                                                            year: 'numeric' , hour: 'numeric' , minute: 'numeric' ,
+                                                            second: 'numeric' , hour12: true }); %>
+                                                            <td>
+                                                                <%= formattedDate%>
+                                                            </td>
+                                                            <td class="">
+                                                                <a
+                                                                    href="/admin/single-orderDetails?orderId=<%= item._id%>">
+                                                                    More details</a>
+
+                                                                <!-- dropdown //end -->
+                                                            </td>
+
+                                        </tr>
+
+                                        <%})%>
+
+                                            <%} else {%>
+                                                <td>
+                                                    NO ORDER DETIALS AVAILBLE
+                                                </td>
+
+
+                                                <%}%>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- table-responsive //end -->
+                </div>
+                <!-- card-body end// -->
+            </div>
+            <!-- card end// -->
+
+
+            <div class="pagination-area mt-15 mb-50 d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/orderDetails?id=<%=previous%>">
+                                << /a>
+                        </li>
+                        <%for(let i=1;i <=totalpages;i++){%>
+                            <li class="page-item">
+                                <a class="page-link" href="/admin/orderDetails?id=<%=i%>">
+                                    <%=i%>
+                                </a>
+                            </li>
+                            <%}%>
+
+                                <li class="page-item">
+                                    <a class="page-link" href="/admin/orderDetails?id=<%=next%>">></a>
+                                </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <script>
+
+                // function to handle click pagination
+
+                function loadpage(page) {
+                    $.ajax({
+                        url: `/admin/orderDetails?page=${page}`,
+                        type: 'GET',
+                        success: function (data) {
+                            $('#reloadArea').html(data)
+                        },
+                        error: function (error) {
+                            console.log("Error", error)
+                        }
+                    })
+                }
+
+            </script>
+
+
+
+        </section>
+        <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                    &copy; Nest - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">All rights reserved</div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/select2.min.js"></script>
+    <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+    </body>
+
+    </html>
+
+    <%- include('../layouts/admin/footer.ejs') -%>

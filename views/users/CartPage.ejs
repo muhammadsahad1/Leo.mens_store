@@ -56,7 +56,7 @@
           <div class="col-lg-6 col-md-5">
             <div class="header__top__right">
               <div class="header__top__links">
-                <a href="#">Sign in</a>
+                <a href="/register">Sign in</a>
                 <a href="#">FAQs</a>
               </div>
               <div class="header__top__hover">
@@ -82,19 +82,16 @@
         <div class="col-lg-6 col-md-6">
           <nav class="header__menu mobile-menu">
             <ul>
-              <li><a href="/">Home</a></li>
+              <li><a href="">Home</a></li>
               <li class="active"><a href="/productsshop ">Shop</a></li>
               <li><a href="#">Pages</a>
                 <ul class="dropdown">
-                  <li><a href="">About Us</a></li>
-                  <li><a href="">Shop Details</a></li>
-                  <li><a href="">Shopping Cart</a></li>
-                  <li><a href="">Check Out</a></li>
-                  <li><a href="">Blog Details</a></li>
+                  <li><a href="/about">
+                      about
                 </ul>
               </li>
-              <li><a href="">Blog</a></li>
-              <li><a href="">Contacts</a></li>
+
+              <li><a href="/contact">Contacts</a></li>
             </ul>
           </nav>
         </div>
@@ -105,6 +102,7 @@
                 aria-haspopup="true" aria-expanded="false">
                 <% if(locals.user){ %>
                   <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                  <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
                   <% } else { %>
                     <img style="width: 17px;" src="/img/icon/person.png" alt="">
                     <% } %>
@@ -116,14 +114,18 @@
                   <a class="dropdown-item" href="/logout">Logout</a>
                   <% } else { %>
                     <a class="dropdown-item" href="/login">Login</a>
+                    <a class="dropdown-item" href="/register">Sign up</a>
                     <% } %>
               </div>
 
               <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-              <a href="#"><img src="img/icon/heart.png" alt=""></a>
+              <% if(locals.user){ %>
+                <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                <% } %>
             </div>
           </div>
         </div>
+
       </div>
       <div class="canvas__open"><i class="fa fa-bars"></i></div>
     </div>
@@ -164,14 +166,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <% let subtotal=0,total=0; %>
-                    <% if(UserCart){%>
-
-                      <% UserCart.products.forEach(function(item,index){%>
-                        <% subtotal +=item.totalPrice %>
-
-
+                <% let subtotal=0; %>
+                  <% if(UserCart) { %>
+                    <% UserCart.products.forEach(function(item) { %>
+                      <% subtotal +=item.totalPrice; %>
+                        <tr>
                           <td class="product__cart__item">
                             <div class="product__cart__item__pic" style="width: 80px;">
                               <img src="/img/product/sharp/<%= item.productsId.images[0] %>" alt="product Image">
@@ -180,74 +179,64 @@
                               <h6>
                                 <%= item.productsId.name %>
                               </h6>
-                              <h5>₹ <%= item.productsId.price %>
+                              <h5>₹ <%= item.price %>
                               </h5>
                             </div>
                           </td>
                           <td class="quantity__item">
-                            <div class="cart-product-quantity" style="display: flex; align-items: center; ">
+                            <div class="cart-product-quantity" style="display: flex; align-items: center;">
                               <button class="quantity-control border-1" type="button"
                                 onclick="IncDecValue('<%= item.productsId._id %>', -1)"
                                 style="background-color: transparent;color: black;">-</button>
-
-                                <input type="number" class="form-control bg-light border-0" value="<%= item.quantity %>"
+                              <input type="number" class="form-control bg-light border-0" value="<%= item.quantity %>"
                                 min="1" max="10" step="1" data-decimals="0" readonly required
                                 style="text-align: center; width: 60px;">
-                            
-
                               <button class="quantity-control border-1" type="button"
                                 onclick="IncDecValue('<%= item.productsId._id %>', 1)"
                                 style="background-color: transparent; color: black;">+</button>
                             </div>
-
                           </td>
                           <td class="cart__price">₹ <%= item.totalPrice %>
                           </td>
                           <td><button onclick="removecart('<%= item.productsId._id %>')" class="removebt"
                               style="border: none;"><i class="fa fa-close"></i></button></td>
-                </tr>
+                        </tr>
+                        <% }); %>
+                          <% } %>
               </tbody>
-              <%})%>
-                <%}%>
-                  <% console.log(UserCart) %>
             </table>
           </div>
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
               <div class="continue__btn">
-                <a href="/productsshop ">Continue Shopping</a>
+                <a href="/productsshop">Continue Shopping</a>
               </div>
             </div>
           </div>
         </div>
-        <!-- Adjust the above line based on your actual product data -->
         <div class="col-lg-4">
           <div class="cart__total">
             <h6>Cart total</h6>
-
             <ul>
-              <li>Sub total
-                <span>
-                  <%= subtotal %>
-                </span>
-              <li> total
-                <span>
-                  <%= subtotal %>
-                </span>
-                <!--Add other total-related information here -->
-              </li>
-              <!-- <li> -->
-              <span> </span>
+              <% if (subtotal) { %>
+                <li>Sub total <span>₹ <%= subtotal %></span></li>
+                <li>Total <span>₹ <%= subtotal %></span></li>
+                <% } else { %>
+                  <li>Sub total <span>N/A</span></li>
+                  <li>Total <span>N/A</span></li>
+                  <li><i>Subtotal is not available</i></li>
+
+                  <% } %>
+                    <!-- Add other total-related information here -->
             </ul>
+
             <a href="/checkout" class="primary-btn">Proceed to checkout</a>
           </div>
-
         </div>
-
-
       </div>
     </div>
   </section>
+
 
 
   <footer class="footer mt-5">
@@ -324,7 +313,7 @@
         const data = {
           productId, count
         }
-      
+
         $.ajax({
           url: '/updateQuantity',
           method: 'POST',
@@ -356,7 +345,7 @@
       function removecart(productId) {
         console.log(productId);
 
-        
+
         const data = { ProductsId: productId };
         $.ajax({
           method: 'POST',
@@ -366,9 +355,7 @@
           success: function (response) {
             if (response.removed) {
 
-              $('#Reload').load('/Cartpage #Reload')
-              $('#ReloadArea').load('/Cartpage #ReloadArea')
-              $('#Reloadprice').load('/Cartpage #Reloadprice', () => {
+              $('#reloadDiv').load('/Cartpage #reloadDiv', () => {
                 Swal.fire({
                   title: 'Success',
                   icon: 'success'

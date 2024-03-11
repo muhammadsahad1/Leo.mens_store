@@ -90,7 +90,7 @@
             <input type="date" class="form-control" id="endDate" name="endDate" required>
           </div>
         </div>
-    
+
         <div class="form-group col-md-6" style="margin-bottom: 16px;">
           <label for="usageLimit">Usage Limit:</label>
           <input type="number" class="form-control" id="usageLimit" name="usageLimit" min="0">
@@ -163,17 +163,21 @@
               <!-- apply for product -->
               <td>
                 <input type="hidden" id="productsId" value='<%= productId %>'>
-      
-                  <button class="btn btn-primary apply-btn" onclick="applyOffer('<%=offerr._id%>')">apply</button>
+
+                <button class="btn btn-primary apply-btn" onclick="applyOffer('<%=offerr._id%>')">apply</button>
               </td>
               <!--  apply for category -->
               <td>
                 <input type="hidden" id="categoryId" value='<%= categoryId %>'>
-  
-                  <button class="btn btn-primary apply-btn" onclick="applyOfferCat('<%=offerr._id%>')">apply</button>
+
+                <button class="btn btn-primary apply-btn" onclick="applyOfferCat('<%=offerr._id%>')">apply</button>
               </td>
               <td>
                 <button class="btn btn-danger delete-button" onclick="deleteOffer('<%=offerr._id%>')">Delete</button>
+                <a class="btn"
+                onclick="editOffer('<%=offerr._id%>','  <%=offerr.title%>','  <%=offerr.description%>',' <%=offerr.discountType%>','<%=offerr.discountAmount%>','   <%=offerr.startDate%>',' <%=offerr.endDate%>')">
+                <i class="fas fa-edit fa-lg mx-1"></i>
+              </a>
               </td>
             </tr>
             <%})%>
@@ -181,6 +185,68 @@
       </table>
     </div>
 
+
+    <!-- edit offer modal -->
+    <div id="customModal" class="custom-modal bg-light" style="display:none;">
+      <div class="custom-modal-content">
+          <h5 class="text-center"><b>Edit Address</b></h5>
+      </div>
+      <div class="modal-body">
+          <form id="">
+              <div>
+                  <h4 class="fw-bold text-dark mb-4">Edit Offer</h4>
+              </div>
+  
+              <div class="form-row">
+                  <div class="form-group col-md-6" style="margin-bottom: 16px;">
+                      <label for="code">Title:</label>
+                      <input type="text" class="form-control" id="Editcode" name="code" required pattern="^[a-zA-Z0-9]+$"
+                          title="Coupon code can only contain letters and numbers, and spaces are not allowed">
+                  </div>
+                  <div class="form-group col-md-6" style="margin-bottom: 16px;">
+                    <label for="discountType">Discount Type:</label>
+                    <select class="form-control" id="EditdiscountType" name="discountType" required>
+                      <option value="fixed">Fixed Amount</option>
+                      <option value="percentage">Percentage</option>
+        
+                    </select>
+                  </div>
+              </div>
+  
+              <div class="form-group" style="margin-bottom: 16px;">
+                  <label for="description">Description:</label>
+                  <textarea class="form-control" id="Editdescription" name="description" required></textarea>
+              </div>
+  
+              <div class="form-row">
+                  <div class="form-group col-md-6" style="margin-bottom: 16px;">
+                      <label for="discountAmount">Discount Amount:</label>
+                      <input type="number" class="form-control" id="EditexpirationDate" name="discountAmount" value="0" min="0"
+                          required>
+                  </div>
+  
+                  <div class="form-group col-md-6" style="margin-bottom: 16px;">
+                      <label for="startDate">Start Date:</label>
+                      <input type="date" class="form-control" id="EditstartDate" name="startDate" required>
+                  </div>
+              </div>
+  
+              <div class="form-group col-md-6" style="margin-bottom: 16px;">
+                  <label for="endDate">End Date:</label>
+                  <input type="date" class="form-control" id="EditendDate" name="endDate" required>
+              </div>
+  
+              <div id="errorContainer" style="color: red; margin-bottom: 16px;">
+                  <button type="button" class="btn btn-success" onclick="updateOffer(document.getElementById('EditcouponId').value)"
+                      style="background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Edit
+                      Offer</button>
+              </div>
+  
+              <input type="hidden" id="EditcouponId" value="">
+          </form>
+      </div>
+  </div>
+  
 
     <script>
       function addOffer() {
@@ -195,91 +261,91 @@
 
         if (title.trim() === '') {
           Swal.fire({
-        icon: 'error',
-        title: 'Enter Offer Title',
-        showConfirmButton: false,
-        timer: 1700
-    });
-    return;
-    
-    }
+            icon: 'error',
+            title: 'Enter Offer Title',
+            showConfirmButton: false,
+            timer: 1700
+          });
+          return;
 
-    
-    if (discountType.trim() === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Enter discountType',
-        showConfirmButton: false,
-        timer: 1700
-      });
-    
-      return;
-    }
-    
-    if (discountAmount.trim() === '' || isNaN(discountAmount) || parseFloat(discountAmount) <= 0) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Please enter a valid discount amount.',
-        showConfirmButton: false,
-        timer: 1700
-      });
-    
-      return;
-    }
-    
-    if (startDate.trim() === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Enter startDate',
-        showConfirmButton: false,
-        timer: 1700
-      });
-    return;
-    
-    }
+        }
 
-    if (endDate.trim() === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'EnterendDate',
-        showConfirmButton: false,
-        timer: 1700
-      });
-    return;
-    
-  }
-  
-  if (usageLimit.trim() === '' || isNaN(usageLimit) || parseInt(usageLimit) < 0) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Enter usageLimit',
-        showConfirmButton: false,
-        timer: 1700
-      });
-    return;
-    
-  }
-  
-  if (usageCount.trim() === '' || isNaN(usageCount) || parseInt(usageCount) < 0) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Enter coupon code',
-      showConfirmButton: false,
-      timer: 1700
-    });
-    return;
-        
-  }
-  
-  const data = {
-    title: title,
-    description: description,
-    discountType: discountType,
-    discountAmount: discountAmount,
-    startDate: startDate,
-    endDate: endDate,
-    usageLimit: usageLimit,
-    usageCount: usageCount
+
+        if (discountType.trim() === '') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Enter discountType',
+            showConfirmButton: false,
+            timer: 1700
+          });
+
+          return;
+        }
+
+        if (discountAmount.trim() === '' || isNaN(discountAmount) || parseFloat(discountAmount) <= 0) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Please enter a valid discount amount.',
+            showConfirmButton: false,
+            timer: 1700
+          });
+
+          return;
+        }
+
+        if (startDate.trim() === '') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Enter startDate',
+            showConfirmButton: false,
+            timer: 1700
+          });
+          return;
+
+        }
+
+        if (endDate.trim() === '') {
+          Swal.fire({
+            icon: 'error',
+            title: 'EnterendDate',
+            showConfirmButton: false,
+            timer: 1700
+          });
+          return;
+
+        }
+
+        if (usageLimit.trim() === '' || isNaN(usageLimit) || parseInt(usageLimit) < 0) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Enter usageLimit',
+            showConfirmButton: false,
+            timer: 1700
+          });
+          return;
+
+        }
+
+        if (usageCount.trim() === '' || isNaN(usageCount) || parseInt(usageCount) < 0) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Enter Offer usage ',
+            showConfirmButton: false,
+            timer: 1700
+          });
+          return;
+
+        }
+
+        const data = {
+          title: title,
+          description: description,
+          discountType: discountType,
+          discountAmount: discountAmount,
+          startDate: startDate,
+          endDate: endDate,
+          usageLimit: usageLimit,
+          usageCount: usageCount
         }
 
         fetch('/admin/addOffer', {
@@ -296,25 +362,22 @@
         }).then(() => {
           window.location.reload()
         })
-        .catch((error) => {
-          console.log(error);
-        })
-        
-        
-      }
-        // apply offer to product
-        function applyOffer(offerId) {
-          const productIdElement = document.getElementById('productsId');
-        const productId = productIdElement ? productIdElement.value : null;
+          .catch((error) => {
+            console.log(error);
+          })
 
-        console.log(productId);
+
+      }
+      // apply offer to product
+      function applyOffer(offerId) {
+        const productIdElement = document.getElementById('productsId');
+        const productId = productIdElement ? productIdElement.value : null;
 
         if (productId !== null) {
           const data = {
             offerId: offerId,
             productId: productId,
           };
-
           console.log(data);
 
           fetch('/admin/applyOffer', {
@@ -392,6 +455,63 @@
           console.log(error);
         })
       }
+
+      // edit Offer
+      function editOffer(offerId, title, description, discountType, discountAmount, startDate, endDate) {
+        console.log("offer",offerId);
+          console.log(offerId,title ,description, discountType, discountAmount, startDate, endDate, );
+          document.getElementById('EditcouponId').value = offerId
+          document.getElementById('customModal').style.display = 'block';
+          document.getElementById('Editcode').value = title
+          document.getElementById('EditdiscountType').value =discountType;
+          document.getElementById('Editdescription').value =  description;
+          document.getElementById('EditexpirationDate').value = discountAmount;
+          document.getElementById('EditstartDate').value = startDate;
+          document.getElementById('EditendDate').value = endDate;
+
+
+        }
+
+        function updateOffer() {
+console.log("fucntionl kerriii");
+const title = document.getElementById('Editcode').value;
+const discountType = document.getElementById('EditdiscountType').value;
+const description = document.getElementById('Editdescription').value 
+const discountAmount = document.getElementById('EditexpirationDate').value
+const startDate = document.getElementById('EditstartDate').value;
+const endDate = document.getElementById('EditendDate').value
+
+// Example of accessing hidden input field
+const offerId = document.getElementById('EditcouponId').value;
+const data = {
+  title: title,
+  description: description,
+  discountType: discountType,
+  discountAmount: discountAmount,
+  startDate: startDate,
+  endDate: endDate,
+  offerId: offerId
+}
+console.log("data",data);
+
+fetch('/admin/updateOffer', {
+  method: 'POST',
+  headers: {
+    'Content-Type': "application/json"
+  }, body: JSON.stringify(data)
+}).then((response) => {
+  if (response.ok) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Offer updated successfully',
+      showConfirmButton: false,
+      timer: 1500
+    }).then(() => {
+      window.location.reload()
+    })
+  }
+})
+}
 
 
     </script>

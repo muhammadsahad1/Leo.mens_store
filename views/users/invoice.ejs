@@ -75,7 +75,7 @@
   <div class="invoice-body" style="background-color: rgb(231, 224, 224);">
     
     
-    
+    <%console.log(Order)%>
       <h4>Bill To: <%=Order.userId.name%>  </h4>
       <p> LEO Fashion <br>
         Your Address<br>
@@ -83,8 +83,6 @@
         Email: <%=Order.userId.email%><br>
         Phone: <%=Order.userId.mobile%><br>
       </p>
-      
-
     <hr>
 
     <h4>Invoice Details:</h4>
@@ -132,6 +130,7 @@
                   <h2>Invoice</h2>
                   <button type="button" class="download-btn" onclick="downloadPdf()">Download</button>
               </div>
+              
           </div>
       </div>
   </div>

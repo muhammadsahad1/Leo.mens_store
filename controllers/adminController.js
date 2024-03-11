@@ -3,6 +3,7 @@ const Order = require("../model/orderModel");
 const Products = require("../model/productsModel");
 const Catgories = require("../model/categoryModel");
 const bcrypt = require("bcrypt");
+const { json } = require("express");
 
 // ============================{ LoadAdminLogin & verifyLogin }============================ \\
 
@@ -358,6 +359,7 @@ const loadOrderDetails = async (req, res) => {
     }
 
     const order = await Order.find({})
+      .sort({ date: -1 })
       .populate("userId")
       .populate("products.productsId");
     res.render("orderDetails", {
@@ -416,23 +418,34 @@ const LoadSalesPage = async (req, res) => {
 };
 
 // ================================{ createSalesReport }======================= \\
-
 const createSalesReport = async (req, res) => {
   try {
-    const startDate = new Date(req.body.startDate);
-    const endDate = new Date(req.body.endDate);
-
-    const findorders = await Order.find({
-      date: { $gte: startDate, $lt: endDate },
-    })
-      .populate("userId")
-      .populate("products.productsId");
-
-    res.render("report", { orders: findorders });
+     const startDate = new Date(req.body.startDate);
+     const endDate = new Date(req.body.endDate);
+ 
+     if (startDate > endDate) {
+       // Redirect back to the form page with a query parameter for the message
+       return res.redirect(`/admin/sales?message=Start date must be on or before the end date`);
+     } else {
+       const findorders = await Order.find({
+         date: { $gte: startDate, $lt: endDate },
+       })
+       .populate("userId")
+       .populate("products.productsId");
+       
+       let totalSales = 0
+       findorders.forEach(orders =>{
+        totalSales += orders.total_amount
+       })
+       
+       res.render("report", { orders: findorders ,totalSales:totalSales});
+     }
   } catch (error) {
-    res.status(404).send("Your Create Sales Report request failed");
+     res.status(404).send("Your Create Sales Report request failed");
   }
-};
+ };
+ 
+ 
 
 // adminLogout
 const adminlogout = async (req, res) => {

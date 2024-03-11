@@ -130,91 +130,90 @@
 
     <header class="header">
       <div class="header__top">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6 col-md-7">
-              <div class="header__top__left">
-                <p></p>
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-6 col-md-7">
+                      <div class="header__top__left">
+                          <p></p>
+                      </div>
+                  </div>
+                  <div class="col-lg-6 col-md-5">
+                      <div class="header__top__right">
+                          <div class="header__top__links">
+                              <a href="/register">Sign in</a>
+                              <a href="#">FAQs</a>
+                          </div>
+                          <div class="header__top__hover">
+                              <span>Usd <i class="arrow_carrot-down"></i></span>
+                              <ul>
+                                  <li>USD</li>
+                                  <li>EUR</li>
+                                  <li>USD</li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div>
-            <div class="col-lg-6 col-md-5">
-              <div class="header__top__right">
-                <div class="header__top__links">
-                  <a href="#">Sign in</a>
-                  <a href="#">FAQs</a>
-                </div>
-                <div class="header__top__hover">
-                  <span>Usd <i class="arrow_carrot-down"></i></span>
-                  <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
       </div>
       <div class="container">
-        <div class="row">
-          <div class="col-lg-3 col-md-3" style="height: 50px;">
-            <div class="header__logo">
-              <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <nav class="header__menu mobile-menu">
-              <ul>
-                <li class="active"><a href="">Home</a></li>
-                <li><a href="/productsshop ">Shop</a></li>
-                <li><a href="#">Pages</a>
-                  <ul class="dropdown">
-                    <li><a href="">About Us</a></li>
-                    <li><a href="">Shop Details</a></li>
-                    <li><a href="">Shopping Cart</a></li>
-                    <li><a href="">Check Out</a></li>
-                    <li><a href="">Blog Details</a></li>
-                  </ul>
-                </li>
-                <li><a href="">Blog</a></li>
-                <li><a href="">Contacts</a></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="header__nav__option">
-              <div class="dropdown">
-                <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  <% if(locals.user){ %>
-                    <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
-                    <% } else { %>
-                      <img style="width: 17px;" src="/img/icon/person.png" alt="">
-                      <% } %>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="userDropdown">
-                  <% if(locals.user){ %>
-                    <a class="dropdown-item" href="/Userprofile">My Profile</a>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                    <% } else { %>
-                      <a class="dropdown-item" href="/login">Login</a>
-                      <a class="dropdown-item" href="/register">Sign up</a>
-                      <% } %>
-                </div>
-
-                <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                <a href="#"><img src="img/icon/heart.png" alt=""></a>
+          <div class="row">
+              <div class="col-lg-3 col-md-3" style="height: 50px;">
+                  <div class="header__logo">
+                      <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+                  </div>
               </div>
-            </div>
+              <div class="col-lg-6 col-md-6">
+                  <nav class="header__menu mobile-menu">
+                      <ul>
+                          <li class="active"><a href="">Home</a></li>
+                          <li><a href="/productsshop ">Shop</a></li>
+                          <li><a href="#">Pages</a>
+                              <ul class="dropdown">
+                                  <li><a href="/about">
+                                    about
+                              </ul>
+                          </li>
+                          
+                          <li><a href="/contact">Contacts</a></li>
+                      </ul>
+                  </nav>
+              </div>
+              <div class="col-lg-3 col-md-3">
+                  <div class="header__nav__option">
+                      <div class="dropdown">
+                          <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
+                              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <% if(locals.user){ %>
+                                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                                  <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
+                                  <% } else { %>
+                                      <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                                      <% } %>
+                          </a>
+
+                          <div class="dropdown-menu" aria-labelledby="userDropdown">
+                              <% if(locals.user){ %>
+                                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                                  <a class="dropdown-item" href="/logout">Logout</a>
+                                  <% } else { %>
+                                      <a class="dropdown-item" href="/login">Login</a>
+                                      <a class="dropdown-item" href="/register">Sign up</a>
+                                      <% } %>
+                          </div>
+
+                          <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                          <% if(locals.user){ %>
+                            <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                            <% } %>
+                      </div>
+                  </div>
+              </div>
+
           </div>
-
-
-
-        </div>
-        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+          <div class="canvas__open"><i class="fa fa-bars"></i></div>
       </div>
-    </header>
+  </header>
 
 
     <body>
@@ -274,7 +273,6 @@
                 <div id="edit-profile-section " style="display: block;">
                   <div class="mt-5">
                     <h1 class="">Your Wallet</h1>
-
                     <div class="table-responsive">
                       <div class="d-flex ">
                         <div class="card p-3">
@@ -301,26 +299,35 @@
                                     <tr>
                                       <th>Date</th>
                                       <th>Amount</th>
+                                      <th>Type</th>
                                       <th>Reason</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     <% walletHistory.forEach((history)=> { %>
-                                      <tr>
-                                        <% const formattedDate=new Date(history.date); %>
-                                          <td>
-                                            <%= formattedDate.toLocaleDateString('en-US') %>
-                                          </td>
-                                          <td>₹ <%= history.amount %>
-                                          </td>
-                                          <td>
-                                            <%= history.reason %>
-                                          </td>
-                                      </tr>
-                                      <% }) %>
+                                      <%console.log("walletHistory.type",history.type)%>
+                                        <tr>
+                                          <% const formattedDate=new Date(history.date); %>
+                                            <td>
+                                              <%= formattedDate.toLocaleDateString('en-US') %>
+                                            </td>
+                                            <td>₹ <%= history.amount %>
+                                            </td>
+                                            <td>
+                                              <%= history.type %>
+                                            </td> <!-- Display the 'type' field -->
+                                            <td>
+                                              <%= history.reason %>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
                                   </tbody>
                                 </table>
-                                <button class="btn text-white w-100" style="background-color: #3E454D"></button>
+                                <div class="input-group mb-3">
+                                  <input type="number" class="form-control" id="priceInput" placeholder="Enter price">
+                                  <button class="btn btn-outline-secondary" type="button" id="openModalButton">Add
+                                    Money</button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -332,46 +339,114 @@
               </div>
             </div>
 
-            <!-- Referral Section -->
-            <div class="col-md-12 mb-4">
-              <div class="card p-4">
-                <h2 class="text-center mb-4">Referral</h2>
-
-                <!-- Enter Referral Code Section -->
-                <div class="mb-3">
-                  <p>If you have a referral code use it to get ₹200 rupees wallet amount</p>
-                  <h4 class="text-center mb-3">Enter Referral Code</h4>
-                  <div class="input-group">
-                    <input type="text" class="form-control" id="referralCode" placeholder="Enter Referral Code">
-                    <button onclick="applyReferralCode('<%=userData.referralCode%>')"
-                      class="btn btn-secondary">Apply</button>
-                  </div>
-                  <div id="error-message" class="text-danger mt-2"></div>
-                </div>
-
-                <!-- Display Referral Link Section -->
-                <div class="mb-3">
-                  <p>Share it with your friends and get ₹300 rupees wallet amount for every new join</p>
-                  <p class="mb-0"><strong>Your Referral Code:</strong></p>
-                  <input type="text" class="form-control mb-2" id="code" value="<%=userData.referralCode%>" readonly>
-                  <button onclick="copyReferralCode()" class="btn btn-secondary">Copy Code</button>
-                  <p style="margin-top: 5px;" class="mb-0"><strong>Your Referral Link:</strong></p>
-                  <input type="text" class="form-control mb-2" id="referralLink"
-                    value="http://localhost:3000/signup?linkCode=<%=userData.referralCode%>" readonly>
-                  <button onclick="copyReferralLink()" class="btn btn-secondary">Copy Link</button>
-                </div>
-              </div>
-            </div>
 
           </div>
 
+          <div class="modal fade" id="addMoneyModal" tabindex="-1" aria-labelledby="addMoneyModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addMoneyModalLabel">credite Money</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to add this amount?</p>
+                  <p id="modalPriceDisplay"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="confirmAddMoney" onclick="addMoneyToWallet()">credit
+                    Money</button>
+                </div>
+              </div>
+            </div>
+          </div>
           <script>
 
           </script>
 
           <%- include('../layouts/user/footer.ejs') -%>
 
+
             <script>
+              document.getElementById('openModalButton').addEventListener('click', function () {
+                const priceInput = document.getElementById('priceInput');
+                const modalPriceDisplay = document.getElementById('modalPriceDisplay');
+                const modal = new bootstrap.Modal(document.getElementById('addMoneyModal'));
+
+                // Display the entered price in the modal
+                modalPriceDisplay.textContent = `Price: ₹${priceInput.value}`;
+
+                // Open the modal
+                modal.show();
+              });
+
+              document.getElementById('confirmAddMoney').addEventListener('click', function () {
+                // Here you can add the logic to handle the "Add Money" action
+                // For example, you might want to send the price to your server
+                console.log('Adding money:', document.getElementById('priceInput').value);
+
+                // Close the modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addMoneyModal'));
+                modal.hide();
+              });
+
+              // Optional: If you want to handle the close button click manually
+              document.getElementById('closeModalButton').addEventListener('click', function () {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addMoneyModal'));
+                modal.hide();
+              });
+
+
+
+            </script>
+
+
+            <script>
+              function addMoneyToWallet() {
+                const priceDisplayText = document.getElementById('modalPriceDisplay').textContent;
+                // Assuming the price is always displayed as "Price: ₹<price>"
+                const money = parseFloat(priceDisplayText.replace('Price: ₹', '').trim());
+                console.log("price", money);
+            
+          
+
+              fetch('/addMoneyTowallet', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ money }),
+              }).then((response)=>{
+                if(response.ok){
+                  Swal.fire({
+                    icon : 'success',
+                    title : 'Cash successfully deposited',
+                    showConfirmButton : false,
+                    timer : 1500
+                  }).then(()=>{
+                    setTimeout(() => {
+                      
+                      window.location.reload()
+                    }, 1);
+
+                  })
+                }else{
+                  Swal.fire({
+                    icon : 'error',
+                    title : 'Try again something went wrong',
+                    timer : 1500
+                  })
+                }
+              })
+              
+            }
+            </script>
+            
+
+
+            <!-- <script>
               function applyReferralCode(dupeCheck) {
                 const referralCode = document.getElementById('referralCode').value
                 if (referralCode.trim() === '') {
@@ -388,7 +463,6 @@
                       timer: 1500
                     })
                   } else {
-
                     const data = {
                       referralCode: referralCode
                     }
@@ -417,7 +491,7 @@
                     })
                   }
               }
-              
+
               function copyReferralLink() {
                 var referralLink = document.getElementById("referralLink");
                 referralLink.select();
@@ -431,7 +505,11 @@
                 alert('Referral code copied to clipboard!');
               }
 
-            </script>
+            </script> -->
+
+
+
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

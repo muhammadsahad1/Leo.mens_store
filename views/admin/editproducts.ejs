@@ -14,13 +14,13 @@
         </div>
         <nav>
             <ul class="menu-aside">
-                <li class="menu-item ">
+                <li class="menu-item active">
                     <a class="menu-link" href="/admin/adminDashboard">
                         <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-item active">
+                <li class="menu-item ">
                     <a class="menu-link" href="/admin/products">
                         <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
@@ -39,33 +39,33 @@
                     </a>
                 </li>
                 <li class="menu-item ">
-                    <a class="menu-link" href="">
+                    <a class="menu-link" href="/admin/orderDetails">
                         <i class="icon material-icons md-shopping_cart"></i>
                         <span class="text">Orders</span>
                     </a>
                 </li>
                 <li class="menu-item ">
-                    <a class="menu-link" href="page-transactions-1.html">
+                    <a class="menu-link" href="/admin/sales">
                         <i class="icon material-icons md-monetization_on"></i>
-                        <span class="text">Coupons</span>
+                        <span class="text">Sales</span>
                     </a>
 
                 </li>
                 <li class="menu-item ">
-                    <a class="menu-link" href="#">
+                    <a class="menu-link" href="/admin/couponPage">
                         <i class="icon material-icons md-monetization_on"></i>
-                        <span class="text">Banners</span>
+                        <span class="text">Coupon</span>
                     </a>
                 </li>
                 <li class="menu-item ">
-                    <a class="menu-link" href="/admin/referrelManagement">
+                    <a class="menu-link" href="/admin/offerPage">
                         <i class="icon material-icons md-monetization_on"></i>
-                        <span class="text">Referral</span>
+                        <span class="text">Offer</span>
                     </a>
                 </li>
-            
-                
+                </li>
             </ul>
+
             <br />
             <br />
         </nav>
@@ -201,122 +201,110 @@
                     <div class="form-group">
                         <label>Product Images</label>
                         <div class="row">
-
-                            <div class="col-lg-12 col-md-12 mb-3 rounded-image-preview">
-                                <label for="imageInput" class="image-label"> image
-                                    <div class="rounded-image-preview">
-                                        <% for(let i=0;i < 3;i++){%>
-                                            <img id="previewImage"
-                                                src="/assets/img/product/sharp/<%= products.images[i] %>" alt="Preview">
-                                            <!-- Provide a default image or placeholder here if needed -->
-                                            <input name="images" type="file" accept="image/*" id="imageInput"
-                                                class="imageInput" onchange="previewImage(this, 'previewImage')">
-                                </label>
-                                <!-- <img id="previewImage" src="/path/to/default-image.jpg" alt="Default Preview"> -->
-
-                                <%}%>
-
-                            </div>
+                            <% for(let i=0; i < 3; i++) { %>
+                                <div class="col-lg-12 col-md-12 mb-3 rounded-image-preview">
+                                    <label for="imageInput<%= i %>" class="image-label">Image <%= i+1 %></label>
+                                    <img id="previewImage<%= i %>"
+                                        src="/assets/img/product/sharp/<%= products.images[i] %>" alt="Preview">
+                                    <input name="images" type="file" accept="image/*" id="imageInput<%= i %>"
+                                        class="imageInput" onchange="previewImage(this, 'previewImage<%= i %>')">
+                                </div>
+                                <% } %>
                         </div>
-
                     </div>
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="mt- 4">
+                            <a href="/admin/products" class="btn btn-primary  mt- 4">
+                                <span class=" mt- 4">Back</span>
+                            </a>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-
-            <div class="form-group mt-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <div class="mt- 4">
-
-                    <a href="/admin/products" class="btn btn-primary  mt- 4">
-                        <span class=" mt- 4">Back</span>
-                    </a>
-                </div>
-            </div>
-            </form>
-            </div>
-            <script>
-                function previewImage(input, Imageid) {
-                    const preview = document.getElementById(Imageid)
-                    const files = input.files[0];
-                    if (files) {
-
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            preview.src = e.target.result
-                        }
-                        reader.readAsDataURL(files)
-                    } else {
-                        preview.src = '/assets/images/add Image.jpg';
+        </section>
+        <script>
+            function previewImage(input, Imageid) {
+                const preview = document.getElementById(Imageid)
+                const files = input.files[0];
+                if (files) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result
                     }
+                    reader.readAsDataURL(files)
+                } else {
+                    preview.src = '/assets/images/add Image.jpg';
                 }
-            </script>
+            }
+        </script>
 
 
 
-            <script>
-                function validate() {
-                    let proname = document.getElementById('product_title');
-                    let quantity = document.getElementById('quantity');
-                    let price = document.getElementById('price');
-                    let previousprice = document.getElementById('previousPrice');
-                    let description = document.getElementById('description');
-                    let category = document.getElementById('product-category'); // Correct the ID here
-                    let quantityErr = document.getElementById('quantityErr'); // Add this line
+        <script>
+            function validate() {
+                let proname = document.getElementById('product_title');
+                let quantity = document.getElementById('quantity');
+                let price = document.getElementById('price');
+                let previousprice = document.getElementById('previousPrice');
+                let description = document.getElementById('description');
+                let category = document.getElementById('product-category'); // Correct the ID here
+                let quantityErr = document.getElementById('quantityErr'); // Add this line
 
-                    // let cateErr = document.getElementById('cateErr'); // Add this line
+                // let cateErr = document.getElementById('cateErr'); // Add this line
 
-                    if (proname.value.trim() === '') {
-                        proname.style.border = 'solid 1px red';
-                        quantityErr.textContent = "must give product name"; // Correct the variable name here
-                        setTimeout(function () {
-                            proname.style.border = '';
-                            quantityErr.textContent = '';
-                        }, 4000);
-                        return false;
-                    } else if (category.value.trim() === '') {
-                        category.style.border = 'solid 1px red';
-                        quantityErr.textContent = "must give category name"; // Correct the variable name here
-                        setTimeout(function () {
-                            category.style.border = '';
-                            quantityErr.textContent = '';
-                        }, 4000);
-                        return false;
-                    } else if (quantity.value.trim() === '' || Number(quantity.value) <= 0 || isNaN(quantity.value)) {
-                        quantity.style.border = 'solid 1px red';
-                        quantityErr.textContent = "quantity must be more than 0";
-                        setTimeout(function () {
-                            quantity.style.border = '';
-                            quantityErr.textContent = '';
-                        }, 4000);
-                        return false;
-                    } else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
-                        price.style.border = 'solid 1px red';
-                        quantityErr.textContent = "price must be more than 0"; // Correct the variable name here
-                        setTimeout(function () {
-                            price.style.border = '';
-                            quantityErr.textContent = '';
-                        }, 4000);
-                        return false;
-                    } else if (previousprice.value.trim() === '' || Number(previousprice.value) <= 0 || isNaN(previousprice.value)) {
-                        previousprice.style.border = 'solid 1px red';
-                        quantityErr.textContent = "give here previous price"; // Correct the variable name here
-                        setTimeout(function () {
-                            previousprice.style.border = '';
-                            quantityErr.textContent = '';
-                        }, 4000);
-                        return false;
-                    } else if (description.value.trim() === '' || description.value.trim().length <= 20) {
-                        description.style.border = 'solid 1px red';
-                        quantityErr.textContent = "Description must be more than 20 letters"; // Correct the variable name here
-                        setTimeout(function () {
-                            description.style.border = '';
-                            quantityErr.textContent = '';
-                        }, 4000);
-                        return false;
-                    } else {
-                        return true; // Correct the syntax here
-                    }
+                if (proname.value.trim() === '') {
+                    proname.style.border = 'solid 1px red';
+                    quantityErr.textContent = "must give product name"; // Correct the variable name here
+                    setTimeout(function () {
+                        proname.style.border = '';
+                        quantityErr.textContent = '';
+                    }, 4000);
+                    return false;
+                } else if (category.value.trim() === '') {
+                    category.style.border = 'solid 1px red';
+                    quantityErr.textContent = "must give category name"; // Correct the variable name here
+                    setTimeout(function () {
+                        category.style.border = '';
+                        quantityErr.textContent = '';
+                    }, 4000);
+                    return false;
+                } else if (quantity.value.trim() === '' || Number(quantity.value) <= 0 || isNaN(quantity.value)) {
+                    quantity.style.border = 'solid 1px red';
+                    quantityErr.textContent = "quantity must be more than 0";
+                    setTimeout(function () {
+                        quantity.style.border = '';
+                        quantityErr.textContent = '';
+                    }, 4000);
+                    return false;
+                } else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
+                    price.style.border = 'solid 1px red';
+                    quantityErr.textContent = "price must be more than 0"; // Correct the variable name here
+                    setTimeout(function () {
+                        price.style.border = '';
+                        quantityErr.textContent = '';
+                    }, 4000);
+                    return false;
+                } else if (previousprice.value.trim() === '' || Number(previousprice.value) <= 0 || isNaN(previousprice.value)) {
+                    previousprice.style.border = 'solid 1px red';
+                    quantityErr.textContent = "give here previous price"; // Correct the variable name here
+                    setTimeout(function () {
+                        previousprice.style.border = '';
+                        quantityErr.textContent = '';
+                    }, 4000);
+                    return false;
+                } else if (description.value.trim() === '' || description.value.trim().length <= 20) {
+                    description.style.border = 'solid 1px red';
+                    quantityErr.textContent = "Description must be more than 20 letters"; // Correct the variable name here
+                    setTimeout(function () {
+                        description.style.border = '';
+                        quantityErr.textContent = '';
+                    }, 4000);
+                    return false;
+                } else {
+                    return true; // Correct the syntax here
                 }
-            </script>
-            
-            <%- include('../layouts/admin/footer.ejs') -%>
+            }
+        </script>
+
+        <%- include('../layouts/admin/footer.ejs') -%>

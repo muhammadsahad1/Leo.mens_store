@@ -79,28 +79,33 @@
               <h4 class="card-title">Latest Orders</h4>
             </div>
             <div>
-              <form action="/admin/createReport" method="post" id="filterForm">
+              <form action="/admin/createReport" method="post" id="filterForm" >
                 <div class="row align-items-center">
-                  <label for="startDate" class="col-md-4 col-12">Start Date:</label>
+                  
+                  
+                  <label for="startDate" id="startDate" class="col-md-4 col-12">Start Date:</label>
                   <input
-                    type="date"
-                    required
-                    id="startDate"
-                    name="startDate"
-                    class="col-md-8 col-12 form-control mb-2"/>
+                  type="date"
+                  required
+                  id="startDate"
+                  name="startDate"
+                  class="col-md-8 col-12 form-control mb-2"/>
                 </div>
                 
                 <div class="row align-items-center">
-                  <label for="endDate" class="col-md-4 col-12">End Date:</label>
+                  <label for="endDate" id="endDate" class="col-md-4 col-12">End Date:</label>
                   <input
-                    type="date"
-                    required
-                    id="endDate"
-                    name="endDate"
-                    class="col-md-8 col-12 form-control mb-2"
+                  type="date"
+                  required
+                  id="endDate"
+                  name="endDate"
+                  class="col-md-8 col-12 form-control mb-2"
                   />
                 </div>
-
+                <% if (messages.message) { %>
+                  <div class="alert alert-danger"><%= messages.message %></div>
+                 <% } %>
+                
                 <button type="submit" class="btn btn-primary">
                   Generate Report
                 </button>
@@ -111,6 +116,50 @@
       </header>
     
   </section>
+
+<!-- Include SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Other scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/js/vendors/jquery-3.6.0.min.js"></script>
+<script src="/js/vendors/bootstrap.bundle.min.js"></script>
+<!-- ... other scripts ... -->
+
+<!-- Script to parse query parameters and display the message -->
+<script>
+  // Function to parse query parameters
+  function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+  }
+ 
+  // Function to remove a query parameter
+  function removeQueryParam(url, param) {
+     const urlObj = new URL(url);
+     urlObj.searchParams.delete(param);
+     return urlObj.toString();
+  }
+  
+  // Check if there's a message query parameter and display it
+  const message = getQueryParam('message');
+  if (message) {
+      Swal.fire({
+        icon: 'error',
+        title: message,
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        const newUrl = removeQueryParam(window.location.href, 'message');
+        window.location.href = newUrl;
+      });
+  }
+ </script>
+<!-- Main Script -->
+<script src="/js/main.js?v=1.1" type="text/javascript"></script>
+<script src="/js/custom-chart.js" type="text/javascript"></script>
+<!-- ... other scripts ... -->
 
   <!-- content-main end// -->
   <footer class="main-footer font-xs">
@@ -127,17 +176,23 @@
     </div>
   </footer>
 </main>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 <script src="/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="/js/vendors/select2.min.js"></script>
 <script src="/js/vendors/perfect-scrollbar.js"></script>
 <script src="/js/vendors/jquery.fullscreen.min.js"></script>
 <script src="/js/vendors/chart.js"></script>
-<!-- Main Script -->
-<script src="/js/main.js?v=1.1" type="text/javascript"></script>
+< Main Script -->
+<!-- <script src="/js/main.js?v=1.1" type="text/javascript"></script>
 <script src="/js/custom-chart.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
-<script src="assets/js/custom-chart.js" type="text/javascript"></script>
+<script src="assets/js/main.js?v=1.1" type="text/javascript"></script
+<script src="assets/js/custom-chart.js" type="text/javascript"></script> --> 
 
 <%- include('../layouts/admin/footer.ejs') -%>

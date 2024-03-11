@@ -145,55 +145,55 @@ const loadEditProductPage = async (req, res) => {
 
 const editProducts = async (req, res) => {
   try {
-    const id = req.body.id;
-    const existsImg = await Products.find({ _id: id });
-    await Products.updateMany(
-      { _id: id },
-      {
-        $set: {
-          previousPrice: req.body.previousPrice,
-          name: req.body.name,
-          description: req.body.description,
-          price: req.body.price,
-          sizes: req.body.sizes,
-          categoriesId: req.body.category,
-          stockQuantity: req.body.quantity,
-        },
-      }
-    );
+      const id = req.body.id;
+      const existsImg = await Products.find({ _id: id });
 
-    // for image
-    let arrayimages = [];
-    for (let i = 0; i < req.files.length; i++) {
-      arrayimages[i] = req.files[i].filename;
-    }
-
-    for (let i = 0; i < req.files.length; i++) {
-      await sharp("public/assets/img/product/original/" + req.files[i].filename)
-        .resize(500, 500)
-        .toFile("public/assets/img/product/sharp/" + req.files[i].filename);
-    }
-    if (arrayimages) {
-      const image1 = arrayimages[0] || existsImg[0].images[0];
-      const image2 = arrayimages[1] || existsImg[0].images[1];
-      const image3 = arrayimages[2] || existsImg[0].images[2];
-
-      await Products.findByIdAndUpdate(
-        { _id: id },
-        {
-          $set: {
-            "images[0]": image1,
-            "images[1]": image2,
-            "images[2]": image3,
-          },
-        }
+      // Update other fields
+      await Products.updateMany(
+          { _id: id },
+          {
+              $set: {
+                  previousPrice: req.body.previousPrice,
+                  name: req.body.name,
+                  description: req.body.description,
+                  price: req.body.price,
+                  sizes: req.body.sizes,
+                  categoriesId: req.body.category,
+                  stockQuantity: req.body.quantity,
+              },
+          }
       );
-    }
 
-    console.log("working");
-    res.redirect("/admin/products");
+      // Update images
+      let arrayimages = [];
+      for (let i = 0; i < req.files.length; i++) {
+          arrayimages[i] = req.files[i].filename;
+      }
+
+      // Resize and store images
+      for (let i = 0; i < req.files.length; i++) {
+          await sharp("public/assets/img/product/original/" + req.files[i].filename)
+              .resize(500, 500)
+              .toFile("public/assets/img/product/sharp/" + req.files[i].filename);
+      }
+
+      // Update image filenames in the database
+      if (arrayimages.length > 0) {
+          await Products.findByIdAndUpdate(
+              { _id: id },
+              {
+                  $set: {
+                      "images": arrayimages,
+                  },
+              }
+          );
+      }
+
+      console.log("Product updated successfully");
+      res.redirect("/admin/products");
   } catch (error) {
-    console.log(error);
+      console.log("Error updating product:", error);
+      res.status(500).send("Error updating product");
   }
 };
 
@@ -201,100 +201,102 @@ const editProducts = async (req, res) => {
 
 // ===================== Load shop
 
+
+
+// Define the loadshoppage function
+
 const loadshoppage = async (req, res) => {
   try {
-    let page = 1;
-    if (req.query.id) {
-      page = req.query.id;
-    }
+      let currentPage = parseInt(req.query.page) || 1;
+      let page = req.query.page || 1;
+      let limit = 6;
+      let skip = (page - 1) * limit;
+      let next = parseInt(page) + 1;
+      let previous = parseInt(page) > 1 ? parseInt(page) - 1 : 1;
 
-    let limit = 6;
-    let previous = page > 1 ? page - 1 : 1;
-    let next = page + 1;
+      // Accept category ID and sort order as query parameters
+      let categoryId = req.query.categoryId;
+      let sort = req.query.sort || 'increasing'; // Default to 'increasing' if not provided
 
-    const count = await User.find({ isAdmin: false }).count();
-    const totalpages = Math.ceil(count / limit);
-    if (next > totalpages) {
-      next = totalpages;
-    }
-
-    const allProducts = await Products.find({ isListed: true })
-      .populate("offer")
-      .limit(limit)
-      .skip((page - 1) * limit)
-      .exec();
-    const pro = allProducts.filter((pro) => pro.price);
-    const offerProducts = allProducts.filter((product) => product.offer);
-    const regularProducts = allProducts.filter((product) => !product.offer);
-    const offerIds = offerProducts.map((product) => product.offer._id);
-
-    const offers = await Offer.find({ _id: { $in: offerIds } });
-
-    // Extract discountAmount from fetched offers for products
-    const discountAmountMap = {};
-    offers.forEach((offer) => {
-      discountAmountMap[offer._id.toString()] = offer.discountAmount;
-    });
-
-    // Fetch category offers
-    const categories = await Category.find({ isList: true })
-      .populate("offer")
-      .exec();
-
-    const categoryDiscountAmountMap = {};
-    categories.forEach((category) => {
-      if (category.offer) {
-        categoryDiscountAmountMap[category._id.toString()] =
-          category.offer.discountAmount;
+      // Build the query object based on category ID
+      let query = { isListed: true };
+      if (categoryId) {
+          query.categoriesId = categoryId;
       }
-    });
 
-    const id = req.session.user?._id;
+      // Determine the sort order
+      let sortOrder = sort === 'increasing' ? 1 : -1;
 
-    const commonData = {
-      offerProducts: offerProducts,
-      regularProducts: regularProducts,
-      categories: categories,
-      discountAmountMap: discountAmountMap,
-      categoryDiscountAmountMap: categoryDiscountAmountMap,
-      page: page,
-      next: next,
-      previous: previous,
-      totalpages: totalpages,
-    };
+      // Count the total number of matching products
+      let count = await Products.find(query).count();
 
-    if (id) {
-      const existWishlist = await Wishlist.findOne({
-        user: id,
-        "products.productId": {
-          $in: allProducts.map((product) => product._id),
-        },
+      // Calculate the total number of pages
+      let totalPage = Math.ceil(count / limit);
+      if (next > totalPage) {
+          next = totalPage;
+      }
+
+      // Ensure that currentPage is within the valid range
+      if (currentPage < 1) {
+          currentPage = 1;
+      } else if (currentPage > totalPage) {
+          currentPage = totalPage;
+      }
+
+      // Fetch the categories
+      const cetagory = await Category.find({ isList: true }).populate("offer");
+      if (skip < 0) {
+          skip = 0;
+      }
+
+      // Fetch the products based on the query parameters and sort order
+      const products = await Products.find(query)
+          .populate("categoriesId")
+          .populate("offer")
+          .sort({ price: sortOrder }) // Apply sorting
+          .skip(skip)
+          .limit(limit);
+
+      // Modify the products to include discounts, if applicable
+      const productsWithDiscount = products.map((product) => {
+          if (product.offer) {
+              const discountAmount = product.offer.discountAmount;
+              const discountType = product.offer.discountType;
+              let discountedPrice;
+
+              if (discountType === "fixed") {
+                  discountedPrice = product.price - discountAmount;
+              } else if (discountType === "percentage") {
+                  discountedPrice = product.price - product.price * (discountAmount / 100);
+              }
+
+              return { ...product.toObject(), discountedPrice };
+          }
+          return product;
       });
 
-      const user = await User.findById(id);
-
+      // Render the productsshop page with necessary data
       res.render("productsshop", {
-        user: user,
-        id: id,
-        existWishlistPro: existWishlist ? true : false,
-        existWishlist,
-        products: existWishlist ? existWishlist.products : [],
-        ...commonData,
+          currentPage: currentPage, // Pass the currentPage to the frontend
+          cetagory,
+          product: productsWithDiscount,
+          next,
+          previous,
+          totalPage,
+          categoryId: categoryId, // Pass the categoryId to the frontend
+          sort: sort // Pass the current sort order to the frontend
       });
-    } else {
-      res.render("productsshop", {
-        id: id,
-        ...commonData,
-      });
-    }
   } catch (error) {
-    console.log(error);
-    res.render('404Page')
-    res.status(500).send("Error loading shop page");
+      console.log(error);
+      res.status(500).json({ error: 'Internal server error' });
   }
 };
 
-// ========================= productDetails page
+   
+
+
+
+// product Details page
 
 const productdetailspage = async (req, res) => {
   try {
@@ -307,8 +309,8 @@ const productdetailspage = async (req, res) => {
 
     const existscart = await Cart.findOne({ userid: Userid });
 
-    let CatPrice = findproduct.price
-      
+    let CatPrice = findproduct.price;
+
     if (findproduct.categoriesId.offer) {
       const offer = await Offer.findOne({
         _id: findproduct.categoriesId.offer._id,
@@ -322,11 +324,9 @@ const productdetailspage = async (req, res) => {
     }
 
     let price = findproduct.price;
-    
-    if (findproduct.offer) {
-      console.log("ketiiii");
-      const offer = await Offer.findOne({ _id: findproduct.offer });
 
+    if (findproduct.offer) {
+      const offer = await Offer.findOne({ _id: findproduct.offer });
       if (offer) {
         if (offer.discountType === "percentage") {
           price -= findproduct.price * (offer.discountAmount / 100);
@@ -338,14 +338,14 @@ const productdetailspage = async (req, res) => {
       const existsProduct = existscart.products.find(
         (pro) => pro.productsId.toString() === id
       );
-      
+
       if (existsProduct) {
         // Product is already in the cart
         res.render("productdetails", {
           product: findproduct,
           user: Userid,
           offerPrice: price,
-          CatPrice : CatPrice,
+          CatPrice: CatPrice,
           products: products,
           isInCart: true,
         });
@@ -358,7 +358,7 @@ const productdetailspage = async (req, res) => {
       product: findproduct,
       user: Userid,
       offerPrice: price,
-      CatPrice : CatPrice,
+      CatPrice: CatPrice,
       products: products,
       isInCart: false,
     });
@@ -368,58 +368,6 @@ const productdetailspage = async (req, res) => {
   }
 };
 
-// ============= > search product
-
-const searchProduct = async (req, res) => {
-  try {
-    const searchName = req.body.search;
-    const foundProduct = await Products.find({
-      name: { $regex: searchName, $options: "i" },
-    });
-    console.log("matched==", foundProduct);
-    res.json({ pass: true, product: foundProduct });
-  } catch (error) {
-    res.status(400).send("Search request failed");
-  }
-};
-
-// ================================ Select Category
-
-const selectCategory = async (req, res) => {
-  try {
-    const selectCategory = req.body.selectCategory;
-    const findCategoryId = await Category.find({
-      name: { $in: selectCategory },
-    }).distinct("_id");
-    const findproducts = await Products.find({ categoriesId: findCategoryId });
-    if (findproducts) {
-      res.json({ pass: true, product: findproducts });
-    }
-  } catch (error) {
-    res.status(404).send("selectCategory request is failed");
-  }
-};
-
-// sort Price
-const sortPrice = async (req, res) => {
-  try {
-    const { sortOption } = req.body;
-    let sorting = {};
-    if (sortOption === "decreasing") {
-      sorting = { price: -1 };
-    } else if (sortOption === "increasing") {
-      sorting = { price: 1 };
-    }
-    console.log(sortOption);
-    const sortProduct = await Products.find().sort(sorting);
-    console.log("sortPro", sortProduct);
-    if (sortProduct) {
-      res.json({ product: sortProduct });
-    }
-  } catch (error) {
-    res.status(404).send("Your sortPrice request is falied");
-  }
-};
 module.exports = {
   loadproducts,
   listUnlistproducts,
@@ -430,7 +378,5 @@ module.exports = {
   // ui
   loadshoppage,
   productdetailspage,
-  searchProduct,
-  selectCategory,
-  sortPrice,
+  // filter,
 };

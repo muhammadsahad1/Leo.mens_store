@@ -28,12 +28,10 @@ const productsSchema = mongoose.Schema({
     offer: {
         type: ObjectId,
         ref : 'Offers',
-        
-        
     },
     discountAmount: {
         type: Number,
-        default: 0 // Default value set to 0
+        default: 0
     },
     categoriesId: {
         type: ObjectId,

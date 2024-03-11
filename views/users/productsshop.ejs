@@ -1,122 +1,174 @@
 <%- include('../layouts/user/header.ejs') -%>
   <style>
+    .cart-badge {
+ position: absolute;
+ top: -10px;
+ right: -10px;
+ padding: 5px 7px;
+ border-radius: 50%;
+ background: red;
+ color: white;
+ font-size: 12px;
+}
+    .pagination-area .pagination .page-item.active .page-link {
+      background-color: #007bff;
+      /* Background color when active */
+      color: white;
+      /* Text color when active */
+      border-color: #007bff;
+      /* Border color when active */
+    }
+
+    .pagination-area .pagination .page-item.active .page-link:hover {
+      background-color: #0056b3;
+      /* Background color on hover when active */
+      color: white;
+      /* Text color on hover when active */
+      border-color: #0056b3;
+      /* Border color on hover when active */
+    }
+
+    .page-item.active .page-link {
+      background-color: #007bff;
+      /* Bootstrap's primary color */
+      color: white;
+    }
+
+    .shop__sidebar__categories ul {
+      padding: 0;
+      /* Ensure no padding inside the list */
+      margin: 0;
+      /* Ensure no margin inside the list */
+    }
+
+    .shop_filters {
+      margin-bottom: 0;
+      /* Remove bottom margin for tighter spacing */
+    }
+
+    .discount-percentage {
+      display: inline-block;
+      /* Ensure the discount percentage is inline with the category name */
+    }
+
+    /* Ensure the product container is displayed alongside the sidebar */
+    #productContainer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    /* Adjust the spacing between product items */
+    .product__item {
+      margin-bottom: 20px;
+      /* Add some space between product items for better readability */
+    }
+
     .sortbyPrice {
       cursor: pointer;
     }
 
-    .image-container {
+    .product__item__pic {
       position: relative;
       overflow: hidden;
     }
 
-    .image-container img {
+    .product__item__pic img {
       width: 100%;
       height: auto;
       transition: transform 0.3s ease;
     }
 
-    .image-container:hover img {
+    .product__item__pic :hover img {
       transform: scale(1.2);
     }
-
-    .BrandSelect {
-      background-color: rgb(17, 17, 17);
-      color: rgb(255, 255, 255);
-      border: 0;
-      border-radius: 1px;
-      text-align: center;
-      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-        "Lucida Sans", Arial, sans-serif;
-      letter-spacing: 1px;
-      width: 250px;
-      font-weight: bold;
-      cursor: pointer;
-    }
   </style>
-  <header class="header">
-    <div class="header__top">
+<header class="header">
+  <div class="header__top">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-6 col-md-7">
-            <div class="header__top__left">
-              <p></p>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-5">
-            <div class="header__top__right">
-              <div class="header__top__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
+          <div class="row">
+              <div class="col-lg-6 col-md-7">
+                  <div class="header__top__left">
+                      <p></p>
+                  </div>
               </div>
-              <div class="header__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                  <li>USD</li>
-                  <li>EUR</li>
-                  <li>USD</li>
-                </ul>
+              <div class="col-lg-6 col-md-5">
+                  <div class="header__top__right">
+                      <div class="header__top__links">
+                          <a href="/register">Sign in</a>
+                          <a href="#">FAQs</a>
+                      </div>
+                      <div class="header__top__hover">
+                          <span>Usd <i class="arrow_carrot-down"></i></span>
+                          <ul>
+                              <li>USD</li>
+                              <li>EUR</li>
+                              <li>USD</li>
+                          </ul>
+                      </div>
+                  </div>
               </div>
-            </div>
           </div>
-        </div>
       </div>
-    </div>
-    <div class="container">
+  </div>
+  <div class="container">
       <div class="row">
-        <div class="col-lg-3 col-md-3" style="height: 50px">
-          <div class="header__logo">
-            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px" alt="" /></a>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-          <nav class="header__menu mobile-menu">
-            <ul>
-              <li><a href="/">Home</a></li>
-              <li class="active"><a href="/productsshop ">Shop</a></li>
-              <li>
-                <a href="#">Pages</a>
-                <ul class="dropdown">
-                  <li><a href="">About Us</a></li>
-                  <li><a href="">Shop Details</a></li>
-                  <li><a href="">Shopping Cart</a></li>
-                  <li><a href="">Check Out</a></li>
-                  <li><a href="">Blog Details</a></li>
-                </ul>
-              </li>
-              <li><a href="">Blog</a></li>
-              <li><a href="">Contacts</a></li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="header__nav__option">
-            <div class="dropdown">
-              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <% if(locals.user){ %>
-                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
-                  <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
-                  <% } else { %>
-                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
-                    <% } %>
-              </a>
-
-              <div class="dropdown-menu" aria-labelledby="userDropdown">
-                <% if(locals.user){ %>
-                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
-                  <a class="dropdown-item" href="/logout">Logout</a>
-                  <% } else { %>
-                    <a class="dropdown-item" href="/login">Login</a>
-                    <a class="dropdown-item" href="/register">Sign up</a>
-                    <% } %>
+          <div class="col-lg-3 col-md-3" style="height: 50px;">
+              <div class="header__logo">
+                  <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
               </div>
-              <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-              <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
-            </div>
           </div>
-        </div>
-        <section>
-  </header>
+          <div class="col-lg-6 col-md-6">
+              <nav class="header__menu mobile-menu">
+                  <ul>
+                      <li ><a href="">Home</a></li>
+                      <li class="active"><a href="/productsshop ">Shop</a></li>
+                      <li><a href="#">Pages</a>
+                          <ul class="dropdown">
+                              <li><a href="/about">
+                                about
+                          </ul>
+                      </li>
+                      
+                      <li><a href="/contact">Contacts</a></li>
+                  </ul>
+              </nav>
+          </div>
+          <div class="col-lg-3 col-md-3">
+              <div class="header__nav__option">
+                  <div class="dropdown">
+                      <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
+                          data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <% if(locals.user){ %>
+                              <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                              <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
+                              <% } else { %>
+                                  <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                                  <% } %>
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="userDropdown">
+                          <% if(locals.user){ %>
+                              <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                              <a class="dropdown-item" href="/logout">Logout</a>
+                              <% } else { %>
+                                  <a class="dropdown-item" href="/login">Login</a>
+                                  <a class="dropdown-item" href="/register">Sign up</a>
+                                  <% } %>
+                      </div>
+
+                      <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                      <% if(locals.user){ %>
+                        <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                        <% } %>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+  </div>
+</header>
   <section class="breadcrumb-option">
     <div class="container">
       <div class="row">
@@ -132,16 +184,17 @@
       </div>
     </div>
   </section>
-
   <div class="container mt-4">
     <div class="row">
       <div class="col-lg-3">
         <div class="shop__sidebar">
           <div class="shop__sidebar__search">
             <form id="searchForm">
-              <input class="form-control me-3" type="search" id="search-input" placeholder="Search"
-                aria-label="Search" />
-              <button class="btn btn-outline-success" id="searchBtn" type="button">Search</button>
+              <input class="form-control me-3" type="search" id="search-input" placeholder="Search" aria-label="Search">
+
+              <button id="clearFilters" title="Clear Filters">
+                <i class="fas fa-broom text-success"></i>
+              </button>
             </form>
           </div>
           <div class="shop__sidebar__accordion">
@@ -151,36 +204,51 @@
                   <a data-toggle="collapse" data-target="#collapseTwo">Category</a>
                 </div>
                 <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
-                  <% if (categories) { %>
-
-                    <% categories.forEach(function(category) { %>
-                      <div class="card-body mt-2">
-                        <div class="shop__sidebar__brand">
-                          <ul>
-                            <input type="checkbox" id="catName" name="catName" value="<%= category.name %>" />
-                            <label for="vehicle1" class="mt-2 fw-bold text-dark">
-                              <%= category.name %>
-                            </label><br />
-                            <!-- Check if the category has an associated offer -->
-                            <% if (category.offer) { %>
-                              <!-- Calculate discount percentage -->
-                              <% const discountPercentage=category.offer.discountAmount; %>
-                                <!-- Log discount percentage for debugging -->
-                                <% console.log("Discount Percentage:", discountPercentage); %>
-                                  <!-- Display discount percentage -->
-                                  <span class="fw-bold " style="color: green;">Discount: <%= discountPercentage %>%
-                                  </span>
-                                  <% } %>
-                          </ul>
-                        </div>
+                  <% if (cetagory) { %>
+                    <div class="card-body mt-2">
+                      <div class="shop__sidebar__categories">
+                        <ul class="nice-scroll">
+                          <% cetagory.forEach(function(category) { %>
+                            <li class="mt-2">
+                              <a href="#" class="category-link text-dark fw-bold"
+                                data-category-id="<%= category._id %>">
+                                <%= category.name %>
+                              </a>
+                              <% if (category.offer) { %>
+                                <!-- Calculate discount percentage -->
+                                <% const discountPercentage=category.offer.discountAmount; %>
+                                  <!-- Log discount percentage for debugging -->
+                                  <% console.log("Discount Percentage:", discountPercentage); %>
+                                    <!-- Display discount percentage -->
+                                    <span class="fw-bold ms-2" style="color: green;">Discount: <%= discountPercentage %>
+                                        %
+                                    </span>
+                                    <% } %>
+                                      <% }); %>
+                            </li>
+                        </ul>
                       </div>
-                      <% }); %>
-                        <% } %>
-                          <div class="BrandSelect">
-                            Select Brand
-                            <!-- Options go here -->
-                          </div>
+                    </div>
+                    <% } %>
                 </div>
+
+
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const categoryLinks = document.querySelectorAll('.category-link');
+
+                    categoryLinks.forEach(function (link) {
+                      link.addEventListener('click', function (event) {
+                        event.preventDefault(); // Prevent the default link behavior
+                        const categoryId = this.getAttribute('data-category-id');
+                        window.location.href = `/productsshop?categoryId=${categoryId}`;
+                      });
+                    });
+                  });
+                </script>
+
+
+
               </div>
             </div>
           </div>
@@ -193,141 +261,138 @@
           </div>
         </div>
       </div>
+      <script>
+        // Function to handle sorting option change
+        const handleSortChange = () => {
+          const sortOrder = document.getElementById('sortbyPrice').value; // 'increasing' or 'decreasing'
+          const currentUrl = new URL(window.location.href);
 
-      <div class="col-lg-9" id="rel">
-        <div class="row" id="product-container">
-          <!-- Offer Products -->
-          <% if (Array.isArray(offerProducts)) { %>
-            <% offerProducts.forEach(function(product) { %>
-              <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="card border-0">
-                  <div class="card-body">
-                    <div class="image-container">
-                      <a href="/productdetails?id=<%= product._id %>">
-                        <img src="/img/product/sharp/<%= product.images[0]%>" />
-                      </a>
-                    </div>
-                    <div class="d-flex justify-content-end mt-1">
-                      <%if(locals.user){%>
-                        <% if (existWishlist && existWishlist.products.some(item=> item.productId.toString() ===
-                          product._id.toString())) { %>
-                          <!-- Render remove from wishlist icon -->
-                          <a href="#" class="wishlist-icon2" data-product-id="<%= product._id %>">
-                            <i class="fas fa-heart" style="color: red;"></i>
-                          </a>
-                          <%}else{%>
-                            <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
-                              <i class="far fa-heart" style="color: #888;"></i>
-                            </a>
-                            <%}%>
-                              <% } else { %>
-                                <!-- Render add to wishlist icon -->
-                                <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
-                                  <i class="far fa-heart" style="color: #888;"></i>
-                                </a>
-                                <% } %>
-                    </div>
-                    <p class="card-text fw-bold ">
-                      <%= product.name %>
-                    </p>
-                    <% if (discountAmountMap[product.offer._id.toString()]) { %>
-                      <% // Calculate discounted price %>
-                        <% const discountPercentage=discountAmountMap[product.offer._id.toString()]; %>
-                          <% const discountedPrice=product.price - (product.price * (discountPercentage / 100)); %>
-                            <!-- Display discounted price -->
-                            <span class="fw-bold ">Discounted Price: ₹ <%= discountedPrice.toFixed()%></span>
-                            <span class="fw-bold text-danger">Original Price: ₹ <%= product.price %></span>
-                            <% } else { %>
-                              <!-- Display regular price if no discountAmount available -->
-                              <span class="fw-bold">Regular Price: ₹ <%= product.price %> </span>
-                              <% } %>
-                  </div>
+          // Toggle between sorting options
+          if (sortOrder === 'increasing') {
+            currentUrl.searchParams.set('sort', 'increasing');
+          } else {
+            currentUrl.searchParams.set('sort', 'decreasing');
+          }
+
+          window.location.href = currentUrl.toString();
+        };
+
+        // Add event listener to handle sorting option change
+        document.getElementById('sortbyPrice').addEventListener('change', handleSortChange);
+
+        // Optional: Set initial selected option based on URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const sortParam = urlParams.get('sort');
+        if (sortParam === 'decreasing') {
+          document.getElementById('sortbyPrice').value = 'decreasing';
+        }
+      </script>
+
+      <div class="row col-lg-9" id="productContainer">
+        <% product.forEach((item, i)=> { %>
+          <% if (item.categoriesId.isList) { %>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <div class="product__item">
+                <div class="product__item__pic set-bg">
+                  <a href="/productdetails?id=<%= item._id %>&index=0">
+                    <img src="/img/product/sharp/<%= item.images[0] %>" />
+                    
+                    <ul class="product__hover">
+                      <li><a href="#"></a></li>
+                      <li><a href="#"> </a></li>
+                      <li><a href="#"> </a></li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                  <h6><span class="cardtitleshop">
+                      <%= item.name %>
+                    </span></h6>
+                  <% if (item.offer) { %>
+                    <s class="text-danger fw-bold " style="font-size:large;">
+                      ₹ <%=item.price %>
+                    </s>
+                    <h5>₹ <%= item.discountedPrice %>
+                    </h5>
+                    <% } else { %>
+                      <h5>₹ <%= item.price %>
+                      </h5>
+                      <% } %>
                 </div>
               </div>
+            </div>
+            <% } %>
               <% }); %>
-                <% } %>
-                  <!-- Regular Products -->
-                  <% if (Array.isArray(regularProducts)){%>
-                    <% regularProducts.forEach(function(product) { %>
-                      <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="card border-0">
-                          <div class="card-body">
-                            <div class="image-container">
-                              <a href="/productdetails?id=<%= product._id %>">
-                                <img src="/img/product/sharp/<%= product.images[0]%>" />
-                              </a>
-                            </div>
-                            <div class="d-flex justify-content-end mt-1">
-                              <% if(locals.user){ %>
-                                <% if (existWishlist && existWishlist.products.some(item=> item.productId.toString()
-                                  === product._id.toString())) { %>
-                                  <!-- Render remove from wishlist icon -->
-                                  <a href="#" class="wishlist-icon2" data-product-id="<%= product._id %>">
-                                    <i class="fas fa-heart" style="color: red;"></i>
-                                  </a>
-                                  <%}else{%>
-                                    <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
-                                      <i class="far fa-heart" style="color: #888;"></i>
-                                    </a>
-                                    <%}%>
-                                      <% } else { %>
-                                        <!-- Render add to wishlist icon -->
-                                        <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
-                                          <i class="far fa-heart" style="color: #888;"></i>
-                                        </a>
-                                        <% } %>
-                            </div>
-                            <p class="card-text fw-bold">
-                              <%= product.name %>
-                            </p>
-                            <span class="fw-bold">₹ <%= product.price %> </span>
-                          </div>
-                        </div>
-                      </div>
-                      <% }); %>
-                        <% } %>
+                <% if (totalPage> 1) { %>
+                  <div class="pagination-area mt-15 mb-50 d-flex justify-content-center">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item <%= previous <= 1 ? 'disabled' : '' %>">
+                          <a class="page-link" href="/productsshop?page=<%= previous %>">&laquo;</a>
+                        </li>
 
-                          <div class="pagination-area mt-5 mb-50 d-flex justify-content-center">
-                            <nav aria-label="Page navigation example">
-                              <ul class="pagination">
-                                <li class="page-item">
-                                  <a class="page-link text-dark" href="/productsshop?id=<%= previous %>">
-                                    < </a>
-                                </li>
-                                <% for(let i=1; i < totalpages; i++) { %>
-                                  <li class="page-item">
-                                    <a class="page-link text-dark" href="/productsshop?id=<%= i %>">
-                                      <%= i %>
-                                    </a>
-                                  </li>
-                                  <% } %>
-                                    <li class="page-item">
-                                      <a class="page-link text-dark" href="/productsshop?id=<%= next %>">></a>
-                                    </li>
-                              </ul>
-                            </nav>
-                          </div>
-        </div>
+                        <% for (let i=1; i <=totalPage; i++) { %>
+                          <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                            <a class="page-link" href="/productsshop?page=<%= i %>">
+                              <%= i %>
+                            </a>
+                          </li>
+                          <% } %>
+
+                            <li class="page-item <%= next > totalPage ? 'disabled' : '' %>">
+                              <a class="page-link" href="/productsshop?page=<%= next %>">&raquo;</a>
+                            </li>
+                      </ul>
+                    </nav>
+                  </div>
+                  <% } %>
       </div>
+      <script>
+        function updatePage(action) {
+          var currentUrl = new URL(window.location.href);
+
+          var existingPage = currentUrl.searchParams.get('page');
+
+          var newPage;
+          if (action === '<%= previous %>') {
+            newPage = existingPage ? parseInt(existingPage) - 1 : 1;
+          } else if (action === '<%= next %>') {
+            newPage = existingPage ? parseInt(existingPage) + 1 : 2;
+          } else {
+            newPage = parseInt(action);
+          }
+
+          // Set or append the 'page' parameter in the URL
+          if (existingPage) {
+            currentUrl.searchParams.set('page', newPage);
+          } else {
+            currentUrl.searchParams.append('page', newPage);
+          }
+
+          currentUrl.hash = '';
+
+          window.location.href = currentUrl.toString();
+        }
+
+      </script>
+
+
     </div>
+    <div class="canvas__open"><i class="fa fa-bars"></i></div>
   </div>
-  </div>
-  <div class="canvas__open"><i class="fa fa-bars"></i></div>
-  </div>
+
+
+
+
   <footer class="footer mt-5">
     <div class="container">
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="footer__about">
             <div class="footer__logo">
-              <a href="#"><img src="/img/logoleo.jpg" style="height: 50px" alt="logoimg" />
-              </a>
+              <a href="#"><img src="/img/logoleo.jpg" style="height: 50px;" alt="logoimg"> </a>
             </div>
-            <p>
-              The customer is at the heart of our unique business model, which
-              includes design.
-            </p>
-            <a href="#"><img src="img/payment.png" alt="" /></a>
+            <p>The customer is at the heart of our unique business model, which includes design.</p>
+            <a href="#"><img src="img/payment.png" alt=""></a>
           </div>
         </div>
         <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
@@ -356,12 +421,9 @@
           <div class="footer__widget">
             <h6>NewLetter</h6>
             <div class="footer__newslatter">
-              <p>
-                Be the first to know about new arrivals, look books, sales &
-                promos!
-              </p>
+              <p>Be the first to know about new arrivals, look books, sales & promos!</p>
               <form action="#">
-                <input type="text" placeholder="Your email" />
+                <input type="text" placeholder="Your email">
                 <button type="submit"><span class="icon_mail_alt"></span></button>
               </form>
             </div>
@@ -372,14 +434,12 @@
         <div class="col-lg-12 text-center">
           <div class="footer__copyright__text">
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            <p>
-              Copyright ©
+            <p>Copyright ©
               <script>
-                document.write(new Date().getFullYear());
-              </script>
-              2020 All rights reserved | This template is made with
-              <i class="fa fa-heart-o" aria-hidden="true"></i> by
-              <a href="https://colorlib.com" target="_blank">Colorlib</a>
+
+              </script>2020
+              All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                href="https://colorlib.com" target="_blank">Colorlib</a>
             </p>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </div>
@@ -387,377 +447,58 @@
       </div>
     </div>
   </footer>
-  <input type="hidden" value="<%=id%>" id="userId">
   <!-- For search -->
   <script>
-    // sort price
-    document.getElementById("sortbyPrice").addEventListener("change", (event) => {
-      let selectOption = event.target.value;
-      fetch("/sortPrice", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ sortOption: selectOption }),
-      })
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchInput = document.getElementById('search-input');
+      const productContainer = document.getElementById('productContainer');
+      const products = Array.from(productContainer.querySelectorAll('.product__item'));
 
-        .then((response) => {
-          if (response.ok) {
-            return response.json(); // Parse response JSON
+      searchInput.addEventListener('input', function () {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const matchingProducts = [];
+
+        products.forEach(function (product) {
+          const productName = product.querySelector('.cardtitleshop').innerText.trim().toLowerCase();
+
+          if (productName.includes(searchTerm)) {
+            matchingProducts.push(product);
           } else {
-            throw new Error('Network response was not ok.');
+            // Move non-matching products outside the viewport
+            product.style.position = 'absolute';
+            product.style.top = '-9999px';
+            product.style.left = '-9999px';
           }
-        }).then((data) => {
-
-
-          const productContainer = document.getElementById("product-container");
-          productContainer.innerHTML = "";
-          data.product.forEach((element, i) => {
-            const outerContainer = document.createElement("div");
-            outerContainer.className = "col-lg-4 col-md-6 col-sm-6";
-
-            const cardDiv = document.createElement("div");
-            cardDiv.className = "card border-0";
-
-            const cardBodyDiv = document.createElement("div");
-            cardBodyDiv.className = "card-body";
-
-            const imageContainerDiv = document.createElement("div");
-            imageContainerDiv.className = "image-container";
-
-            const productImageAnchor = document.createElement("a");
-            productImageAnchor.href = `/productdetails?id=${element._id}`;
-
-            const productImg = document.createElement("img");
-            productImg.src = `/img/product/sharp/${element.images[0]}`;
-            productImg.alt = "Product Image";
-
-            productImageAnchor.appendChild(productImg);
-            imageContainerDiv.appendChild(productImageAnchor);
-            cardBodyDiv.appendChild(imageContainerDiv);
-
-            // Heart icon
-            const heartDiv = document.createElement("div");
-            heartDiv.className = "d-flex justify-content-end mt-1";
-
-            const heartAnchor = document.createElement("a");
-            heartAnchor.href = "#";
-
-            const heartImg = document.createElement("img");
-            heartImg.src = "img/icon/heart.png";
-            heartImg.alt = "Heart Icon";
-            heartImg.style.width = "15px";
-
-            heartAnchor.appendChild(heartImg);
-            heartDiv.appendChild(heartAnchor);
-            cardBodyDiv.appendChild(heartDiv);
-
-            // Product Name
-            const productName = document.createElement("p");
-            productName.className = "card-text fw-bold";
-            productName.textContent = element.name;
-
-            cardBodyDiv.appendChild(productName);
-
-            // Product Price
-            const productPrice = document.createElement("span");
-            productPrice.className = "fw-bold";
-            productPrice.textContent = `₹ ${element.price}`;
-
-            cardBodyDiv.appendChild(productPrice);
-
-            cardDiv.appendChild(cardBodyDiv);
-            outerContainer.appendChild(cardDiv);
-            productContainer.appendChild(outerContainer);
-          });
-        })
-
-        .catch((error) => {
-          console.log(error);
         });
-    });
 
-    // For Remove wishlist
-    function attachHeartEventListeners() {
-      document.querySelectorAll(".wishlist-icon2").forEach((icon) => {
-        icon.addEventListener("click", (event) => {
-          event.preventDefault();
-          const productId = icon.getAttribute("data-product-id");
+        // Append matching products to the beginning of the container
+        matchingProducts.forEach(function (matchingProduct, index) {
+          // Set the width of the matching product to match the width of other products
+          matchingProduct.style.width = products[0].offsetWidth + 'px';
 
-          console.log(productId);
+          // Reset position for matching products to display them
+          matchingProduct.style.position = '';
+          matchingProduct.style.top = '';
+          matchingProduct.style.left = '';
 
-          const data = {
-            productId: productId,
-          };
-          fetch("/removeWishlist", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }).then((response) => {
-            if (response.ok) {
-              window.location.reload();
-            }
-          });
-        });
-      });
-
-      //  For Addwishlist
-
-      document.querySelectorAll(".wishlist-icon").forEach((icon) => {
-        icon.addEventListener("click", (event) => {
-          const userId = document.getElementById('userId').value
-          if (!userId) {
-            Swal.fire({
-              icon: 'info',
-              title: 'Must need to login',
-              showConfirmButton: true,
-              showCancelButton: true, 
-              confirmButtonText: 'Login',
-              cancelButtonText: 'Cancel',
-              
-            }).then((result) => {
-              if(result.isConfirmed)
-              {
-                window.location.href = '/login'
-              }
-            })
-          }
-          event.preventDefault();
-          const productId = icon.getAttribute("data-product-id");
-
-          console.log(productId);
-
-          fetch("/addWishlist", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ productId }),
-          }).then((response) => {
-            if (response.ok) {
-              window.location.reload();
-            }
-          });
-        });
-      });
-    }
-    // For search
-
-    const searchBtn = document.getElementById("searchBtn");
-    searchBtn.addEventListener("click", () => {
-      const searchInput = document.getElementById("search-input").value;
-      if (searchInput.trim() != '') {
-        search(searchInput);
-      }
-
-    });
-    function search(searchData) {
-      const data = {
-        search: searchData,
-      };
-
-      console.log(typeof data, data);
-
-      $.ajax({
-        type: "POST",
-        url: "/search",
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        success: function (response) {
-          if (response.pass === true) {
-
-            const productContainer = document.getElementById("product-container");
-            productContainer.innerHTML = "";
-            response.product.forEach((element, i) => {
-              const outerContainer = document.createElement("div");
-              outerContainer.className = "col-lg-4 col-md-6 col-sm-6";
-
-              const cardDiv = document.createElement("div");
-              cardDiv.className = "card border-0";
-
-              const cardBodyDiv = document.createElement("div");
-              cardBodyDiv.className = "card-body";
-
-              const imageContainerDiv = document.createElement("div");
-              imageContainerDiv.className = "image-container";
-
-              const productImageAnchor = document.createElement("a");
-              productImageAnchor.href = `/productdetails?id=${element._id}`;
-
-              const productImg = document.createElement("img");
-              productImg.src = `/img/product/sharp/${element.images[0]}`;
-              productImg.alt = "Product Image";
-
-              productImageAnchor.appendChild(productImg);
-              imageContainerDiv.appendChild(productImageAnchor);
-              cardBodyDiv.appendChild(imageContainerDiv);
-
-              // Heart icon
-              const heartDiv = document.createElement("div");
-              heartDiv.className = "d-flex justify-content-end mt-1";
-
-              const heartAnchor = document.createElement("a");
-              heartAnchor.href = "#";
-
-              const heartImg = document.createElement("img");
-              heartImg.src = "img/icon/heart.png";
-              heartImg.alt = "Heart Icon";
-              heartImg.style.width = "15px";
-
-              heartAnchor.appendChild(heartImg);
-              heartDiv.appendChild(heartAnchor);
-              cardBodyDiv.appendChild(heartDiv);
-
-              // Product Name
-              const productName = document.createElement("p");
-              productName.className = "card-text fw-bold";
-              productName.textContent = element.name;
-              cardBodyDiv.appendChild(productName);
-
-              // Product Price
-              const productPrice = document.createElement("span");
-              productPrice.className = "fw-bold";
-              productPrice.textContent = `₹ ${element.price}`;
-
-              cardBodyDiv.appendChild(productPrice);
-
-              cardDiv.appendChild(cardBodyDiv);
-              outerContainer.appendChild(cardDiv);
-              productContainer.appendChild(outerContainer);
-            });
-            $('#searchForm').load(' #searchForm');
-            if (response.product.length === 0) {
-              // Display a SweetAlert2 message when no products are found
-              Swal.fire({
-                icon: 'info',
-                title: 'No product available',
-                text: 'Your search did not match any products.',
-                showConfirmButton: true
-              }).then(() => {
-                window.location.reload()
-              })
-            }
+          // If it's the first matching product, place it at the top-left corner
+          if (index === 0) {
+            matchingProduct.style.margin = '0'; // Reset margin
           } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'someting went wrong !',
-              showConfirmButton: false
-            }).then(() => {
-              window.location.reload()
-            })
+            // If it's not the first matching product, reset margin to maintain spacing
+            matchingProduct.style.margin = ''; // Remove margin
           }
-        },
-        error: function (error) {
-          console.error(error);
-        },
-      });
-    }
 
-    // For Caregory Select
-
-    const categorySelect = document.querySelectorAll('input[name="catName"]');
-    const selectBtn = document.querySelector(".BrandSelect");
-    selectBtn.addEventListener("click", function () {
-      const selectCat = [];
-      categorySelect.forEach((cb) => {
-        if (cb.checked) {
-          selectCat.push(cb.value);
-        }
-      });
-
-      $.ajax({
-        url: "catgorySelect",
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({ selectCategory: selectCat }),
-        success: (response) => {
-          if (response.pass === true) {
-            const productContainer = document.getElementById("product-container");
-            productContainer.innerHTML = "";
-            response.product.forEach((element, i) => {
-              const outerContainer = document.createElement("div");
-              outerContainer.className = "col-lg-4 col-md-6 col-sm-6";
-
-              const cardDiv = document.createElement("div");
-              cardDiv.className = "card border-0";
-
-              const cardBodyDiv = document.createElement("div");
-              cardBodyDiv.className = "card-body";
-
-              const imageContainerDiv = document.createElement("div");
-              imageContainerDiv.className = "image-container";
-
-              const productImageAnchor = document.createElement("a");
-              productImageAnchor.href = `/productdetails?id=${element._id}`;
-
-              const productImg = document.createElement("img");
-              productImg.src = `/img/product/sharp/${element.images[0]}`;
-              productImg.alt = "Product Image";
-
-              productImageAnchor.appendChild(productImg);
-              imageContainerDiv.appendChild(productImageAnchor);
-              cardBodyDiv.appendChild(imageContainerDiv);
-
-              const heartDiv = document.createElement("div");
-              heartDiv.className = "d-flex justify-content-end mt-1";
-
-              const heartAnchor = document.createElement("a");
-              heartAnchor.href = "#";
-
-              const heartImg = document.createElement("img");
-              heartImg.src = "img/icon/heart.png";
-              heartImg.alt = "Heart Icon";
-              heartImg.style.width = "15px";
-
-              heartAnchor.appendChild(heartImg);
-              heartDiv.appendChild(heartAnchor);
-              cardBodyDiv.appendChild(heartDiv);
-
-              // Product Name
-              const productName = document.createElement("p");
-              productName.className = "card-text fw-bold";
-              productName.textContent = element.name;
-
-              cardBodyDiv.appendChild(productName);
-
-              // Product Price
-              const productPrice = document.createElement("span");
-              productPrice.className = "fw-bold";
-              productPrice.textContent = `₹ ${element.price}`;
-
-              cardBodyDiv.appendChild(productPrice);
-
-              cardDiv.appendChild(cardBodyDiv);
-              outerContainer.appendChild(cardDiv);
-              productContainer.appendChild(outerContainer);
-            });
-          }
-        },
+          productContainer.prepend(matchingProduct);
+        });
       });
     });
 
-    // function to handle click pagination
-    attachHeartEventListeners();
-
-    // Pagination function to handle click pagination
-    function loadpage(page) {
-      $.ajax({
-        url: `/productsshop?page=${page}`,
-        type: 'GET',
-        success: function (data) {
-          $('#rel').html(data);
-          // Attach event listeners to heart icons after new content is loaded
-          attachHeartEventListeners();
-        },
-        error: function (error) {
-          console.log("Error", error)
-        }
-      })
-    }
 
   </script>
+
+  // </script>
+
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <%- include('../layouts/user/footer.ejs') -%>

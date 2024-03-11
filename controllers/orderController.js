@@ -7,6 +7,7 @@ const Razorpay = require("razorpay");
 const crypto = require("crypto");
 
 // ======================={ place order }======================== \\
+
 var instance = new Razorpay({
   key_id: "rzp_test_fB02vUjG7B86w1",
   key_secret: "GpMMTQeCJms3hyG5Z3thBSDA",
@@ -21,7 +22,7 @@ const placeOrders = async (req, res) => {
     const Usercart = await Cart.findOne({ userid: userid })
       .populate("userid")
       .populate("products.productsId");
-
+      
     if (couponCode) {
       await Coupon.updateOne(
         { couponCode: couponCode },
@@ -84,6 +85,7 @@ const placeOrders = async (req, res) => {
                 date: new Date(),
                 amount: Amount,
                 reason: "Order payment",
+                type : 'debited'
               },
             },
           }
@@ -106,6 +108,7 @@ const placeOrders = async (req, res) => {
       } else {
         res.json({ message: 'Insufficient balance in your wallet to complete the payment' })
       }
+
     } else if (ordersaved.status === "Pending") {
       console.log("kitti pending");
       const option = {
@@ -239,7 +242,7 @@ const CountinueVerifypayment = async (req,res)=>{
     } else {
       const changedOrder = await Order.findByIdAndUpdate(
         { _id: order.receipt },
-        { $set: { status: " pending" } } 
+        { $set: { status: "pending" } } 
      );
 
      console.log("changedOrder",changedOrder);
@@ -268,7 +271,7 @@ const LoadMyOrders = async (req, res) => {
     const Amount = req.query.id;
     console.log("Amounttttttt",Amount);
     const orderDetails = await Order.find({ userId: userid }).populate("userId").sort({date : -1})
-    res.render("myOrder", { order: orderDetails ,Amount:Amount});
+    res.render("myOrder", { order: orderDetails ,Amount:Amount, user : userid});
   } catch (error) {
     console.log(error);
   }
@@ -423,6 +426,7 @@ const returnConfirm = async (req, res) => {
             date: new Date(),
             amount: totalOrderAmount,
             reason: "Order returned",
+            type : 'credited'
           },
         },
       }
@@ -434,11 +438,20 @@ const returnConfirm = async (req, res) => {
   }
 };
 
+// payment policy
+const loadPolicyPage = async(req,res)=>{
+  try {
+    res.render('payment-policy')
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 module.exports = {
   placeOrders,
   verifyPayment,
+  loadPolicyPage,
   failedPaymentCountinue,
   CountinueVerifypayment,
   loadorderSuccess,

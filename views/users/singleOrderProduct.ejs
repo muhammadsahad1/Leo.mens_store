@@ -313,7 +313,7 @@ height: 100vh !important;
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="#">Sign in</a>
+                                <a href="/register">Sign in</a>
                                 <a href="#">FAQs</a>
                             </div>
                             <div class="header__top__hover">
@@ -343,15 +343,12 @@ height: 100vh !important;
                             <li><a href="/productsshop ">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
-                                    <li><a href="">About Us</a></li>                    
-                                     <li><a href="">Shop Details</a></li>
-                                    <li><a href="">Shopping Cart</a></li>
-                                    <li><a href="">Check Out</a></li>
-                                    <li><a href="">Blog Details</a></li>
+                                    <li><a href="/about">
+                                        about
                                 </ul>
                             </li>
-                            <li><a href="">Blog</a></li>
-                            <li><a href="">Contacts</a></li>
+                            
+                            <li><a href="/contact">Contacts</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -362,10 +359,12 @@ height: 100vh !important;
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <% if(locals.user){ %>
                                     <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                                    <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
                                     <% } else { %>
                                         <img style="width: 17px;" src="/img/icon/person.png" alt="">
                                         <% } %>
                             </a>
+
                             <div class="dropdown-menu" aria-labelledby="userDropdown">
                                 <% if(locals.user){ %>
                                     <a class="dropdown-item" href="/Userprofile">My Profile</a>
@@ -375,11 +374,15 @@ height: 100vh !important;
                                         <a class="dropdown-item" href="/register">Sign up</a>
                                         <% } %>
                             </div>
+
                             <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                            <a href="#"><img src="img/icon/heart.png" alt=""></a>
+                            <% if(locals.user){ %>
+                                <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                                <% } %>
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>

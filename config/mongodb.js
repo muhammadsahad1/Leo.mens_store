@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 module.exports = {
   connectDB: (() => {
 
-    mongoose.connect('mongodb://127.0.0.1:27017/E-commerce', {
+    mongoose.connect('mongodb+srv://muhammadsahad2022:sahad123@cluster0.aigq9jx.mongodb.net/', {
 
     }).then(() => {
       console.log("connect to Database");

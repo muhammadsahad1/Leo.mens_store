@@ -1,33 +1,6 @@
 <%- include('../layouts/user/header.ejs') -%>
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Winkel - Free Bootstrap 4 Template by Colorlib</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">
-    
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-
-    <link rel="stylesheet" href="css/aos.css">
-
-    <link rel="stylesheet" href="css/ionicons.min.css">
-
-    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="css/jquery.timepicker.css">
-
-    
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/icomoon.css">
-    <link rel="stylesheet" href="css/style.css">
-  </head>
   <body class="goto-here">
     <header class="header">
       <div class="header__top">
@@ -41,7 +14,7 @@
                   <div class="col-lg-6 col-md-5">
                       <div class="header__top__right">
                           <div class="header__top__links">
-                              <a href="#">Sign in</a>
+                              <a href="/register">Sign in</a>
                               <a href="#">FAQs</a>
                           </div>
                           <div class="header__top__hover">
@@ -67,19 +40,16 @@
               <div class="col-lg-6 col-md-6">
                   <nav class="header__menu mobile-menu">
                       <ul>
-                          <li class="active"><a href="">Home</a></li>
+                          <li ><a href="">Home</a></li>
                           <li><a href="/productsshop ">Shop</a></li>
-                          <li><a href="#">Pages</a>
+                          <li class="active" ><a href="#">Pages</a>
                               <ul class="dropdown">
-                                  <li><a href="">About Us</a></li>
-                                  <li><a href="">Shop Details</a></li>
-                                  <li><a href="">Shopping Cart</a></li>
-                                  <li><a href="">Check Out</a></li>
-                                  <li><a href="">Blog Details</a></li>
+                                  <li><a href="/about">
+                                    about
                               </ul>
                           </li>
-                          <li><a href="">Blog</a></li>
-                          <li><a href="">Contacts</a></li>
+                          
+                          <li><a href="/contact">Contacts</a></li>
                       </ul>
                   </nav>
               </div>
@@ -107,7 +77,9 @@
                           </div>
 
                           <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                          <% if(locals.user){ %>
                           <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                          <% } %>
                       </div>
                   </div>
               </div>
@@ -339,6 +311,7 @@
         </div>
       </div>
     </section>
+    
     <footer class="ftco-footer bg-light ftco-section">
       <div class="container">
       	<div class="row">

@@ -93,76 +93,72 @@
       </ul>
     </div>
   </header>
+  <div class="summary-section">
+    <h2 class="fw-bold ms-2 mt-2">Sales Summary</h2>
+    <p class="fw-bold ms-2 mt-2">Total Orders: <%= orders.length %></p>
+    <p class="fw-bold ms-2 mt-2">Total Sales: <%= totalSales.toFixed(2) %></p>
+    <!-- Add more summary metrics as needed -->
+ </div>
 
-
-<div class="card-body">
-  <div class="table-responsive">
-    <table class="table align-middle table-nowrap mb-0">
-      <thead class="table-light " >
-        <tr>
-          <th>Index</th>
-          <th scope="col">Order Id</th>
-          <th scope="col">Image</th>
-          <th scope="col">User</th>
-          <th scope="col">Price x quantity</th>
-          <th scope="col">Total</th>
-          <th scope="col">Date</th>
-          <th scope="col">Payment Mode</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%if(orders){%>
-          <%orders.forEach((order)=>{%>
-            <%order.products.forEach((product,i)=>{%>
-              <%if(product.status === 'delivered'){%>
-                <tr>
-                  <td ><%= i+1 %></td>
-                <td ><%=order._id %></td>
-                <td ><img src="/img/product/sharp/<%=product.productsId.images[0] %>" alt="" style="width: 50px;"  ></td>
-                <td ><%=order.userId.name%></td>
-                <td ><%=product.productsId.price%> x <%=product.quantity%></td>
-                <%const total = product.productsId.price * product.quantity%>
-                <td ><%=total%></td>
-                <% const formattedDate = order.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
-                <td ><%=formattedDate%></td>
-                <td ><%=order.payment %></td>
-                <td><%=product.status%></td>
-              </tr>
-              <%}%>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table id="dataTable" class="table align-middle table-nowrap mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Index</th>
+            <th scope="col">Order Id</th>
+            <th scope="col">Image</th>
+            <th scope="col">User</th>
+            <th scope="col">Price x quantity</th>
+            <th scope="col">Total</th>
+            <th scope="col">Date</th>
+            <th scope="col">Payment Mode</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%if(orders){%>
+            <%orders.forEach((order)=>{%>
+              <%order.products.forEach((product,i)=>{%>
+                <%if(product.status === 'delivered'){%>
+                  <tr>
+                    <td><%= i+1 %></td>
+                    <td><%= order._id %></td>
+                    <td><img src="/img/product/sharp/<%= product.productsId.images[0] %>" alt="" style="width: 50px;"></td>
+                    <td><%= order.userId.name %></td>
+                    <td><%= product.productsId.price %> x <%= product.quantity %></td>
+                    <% const total = product.productsId.price * product.quantity %>
+                    <td><%= total %></td>
+                    <% const formattedDate = order.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
+                    <td><%= formattedDate %></td>
+                    <td><%= order.payment %></td>
+                    <td><%= product.status %></td>
+                  </tr>
+                <%}%>
               <%})%>
-              <% }) %>
-              <%}else{%>
-                <h2>No orders in this date</h2>
+            <%}) %>
+          <%}else{%>
+            <tr>
+              <td colspan="9"><h2>No orders in this date</h2></td>
+            </tr>
           <%}%>
         </tbody>
       </table>
     </div>
   </div>
-</div>
-
-<div class="download-button-container" id="hide">
-  <button class="download-button" onclick="downloadPdf()">Download Sales Report</button>
-  <!-- <button class="btn-dark text-white border-0"><a href="/admin/adminDashboard">Back</a></button> -->
-</div>
-
-
-<script>
-  let hide = document.getElementById('hide')
-  function downloadPdf(){
-    hideBtn()
-     window.print();
-    showhideBtn()
+  
+  <div class="download-button-container" id="hide">
+    <button class="download-button" onclick="downloadExcel()">Download Excel</button>
+  </div>
+  
+  <script>
+  function downloadExcel() {
+    const table = document.getElementById("dataTable");
+    const wb = XLSX.utils.table_to_book(table, {sheet:"Sheet Name"});
+    XLSX.writeFile(wb, 'orders.xlsx');
   }
-  function hideBtn(){
-    hide.style.display = 'none';
-  }
-  function showhideBtn(){
-    hide.style.display = 'inline-block';
-  }
-</script>
-
-
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
 <script src="/js/vendors/jquery-3.6.0.min.js"></script>
 <script src="/js/vendors/bootstrap.bundle.min.js"></script>
 <script src="/js/vendors/select2.min.js"></script>

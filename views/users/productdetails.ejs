@@ -76,91 +76,90 @@
   <!-- Header Section Begin -->
   <header class="header">
     <div class="header__top">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 col-md-7">
-            <div class="header__top__left">
-              <p></p>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-7">
+                    <div class="header__top__left">
+                        <p></p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-5">
+                    <div class="header__top__right">
+                        <div class="header__top__links">
+                            <a href="/register">Sign in</a>
+                            <a href="#">FAQs</a>
+                        </div>
+                        <div class="header__top__hover">
+                            <span>Usd <i class="arrow_carrot-down"></i></span>
+                            <ul>
+                                <li>USD</li>
+                                <li>EUR</li>
+                                <li>USD</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-6 col-md-5">
-            <div class="header__top__right">
-              <div class="header__top__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-              </div>
-              <div class="header__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                  <li>USD</li>
-                  <li>EUR</li>
-                  <li>USD</li>
-                </ul>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
     <div class="container">
-      <div class="row">
-        <div class="col-lg-3 col-md-3" style="height: 50px;">
-          <div class="header__logo">
-            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-          <nav class="header__menu mobile-menu">
-            <ul>
-              <li><a href="/">Home</a></li>
-              <li class="active"><a href="/productsshop ">Shop</a></li>
-              <li><a href="#">Pages</a>
-                <ul class="dropdown">
-                  <li><a href="">About Us</a></li>
-                  <li><a href="">Shop Details</a></li>
-                  <li><a href="">Shopping Cart</a></li>
-                  <li><a href="">Check Out</a></li>
-                  <li><a href="">Blog Details</a></li>
-                </ul>
-              </li>
-              <li><a href="">Blog</a></li>
-              <li><a href="">Contacts</a></li>
-            </ul>
-          </nav>
-        </div>
-
-        <div class="col-lg-3 col-md-3">
-          <div class="header__nav__option">
-            <div class="dropdown">
-              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <% if(locals.user){ %>
-                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
-                  <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
-                  <% } else { %>
-                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
-                    <% } %>
-              </a>
-
-              <div class="dropdown-menu" aria-labelledby="userDropdown">
-                <% if(locals.user){ %>
-                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
-                  <a class="dropdown-item" href="/logout">Logout</a>
-                  <% } else { %>
-                    <a class="dropdown-item" href="/login">Login</a>
-                    <a class="dropdown-item" href="/register">Sign up</a>
-                    <% } %>
-              </div>
-
-              <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-              <a href="#"><img src="img/icon/heart.png" alt=""></a>
+        <div class="row">
+            <div class="col-lg-3 col-md-3" style="height: 50px;">
+                <div class="header__logo">
+                    <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+                </div>
             </div>
-          </div>
+            <div class="col-lg-6 col-md-6">
+                <nav class="header__menu mobile-menu">
+                    <ul>
+                        <li ><a href="">Home</a></li>
+                        <li class="active"><a href="/productsshop ">Shop</a></li>
+                        <li><a href="#">Pages</a>
+                            <ul class="dropdown">
+                                <li><a href="/about">
+                                  about
+                            </ul>
+                        </li>
+                        
+                        <li><a href="/contact">Contacts</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <div class="header__nav__option">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <% if(locals.user){ %>
+                                <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                                <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
+                                <% } else { %>
+                                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                                    <% } %>
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                            <% if(locals.user){ %>
+                                <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                                <% } else { %>
+                                    <a class="dropdown-item" href="/login">Login</a>
+                                    <a class="dropdown-item" href="/register">Sign up</a>
+                                    <% } %>
+                        </div>
+
+                        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                        <% if(locals.user){ %>
+                          <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                          <% } %>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        <div class="canvas__open"><i class="fa fa-bars"></i></div>
     </div>
-  </header>
+</header>
   <!-- Header Section End -->
 
 
@@ -222,20 +221,19 @@
               <h4 class="fw-bold">
                 <%= product.name %>
               </h4>
-              
+              <%if(product.categoriesId.offer){%>
+                <% if(CatPrice) { %>
+                  <%console.log("CatPrice",CatPrice)%>
+                  
+                  <h3 class="fs-5 fw-bold" id="productPrice">₹ <%= CatPrice %> &nbsp;<s class="text-danger">₹ <%= product.price %></s> </h3>
+                  <%}%>
 
-              <%if(CatPrice){%>
-                <h3 class="fs-5 fw-bold" id="productPrice">₹ <%=CatPrice %><span> </span> <span class=""
-                  style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"></span></h3>
-                  <%}else if(offerPrice){%>
-                  <%console.log("offerPrice",offerPrice)%>
-                    <h3 class="fs-5 fw-bold" id="productPrice">₹ <%=offerPrice%><span> </span> <span class=""
-                      style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"></span></h3>
-              <%}else{%>
-                <h3 class="fs-5 fw-bold" id="productPrice">₹ <%=product.price %><span> </span> <span class=""
-                      style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"></span></h3>
-              <%}%>
-              <p></p>
+               <% } else if(offerPrice) { %>
+                <h3 class="fs-5 fw-bold" id="productPrice">₹ <%=offerPrice%></h3>
+               <% } else { %>
+                <h3 class="fs-5 fw-bold" id="productPrice">₹ <%=product.price%></h3>
+               <% } %>
+
               <div class="product__details__option">
                 <div class="product__details__option__size">
                   
@@ -280,12 +278,76 @@
                       <%}%>
                         <%}%>
             </div>
+            <div class="product__details__btns__option mt-2">
+              <a href="#" class="wishlist-icon" data-product-id="<%= product._id %>">
+                 <i class="fa fa-heart"></i> add to wishlist</a>
+              <a href="/wishlist" class="wishlist-icon2" data-product-id="<%= product._id %>" style="display: none;">
+                 <i class="fa fa-heart" style="color: red;"></i> Added to wishlist</a>
+             </div>
+            
           </div>
+
+<script>
+  
+  fetch('/getWishlist')
+ .then(response => response.json())
+ .then(wishlist => {
+    const productId = document.querySelector('.wishlist-icon').getAttribute('data-product-id');
+    const isInWishlist = wishlist.includes(productId);
+
+    // Update the wishlist icon based on whether the product is in the wishlist
+    if (isInWishlist) {
+      // Product is in wishlist, show view wishlist icon
+      document.querySelector('.wishlist-icon').style.display = 'none';
+      document.querySelector('.wishlist-icon2').style.display = 'block';
+    }
+ });
+
+// Attach event listener to wishlist icon
+document.querySelectorAll(".wishlist-icon").forEach((icon) => {
+ icon.addEventListener("click", (event) => {
+    event.preventDefault();
+    const productId = icon.getAttribute("data-product-id");
+    const userId = document.getElementById('userId').value;
+
+    if (!userId) {
+      // User not logged in, handle accordingly (e.g., show login prompt)
+      Swal.fire({
+        icon: 'error',
+        title: 'Must login to add wishlist',
+        timer: 1700
+      });
+      return;
+    }
+
+    // Send request to add product to wishlist
+    fetch("/addWishlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId, userId }),
+    }).then((response) => {
+      if (response.ok) {
+        // Update UI after adding to wishlist
+        icon.style.display = 'none'; // Hide the add to wishlist icon
+        const viewWishlistIcon = document.querySelector('.wishlist-icon2');
+        viewWishlistIcon.style.display = 'block'; // Show the view wishlist icon
+        viewWishlistIcon.href = '/wishlist'; // Ensure the link is correct
+      }
+    });
+ });
+});
+
+// Attach event listener to view wishlist icon
+document.querySelector('.wishlist-icon2').addEventListener('click', function(event) {
+ event.preventDefault();
+ // Redirect to wishlist page or handle as needed
+});
+</script>
+
+    
           <!-- <div><a class="btn primary-btn ms-5 " onclick="Addtocart('<%= product._id %>')">add to cart</a></div> -->
-          <div class="product__details__btns__option">
-            <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
-            <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
-          </div>
           <div>
             <p>
               <%= product.description %>
@@ -571,8 +633,6 @@
 
 
   <script>
-
-    console.log('hiiiiiiiiiiiiiiiiiii')
 
     function decrementValue() {
       let value = parseInt(document.getElementById('number'), 10)
