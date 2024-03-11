@@ -121,9 +121,6 @@ user_route
   //applyCOupon 
   .post('/applyCouponCode',Coupon_Controller.applyCoupon)
 
-  // apply Referral
-  .post('/applyReferral',Offer_controller.ApplyreferrelCode)
-
   // payment policy 
   .get('/payment-policy',Order_controller.loadPolicyPage)
   // about 
