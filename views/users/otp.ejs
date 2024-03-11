@@ -80,7 +80,7 @@
                   <% } %>
       </div>
 
-      <form id="verificationForm" onsubmit="return validateotp()" method="post" action="">
+      <form id="verificationForm" onsubmit="return validateotp()" method="post" action ="/otp">
         <% if(locals.email) { %>
           <input type="hidden" name="email" value="<%= email %>">
 
