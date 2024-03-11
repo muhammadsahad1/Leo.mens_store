@@ -25,7 +25,7 @@ const loadaddproducts = async (req, res) => {
     console.log("working");
     console.log(categories);
     res;
-    res.render("addProducts", { categories: categories });
+    res.render("addproducts", { categories: categories });
   } catch (error) {
     console.log(error);
   }
@@ -63,7 +63,7 @@ const addproducts = async (req, res) => {
       for (let i = 0; i < sizeLength; i++) {
         sizes.push(req.body.sizes[i]);
       }
-      console.log("ssaahhaad");
+    
 
       const products = new Products({
         previousPrice: req.body.previousPrice,

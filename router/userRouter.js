@@ -68,10 +68,6 @@ user_route
   // Shop page showing products & details
   .get("/productsshop", product_controller.loadshoppage)
   .get("/productdetails", product_controller.productdetailspage)
-  // .post('/search',product_controller.filter)
-  // .post('/search',product_controller.searchProduct)
-  // .post('/catgorySelect',product_controller.selectCategory)
-  // .post('/sortPrice',product_controller.sortPrice)
 
   // user profile & address manage
   .get("/Userprofile", users_controller.loadProfilepage)
