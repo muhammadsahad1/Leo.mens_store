@@ -38,9 +38,10 @@ const couponSchema = mongoose.Schema({
     active : {
       type : Boolean,
       default : false
+      
     }
   
 
-})
+  })
 
 module.exports = mongoose.model('Coupon',couponSchema)

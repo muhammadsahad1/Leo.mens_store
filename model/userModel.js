@@ -81,6 +81,7 @@ bonus:{
     type : Number ,
     default : 0
   },
+  
   walletHistory :[{
     date : {
       type :Date, 
