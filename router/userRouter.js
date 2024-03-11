@@ -5,7 +5,6 @@ const product_controller = require("../controllers/productsController");
 const Cart_controller = require("../controllers/cartController");
 const Order_controller = require("../controllers/orderController");
 const Coupon_Controller = require("../controllers/couponController");
-const Offer_controller = require("../controllers/offerController");
 // const Category_controller = require('../controllers/categoriesController')
 const Wishlist_controller = require("../controllers/wishlistController");
 const session = require("express-session");

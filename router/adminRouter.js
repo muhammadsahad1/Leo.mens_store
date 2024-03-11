@@ -91,6 +91,4 @@ admin_route
 .post('/updateOffer',Offer_controller.updateOffer)
 
 //================{ Referral Management }================\\
-.get('/referrelManagement',AdminAuth.islogin,Offer_controller.referralMangement)
-.post('/addReferralOffer',Offer_controller.createReferralOffer)
 module.exports = admin_route;
