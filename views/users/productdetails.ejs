@@ -657,11 +657,13 @@ document.querySelector('.wishlist-icon2').addEventListener('click', function(eve
 
     console.log('hello find error')
     function addtocart(ProductId) {
+      console.log("productId1", ProductId);
 
-      const Quantity = document.getElementById('number').value;
+
       const selectSize = document.querySelector('input[name="size"]:checked');
       const userId = document.getElementById('userId').value
       const Size =   selectSize ? selectSize.value : null;
+      const Quantity = 1
       if(!userId){
         Swal.fire({
           icon : 'info',
