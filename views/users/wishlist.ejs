@@ -199,19 +199,7 @@ input[type="radio"]:checked + label {
                   <div class="card-body" style="height: auto;">
                     <h5 class="card-title"><%= product.productId.name %></h5>
                     <span class="text-dark fw-bold"> ₹ <%= product.productId.price %></span>
-                    <div class="product__details__option mt-2">
-                      <div class="product__details__option__size">
-                        <div>
-                          <span class="fw-bold">Size:</span>
-                          <% product.productId.sizes.forEach(function(size){ %>
-                            <label for="<%= size %>">
-                              <input type="radio" id="<%= size %>" name="size" value="<%= size %>">
-                              <%= size %> 
-                            </label>
-                          <% }) %>
-                        </div>
-                      </div>
-                    </div>
+          
                     <p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= product.productId.description %></p>
                     <div class="buttons mt-auto">
                     
