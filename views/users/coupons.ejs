@@ -1,0 +1,251 @@
+<%- include('../layouts/user/header.ejs') -%>
+
+
+<style>
+  .coupon-card {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      transition: transform 0.3s ease-in-out;
+  }
+  .coupon-card:hover {
+      transform: scale(1.05);
+  }
+  .coupon-title {
+      font-weight: bold;
+      color: #343a40;
+  }
+  .coupon-code {
+      font-size: 1.5rem;
+      color: #007bff;
+  }
+  .coupon-expiry {
+      font-size: 0.8rem;
+      color: #6c757d;
+  }
+</style>
+<header class="header">
+  <div class="header__top">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-6 col-md-7">
+                  <div class="header__top__left">
+                      <p></p>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-md-5">
+                  <div class="header__top__right">
+                      <div class="header__top__links">
+                          <a href="/register">Sign in</a>
+                          <a href="#">FAQs</a>
+                      </div>
+                      <div class="header__top__hover">
+                          <span>Usd <i class="arrow_carrot-down"></i></span>
+                          <ul>
+                              <li>USD</li>
+                              <li>EUR</li>
+                              <li>USD</li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-3 col-md-3" style="height: 50px;">
+              <div class="header__logo">
+                  <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+              </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+              <nav class="header__menu mobile-menu">
+                  <ul>
+                      <li class="active"><a href="">Home</a></li>
+                      <li><a href="/productsshop ">Shop</a></li>
+                      <li><a href="#">Pages</a>
+                          <ul class="dropdown">
+                              <li><a href="/about">
+                                about
+                          </ul>
+                      </li>
+                      
+                      <li><a href="/contact">Contacts</a></li>
+                  </ul>
+              </nav>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <div class="header__nav__option">
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <% if(locals.user){ %>
+                            <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                            <a href="/Cartpage">
+                                <img src="/img/icon/cart.png" alt="">
+                                <!-- Corrected: Using locals.cartCount for cart items -->
+                                <span class="badge badge-primary mt-1 ms-1" id="cartBadge"><%= locals.cartCount %></span>
+                            </a>
+                            <% } else { %>
+                                <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                                <% } %>
+                    </a>
+            
+                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        <% if(locals.user){ %>
+                            <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                            <% } else { %>
+                                <a class="dropdown-item" href="/login">Login</a>
+                                <a class="dropdown-item" href="/register">Sign up</a>
+                                <% } %>
+                    </div>
+            
+                    <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                    <% if(locals.user){ %>
+                    <a href="/wishlist">
+                        <img src="img/icon/heart.png" alt="">
+                        <!-- Corrected: Using locals.wishlitCount for wishlist items -->
+                        <span class="badge badge-danger mt-1 ms-1" id="wishlistBadge"><%=locals.wishlitCount%></span>
+                    </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__nav__option">
+            <a href="/wishlist"><img src="img/icon/heart.png" >
+                <span class="badge badge-danger mt-1 ms-1" id="wishlistBadge"><%=locals.wishlitCount%></span>
+                        <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> 
+                            <span class="badge badge-primary mt-1 ms-1" id="cartBadge"><%= locals.cartCount %></span>
+                        <%if(locals.user){%>
+                            <a href="/Userprofile"><i class="fa-regular fa-user fa-lg"></i></a>
+                            <a href="/logout"class="btn btn-dark">Logout</a>
+                        <%} else {%>
+                            <a href="/login"><i class="fa-regular fa-user fa-lg"></i></a>
+                            <a href="/login" class="btn btn-dark">Login</a>
+                        <%}%>
+        </div>
+</header>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Available Coupons</h2>
+  <div class="row">
+       <!-- Example of a single coupon card -->
+       <% if(couponList) { %>
+           <% couponList.forEach(field => { %>
+               <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                  <div class="card">  
+                       <div class="card-body">
+                           <h5 class="card-title"><%= field.couponCode %></h5>
+                           <p class="card-text fw-bold text"><%= field.discountAmount %> OFF</p>
+                           <p class="card-text fw-bold"><small class="text-muted">Expires Date: <%= field.expiredDate %></small></p>
+                           <p class="card-text fw-bold text">Discount Type: <%= field.discountType %></p>
+                           <button class="btn text-white copy-btn" style="background-color: rgb(199, 164, 119)" onclick="copyToClipboard('<%= field.couponCode %>')">Copy Code</button>
+                       </div>
+                  </div>
+               </div>
+           <% }) %>
+       <% } %>
+       <!-- Add more coupon cards as needed -->
+  </div>
+ </div>
+
+ <script src="https://cdn.jsdelivr.net/clipboard.js/2.0.0/clipboard.min.js"></script>
+
+ <script>
+  function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(function() {
+          Swal.fire({
+            title: 'Success!',
+              text: 'Copied to clipboard',
+              icon: 'success',
+              showConfirmButton : false,
+              timer : 1500
+          })
+      }).catch(function(err) {
+          console.error('Could not copy text: ', err);
+      });
+  }
+  </script>
+<!-- SweetAlert2 -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <footer class="footer">
+      <div class="container-fluid"> <!-- Changed container to container-fluid -->
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="footer__about">
+              <div class="footer__logo">
+                <a href="#"><img src="img/footer-logo.png" alt="" /></a>
+              </div>
+              <p>
+                The customer is at the heart of our unique business model, which includes design.
+              </p>
+              <a href="#"><img src="img/payment.png" alt="" /></a>
+            </div>
+          </div>
+          <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+            <div class="footer__widget">
+              <h6>Shopping</h6>
+              <ul>
+                <li><a href="#">Clothing Store</a></li>
+                <li><a href="#">Trending Shoes</a></li>
+                <li><a href="#">Accessories</a></li>
+                <li><a href="#">Sale</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <div class="footer__widget">
+              <h6>Shopping</h6>
+              <ul>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Payment Methods</a></li>
+                <li><a href="#">Delivary</a></li>
+                <li><a href="#">Return & Exchanges</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+            <div class="footer__widget">
+              <h6>NewLetter</h6>
+              <div class="footer__newslatter">
+                <p>
+                  Be the first to know about new arrivals, look books, sales & promos!
+                </p>
+                <form action="#">
+                  <input type="text" placeholder="Your email" />
+                  <button type="submit"><span class="icon_mail_alt"></span></button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <div class="footer__copyright__text">
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              <p>
+                Copyright ©
+                <script></script>
+                2020 All rights reserved | This template is made with
+                <i class="fa fa-heart-o" aria-hidden="true"></i> by
+                <a href="https://colorlib.com" target="_blank">Colorlib</a>
+              </p>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </footer>
+  
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <%- include('../layouts/user/footer.ejs') -%>

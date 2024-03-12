@@ -204,10 +204,21 @@ const updateCoupon = async (req, res) => {
   }
 };
 
+// UI coupons lists
+const couponLists = async(req,res)=>{
+  try {
+    const couponList = await Coupon.find({})
+    res.render('coupons',{couponList : couponList})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   loadCouponlist,
   addCoupon,
   deleteCoupon,
   applyCoupon,
   updateCoupon,
+  couponLists
 };

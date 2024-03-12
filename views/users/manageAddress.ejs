@@ -114,7 +114,6 @@
                         <%}%>
         </div>
 </header>
-
   <section style="background-color: #eee;">
     <style>
       .containerrr {
@@ -279,41 +278,43 @@
           <div class="user-headerrr">
             <div class="user-photooo"></div>
             <div class="user-nameee">
-              Sahaddd
+              <%= user.name %>
             </div>
           </div>
 
           <!-- Sidebar Menu -->
           <div class="menu-headinggg">General</div>
 
-          <div class="menu-itemmm"><a href="/manageAddress" aria-current="page" class="bg-light active">Manage
+          <div class="menu-itemmm "><a href="/manageAddress" aria-current="page" class="bg-light active">Manage
               Address</a></div>
           <hr>
 
           <div class="menu-itemmm"><a href="/myOrder">Orders</a></div>
           <hr>
 
-          <div class="menu-itemmm"><a href="#">Wishlist</a></div>
+          <hr>
+          <div class="menu-itemmm"><a href="/wishlist">Wishlist</a></div>
           <hr>
 
+          <hr>
+          <div class="menu-itemmm"><a href="/coupons">Coupons</a></div>
+          <hr>
+
+          <hr>
           <div class="menu-itemmm"><a href="/wallet">Wallet</a></div>
           <hr>
 
 
-          <div class="menu-headinggg">Legal</div>
-          <div class="menu-itemmm"><a href="#">Terms of Use</a></div>
+    
           <hr>
-          <div class="menu-itemmm"><a href="#">Privacy Policy</a></div>
+          <div class="menu-itemmm"><a href="/payment-policy">Privacy Policy</a></div>
           <hr>
 
-          <div class="menu-headinggg">Personal</div>
-          <div class="menu-itemmm"><a href="#">Report a Bug</a></div>
           <hr>
-          <div class="menu-itemmm"><a href="/">Logout</a></div>
+          <div class="menu-itemmm"><a href="/logout">Logout</a></div>
           <hr>
 
         </div>
-
 
         <div class="container py-5">
           <div class="row">

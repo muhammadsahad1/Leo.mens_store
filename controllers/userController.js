@@ -648,6 +648,7 @@ const about = async (req, res) => {
 // contact
 const contactPage = async (req, res) => {
   try {
+
     res.render("contact");
   } catch (error) {
     console.log(error);
