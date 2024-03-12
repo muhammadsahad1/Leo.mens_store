@@ -54,39 +54,59 @@
               </nav>
           </div>
           <div class="col-lg-3 col-md-3">
-              <div class="header__nav__option">
-                  <div class="dropdown">
-                      <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
-                          data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <% if(locals.user){ %>
-                              <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
-                              <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
-                              <% } else { %>
-                                  <img style="width: 17px;" src="/img/icon/person.png" alt="">
-                                  <% } %>
-                      </a>
-
-                      <div class="dropdown-menu" aria-labelledby="userDropdown">
-                          <% if(locals.user){ %>
-                              <a class="dropdown-item" href="/Userprofile">My Profile</a>
-                              <a class="dropdown-item" href="/logout">Logout</a>
-                              <% } else { %>
-                                  <a class="dropdown-item" href="/login">Login</a>
-                                  <a class="dropdown-item" href="/register">Sign up</a>
-                                  <% } %>
-                      </div>
-
-                      <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                      <% if(locals.user){ %>
-                        <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
-                        <% } %>
-                  </div>
-              </div>
-          </div>
-
-      </div>
-      <div class="canvas__open"><i class="fa fa-bars"></i></div>
-  </div>
+            <div class="header__nav__option">
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <% if(locals.user){ %>
+                            <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                            <a href="/Cartpage">
+                                <img src="/img/icon/cart.png" alt="">
+                                <!-- Corrected: Using locals.cartCount for cart items -->
+                                <span class="badge badge-primary mt-1 ms-1" id="cartBadge"><%= locals.cartCount %></span>
+                            </a>
+                            <% } else { %>
+                                <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                                <% } %>
+                    </a>
+            
+                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        <% if(locals.user){ %>
+                            <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                            <% } else { %>
+                                <a class="dropdown-item" href="/login">Login</a>
+                                <a class="dropdown-item" href="/register">Sign up</a>
+                                <% } %>
+                    </div>
+            
+                    <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                    <% if(locals.user){ %>
+                    <a href="/wishlist">
+                        <img src="img/icon/heart.png" alt="">
+                        <!-- Corrected: Using locals.wishlitCount for wishlist items -->
+                        <span class="badge badge-danger mt-1 ms-1" id="wishlistBadge"><%=locals.wishlitCount%></span>
+                    </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__nav__option">
+            <a href="/wishlist"><img src="img/icon/heart.png" >
+                <span class="badge badge-danger mt-1 ms-1" id="wishlistBadge"><%=locals.wishlitCount%></span>
+                        <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> 
+                            <span class="badge badge-primary mt-1 ms-1" id="cartBadge"><%= locals.cartCount %></span>
+                        <%if(locals.user){%>
+                            <a href="/Userprofile"><i class="fa-regular fa-user fa-lg"></i></a>
+                            <a href="/logout"class="btn btn-dark">Logout</a>
+                        <%} else {%>
+                            <a href="/login"><i class="fa-regular fa-user fa-lg"></i></a>
+                            <a href="/login" class="btn btn-dark">Login</a>
+                        <%}%>
+        </div>
 </header>
 
 

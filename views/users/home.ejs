@@ -21,8 +21,8 @@
                             <div class="header__top__hover">
                                 <span>Usd <i class="arrow_carrot-down"></i></span>
                                 <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
+                                    <li> USD </li>
+                                    <li> EUR </li>
                                     <li>USD</li>
                                 </ul>
                             </div>
@@ -31,7 +31,10 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+    
+        <!-- Offcanvas Menu End -->
+
+        <div class="container"> 
             <div class="row">
                 <div class="col-lg-3 col-md-3" style="height: 50px;">
                     <div class="header__logo">
@@ -42,14 +45,13 @@
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li class="active"><a href="/">Home</a></li>
-                            <li><a href="/productsshop ">Shop</a></li>
+                            <li><a href="/productsshop">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
                                     <li><a href="/about">
                                         about
                                 </ul>
                             </li>
-                            
                             <li><a href="/contact">Contacts</a></li>
                         </ul>
                     </nav>
@@ -61,12 +63,16 @@
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <% if(locals.user){ %>
                                     <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
-                                    <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
+                                    <a href="/Cartpage">
+                                        <img src="/img/icon/cart.png" alt="">
+                                        <!-- Corrected: Using locals.cartCount for cart items -->
+                                        <span class="badge badge-primary mt-1 ms-1" id="cartBadge"><%= locals.cartCount %></span>
+                                    </a>
                                     <% } else { %>
                                         <img style="width: 17px;" src="/img/icon/person.png" alt="">
                                         <% } %>
                             </a>
-
+                    
                             <div class="dropdown-menu" aria-labelledby="userDropdown">
                                 <% if(locals.user){ %>
                                     <a class="dropdown-item" href="/Userprofile">My Profile</a>
@@ -76,17 +82,40 @@
                                         <a class="dropdown-item" href="/register">Sign up</a>
                                         <% } %>
                             </div>
-
+                    
                             <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
                             <% if(locals.user){ %>
-                            <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                            <a href="/wishlist">
+                                <img src="img/icon/heart.png" alt="">
+                                <!-- Corrected: Using locals.wishlitCount for wishlist items -->
+                                <span class="badge badge-danger mt-1 ms-1" id="wishlistBadge"><%=locals.wishlitCount%></span>
+                            </a>
                             <% } %>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+            <div class="offcanvas-menu-overlay"></div>
+            <div class="offcanvas-menu-wrapper">
+                <div class="offcanvas__nav__option">
+                    <a href="/wishlist"><img src="img/icon/heart.png" >
+                        <span class="badge badge-danger mt-1 ms-1" id="wishlistBadge"><%=locals.wishlitCount%></span>
+                                <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> 
+                                    <span class="badge badge-primary mt-1 ms-1" id="cartBadge"><%= locals.cartCount %></span>
+                                <%if(locals.user){%>
+                                    <a href="/Userprofile"><i class="fa-regular fa-user fa-lg"></i></a>
+                                    <a href="/logout"class="btn btn-dark">Logout</a>
+                                <%} else {%>
+                                    <a href="/login"><i class="fa-regular fa-user fa-lg"></i></a>
+                                    <a href="/login" class="btn btn-dark">Login</a>
+                                <%}%>
+                </div>
+               
+                <div id="mobile-menu-wrap"></div>
+                <div class="offcanvas__text >
+                    <p class="text-center">Free shipping, 30-day return or refund guarantee.</p>
+                </div>
+            </div>
         </div>
     </header>
     <!-- Header Section End -->
@@ -384,7 +413,7 @@
                             All rights reserved | This template is made with <i class="fa fa-heart-o"
                                 aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlibbb</a>
                         </p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
                 </div>
             </div>

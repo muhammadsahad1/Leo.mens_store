@@ -92,7 +92,7 @@
     <div class="invoice-body">
       <table>
           <tr>
-              <th>Description</th>
+              <th>product name</th>
               <th>Quantity</th>
               <th>Unit Price</th>
               <th>Total</th>
@@ -105,7 +105,7 @@
                 <tr>
                     <td><%= product.name %></td>
                     <td><%= order.quantity %></td>
-                    <td>$ <%= order.totalPrice %></td>
+                    <td>$ <%= product.price %></td>
                     <% const total = product.price * order.quantity; %>
                     <% totalAmount += total; %> 
                     <td>$ <%= total %></td>
