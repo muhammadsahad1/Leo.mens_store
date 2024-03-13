@@ -4,90 +4,90 @@
   <!-- Login 12 - Bootstrap Brain Component -->
   <header class="header">
     <div class="header__top">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-7">
-                    <div class="header__top__left">
-                        <p></p>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-5">
-                    <div class="header__top__right">
-                        <div class="header__top__links">
-                            <a href="/register">Sign in</a>
-                            <a href="#">FAQs</a>
-                        </div>
-                        <div class="header__top__hover">
-                            <span>Usd <i class="arrow_carrot-down"></i></span>
-                            <ul>
-                                <li>USD</li>
-                                <li>EUR</li>
-                                <li>USD</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p></p>
             </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <div class="header__top__links">
+                <a href="/register">Sign in</a>
+                <a href="#">FAQs</a>
+              </div>
+              <div class="header__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                  <li>USD</li>
+                  <li>EUR</li>
+                  <li>USD</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
     <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-3" style="height: 50px;">
-                <div class="header__logo">
-                    <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
-                <nav class="header__menu mobile-menu">
-                    <ul>
-                        <li><a href="">Home</a></li>
-                        <li><a href="/productsshop ">Shop</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                <li><a href="/about">
-                                  about
-                            </ul>
-                        </li>
-                        
-                        <li><a href="/contact">Contacts</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="header__nav__option">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <% if(locals.user){ %>
-                                <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
-                                <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
-                                <% } else { %>
-                                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
-                                    <% } %>
-                        </a>
-
-                        <div class="dropdown-menu" aria-labelledby="userDropdown">
-                            <% if(locals.user){ %>
-                                <a class="dropdown-item" href="/Userprofile">My Profile</a>
-                                <a class="dropdown-item" href="/logout">Logout</a>
-                                <% } else { %>
-                                    <a class="dropdown-item" href="/login">Login</a>
-                                    <a class="dropdown-item" href="/register">Sign up</a>
-                                    <% } %>
-                        </div>
-
-                        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                        <% if(locals.user){ %>
-                          <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
-                          <% } %>
-                    </div>
-                </div>
-            </div>
-
+      <div class="row">
+        <div class="col-lg-3 col-md-3" style="height: 50px;">
+          <div class="header__logo">
+            <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+          </div>
         </div>
-        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li><a href="">Home</a></li>
+              <li><a href="/productsshop ">Shop</a></li>
+              <li><a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="/about">
+                      about
+                </ul>
+              </li>
+
+              <li><a href="/contact">Contacts</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="header__nav__option">
+            <div class="dropdown">
+              <a class="dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <% if(locals.user){ %>
+                  <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
+                  <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
+                  <% } else { %>
+                    <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                    <% } %>
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="userDropdown">
+                <% if(locals.user){ %>
+                  <a class="dropdown-item" href="/Userprofile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                  <% } else { %>
+                    <a class="dropdown-item" href="/login">Login</a>
+                    <a class="dropdown-item" href="/register">Sign up</a>
+                    <% } %>
+              </div>
+
+              <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+              <% if(locals.user){ %>
+                <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                <% } %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
     </div>
-</header>
+  </header>
   <section class="py-3 py-md-5 py-xl-8">
     <div class="container">
       <div class="row">
@@ -95,56 +95,61 @@
           <div class="mb-5">
             <h2 class="display-5 fw-bold text-center ">Login</h2>
             <p class="text-center m-0">Don't have an account? <a href="/register">Sign up</a></p>
-            
+
             <% if(messages.successmsg) { %>
               <h5 class="text-center text-success">
                 <%= messages.successmsg %>
               </h5>
 
               <% } %>
-            <% if(messages.userBlock) { %>
-              <h5 class="text-center text-danger">
-                <%= messages.userBlock %>
-              </h5>
-
-              <% } %>
-
-              <% if (messages.success) { %>
-                <div class="alert alert-success d-flex align-items-center  " role="alert" id="error-alert">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 " viewBox="0 0 16 16" role="img" aria-label="Warning:">
-                      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                    <div >
-                        <strong>Hey '</strong>
-                      <%=  messages.success %>
-                    </div>
-                  </div>
-                  <%}%>
-                  <% if (messages.newsuccess) { %>
-                    <div class="alert alert-success d-flex align-items-center  " role="alert" id="error-alert">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 " viewBox="0 0 16 16" role="img" aria-label="Warning:">
-                          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                        </svg>
-                        <div >
-                            <strong>Hey '</strong>
-                          <%=  messages.newsuccess %>
-                        </div>
-                      </div>
-                      <%}%>
-                  
-                <% if(messages.incorrectpass) { %>
+                <% if(messages.userBlock) { %>
                   <h5 class="text-center text-danger">
-                    <%= messages.incorrectpass %>
+                    <%= messages.userBlock %>
                   </h5>
 
                   <% } %>
-                  <% if(messages.notfound) { %>
-                    <h5 class="text-center text-danger">
-                      <%= messages.notfound %>
-                    </h5>
-  
-                    <% } %>
-                  
+
+                    <% if (messages.success) { %>
+                      <div class="alert alert-success d-flex align-items-center  " role="alert" id="error-alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                          class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 " viewBox="0 0 16 16" role="img"
+                          aria-label="Warning:">
+                          <path
+                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>
+                        <div>
+                          <strong>Hey '</strong>
+                          <%= messages.success %>
+                        </div>
+                      </div>
+                      <%}%>
+                        <% if (messages.newsuccess) { %>
+                          <div class="alert alert-success d-flex align-items-center  " role="alert" id="error-alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                              class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 " viewBox="0 0 16 16" role="img"
+                              aria-label="Warning:">
+                              <path
+                                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                            </svg>
+                            <div>
+                              <strong>Hey '</strong>
+                              <%= messages.newsuccess %>
+                            </div>
+                          </div>
+                          <%}%>
+
+                            <% if(messages.incorrectpass) { %>
+                              <h5 class="text-center text-danger">
+                                <%= messages.incorrectpass %>
+                              </h5>
+
+                              <% } %>
+                                <% if(messages.notfound) { %>
+                                  <h5 class="text-center text-danger">
+                                    <%= messages.notfound %>
+                                  </h5>
+
+                                  <% } %>
           </div>
         </div>
       </div>
@@ -170,7 +175,7 @@
                   </div>
                   <div class="col-12">
                     <div class="row justify-content-between">
-                    
+
                       <div class="col-6">
                         <div class="text-end">
                           <a href="/forgetPassword" class="link-secondary text-decoration-none">Forgot password?</a>
@@ -193,12 +198,12 @@
               <div class="bg-dark h-100 d-none d-lg-block" style="width: 1px; --bs-bg-opacity: .1;"></div>
               <div class="bg-dark w-100 d-lg-none" style="height: 1px; --bs-bg-opacity: .1;"></div>
             </div> -->
-          
+
           </div>
         </div>
       </div>
     </div>
   </section>
   <script src="/js/admin/form-validation.js"></script>
-  
+
   <%- include('../layouts/user/footer.ejs') -%>
