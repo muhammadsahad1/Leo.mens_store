@@ -123,9 +123,8 @@ user_route
   // payment policy
   .get("/payment-policy",Count.wishlistCartCount, Order_controller.loadPolicyPage)
   // about
-
   // coupon
-  .get('/coupons', auth.islogin, Count.wishlistCartCount,Coupon_Controller.couponLists)
+  .get('/coupons',auth.islogin, Count.wishlistCartCount,Coupon_Controller.couponLists)
   // contact
   .get("/contact",Count.wishlistCartCount, users_controller.contactPage)
 
