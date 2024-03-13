@@ -98,24 +98,24 @@ user_route
   .post("/CountinueVerify-payment", Order_controller.CountinueVerifypayment)
   // place order
   .post("/place-Order", Order_controller.placeOrders)
-  .get("/orderSuccessPage",Count.wishlistCartCount, Order_controller.loadorderSuccess)
+  .get("/orderSuccessPage", auth.islogin,Count.wishlistCartCount, Order_controller.loadorderSuccess)
   .post("/verify-payment", Order_controller.verifyPayment)
 
   // User Order
-  .get("/myOrder",Count.wishlistCartCount, Order_controller.LoadMyOrders)
-  .get("/single-product",Count.wishlistCartCount, Order_controller.singleOrderProduct)
+  .get("/myOrder", auth.islogin, Count.wishlistCartCount, Order_controller.LoadMyOrders)
+  .get("/single-product", auth.islogin, Count.wishlistCartCount, Order_controller.singleOrderProduct)
   .post("/cancel-product", Order_controller.cancelOrder)
   .post("/return-reason", Order_controller.returnReason)
-  .get("/single-orderDetails",Count.wishlistCartCount, Order_controller.SingleOrderDetail)
+  .get("/single-orderDetails", auth.islogin, Count.wishlistCartCount, Order_controller.SingleOrderDetail)
 
   // invoice
-  .get("/invoice",Count.wishlistCartCount, users_controller.LoadInvoicePage)
+  .get("/invoice", auth.islogin, Count.wishlistCartCount, users_controller.LoadInvoicePage)
 
   // Get wishlist
-  .get("/wishlist",Count.wishlistCartCount, Wishlist_controller.LoadWishlist)
+  .get("/wishlist", auth.islogin, Count.wishlistCartCount, Wishlist_controller.LoadWishlist)
   .post("/addWishlist", Wishlist_controller.AddWishlist)
   .post("/removeWishlist", Wishlist_controller.removeWishlist)
-  .get("/getWishlist", Wishlist_controller.getWishlist)
+  .get("/getWishlist", auth.islogin,  Wishlist_controller.getWishlist)
 
   //applyCOupon
   .post("/applyCouponCode", Coupon_Controller.applyCoupon)
@@ -125,7 +125,7 @@ user_route
   // about
 
   // coupon
-  .get('/coupons',Count.wishlistCartCount,Coupon_Controller.couponLists)
+  .get('/coupons', auth.islogin, Count.wishlistCartCount,Coupon_Controller.couponLists)
   // contact
   .get("/contact",Count.wishlistCartCount, users_controller.contactPage)
 
