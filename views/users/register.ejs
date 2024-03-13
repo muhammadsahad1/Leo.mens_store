@@ -91,7 +91,7 @@
         <div class="col-12">
           <div class="mb-5">
             <h2 class="display-5 fw-bold text-center ">Sign in</h2>
-            <p class="text-center m-0">Don't have an account?</p>
+            <p class="text-center m-0">You already have account ? <a href="/login">login</a></p>
             <% if (messages.incorrectOtp) { %>
               <div class="text-danger"><%= messages.incorrectOtp %></div>
             <% } %>
@@ -100,7 +100,6 @@
                 <h5 class="alert-danger text-center">
                   <%= messages.nameerror %>
                 </h5>
-                
                 <% } %>
                 <% if(messages.emailerror) { %>
                   <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">

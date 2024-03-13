@@ -247,6 +247,7 @@
 
       // For adding coupons
       function addCoupon() {
+    const checkCode = document.getElementById('checkCode').value;
     const couponCode = document.getElementById('code').value;
     const discountType = document.getElementById('discountType').value;
     const startDate = document.getElementById('startDate').value;
@@ -254,12 +255,16 @@
     const discountAmount = document.getElementById('discountAmount').value;
     const minOrderAmount = document.getElementById('minOrderAmount').value;
     const CouponRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/;
+    console.log("checkcode",checkCode , " couponCode" ,couponCode);
 
     // Validation checks
     if (couponCode.length === 0) {
         showError('Enter coupon code');
         return;
-    } else if (!CouponRegex.test(couponCode)) {
+    } else if(couponCode === checkCode){
+      showError('coupon already exists')
+      return ;
+    }else if (!CouponRegex.test(couponCode)) {
         showError('Coupon code can only contain letters and numbers.');
         return;
     } else if (discountType.trim() === '') {
