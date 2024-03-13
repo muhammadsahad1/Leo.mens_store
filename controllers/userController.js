@@ -7,6 +7,7 @@ const Products = require("../model/productsModel");
 const Token = require("../model/tokenModel");
 const Order = require("../model/orderModel");
 const Razorpay = require("razorpay");
+const { v4: uuidv4 } = require('uuid')
 
 var instance = new Razorpay({
   key_id: "rzp_test_fB02vUjG7B86w1",
@@ -574,15 +575,16 @@ const resetpassword = async (req, res) => {
 const LoadInvoicePage = async (req, res) => {
   try {
     const { orderid, index, productId } = req.query;
-    const order = await Order.findOne({ _id: orderid });
-    const ORDER = await Order.findOne({ _id: orderid });
-    const Product = await Products.findOne({ _id: productId });
-
+    const order = await Order.findOne({ _id: orderid })
+    const ORDER = await Order.findOne({ _id: orderid }).populate('')
+    const Product = await Products.findOne({ _id: productId }).populate('offer')
+    const invoiceNumber = `INV-${uuidv4()}`;
     res.render("invoice", {
       product: Product,
       Order: ORDER,
       order: order.products[index],
       deliveryAddress: order.delivery_address,
+      invoiceNumber : invoiceNumber
     });
   } catch (error) {
     res.status(404).send("INVOICE REQUEST HAS FAILED");

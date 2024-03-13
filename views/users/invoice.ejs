@@ -1,146 +1,189 @@
 <%- include('../layouts/user/header.ejs') -%>
 
-
-
 <style>
-  body {
-      font-family: Arial, sans-serif;
+ body {
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 20px;
-  }
-  .invoice {
+      background-color: #f9f9f9;
+ }
+ .invoice {
       max-width: 800px;
       margin: 0 auto;
       border: 1px solid #ccc;
       padding: 20px;
-      background-color: #f9f9f9;
-  }
-  .invoice-header {
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ .invoice-header {
       text-align: center;
       margin-bottom: 20px;
-  }
-  .invoice-body {
+      background-color: #343a40;
+      color: #ffffff;
+      padding: 20px;
+      border-radius: 5px;
+ }
+ .invoice-header h2 {
+      margin-top: 0;
+      font-weight: 700;
+ }
+ .invoice-body {
       margin-bottom: 20px;
-  }
-  table {
+ }
+ table {
       width: 100%;
       border-collapse: collapse;
-  }
-  th, td {
+ }
+ th, td {
       padding: 8px;
       text-align: left;
       border-bottom: 1px solid #ddd;
-  }
-  th {
+ }
+ th {
       background-color: #f2f2f2;
-  }
-  .invoice-total {
+ }
+ .invoice-total {
       font-weight: bold;
-  }
-
-        /* Custom styles for the invoice header */
-        .invoice-header {
-            background-color: #343a40;
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .invoice-header h2 {
-            margin-top: 0;
-            font-weight: 700;
-        }
-
-        .download-btn {
-            background-color: #007bff;
-            color: #ffffff;
-            border: none;
-            border-radius: 3px;
-            padding: 8px 16px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .download-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
-
+      text-align: right;
+      margin-top: 20px;
+ }
+ .download-btn {
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 3px;
+      padding: 8px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+ }
+ .download-btn:hover {
+      background-color: #0056b3;
+ }
+</style>
 
 </head>
 <body>
 <div class="invoice">
-  <div class="invoice-body" style="background-color: rgb(231, 224, 224);">
-    
-    
-    <%console.log(Order)%>
-      <h4>Bill To: <%=Order.userId.name%>  </h4>
-      <p> LEO Fashion <br>
-        Your Address<br>
-        <%=deliveryAddress%><br>
-        Email: <%=Order.userId.email%><br>
-        Phone: <%=Order.userId.mobile%><br>
-      </p>
-    <hr>
-
-    <h4>Invoice Details:</h4>
-    <p>Invoice Number: 123456<br>
-        Invoice Date: February 10, 2024
+ <div class="invoice-header">
+    <h2>Invoice</h2>
+ </div>
+ <div class="invoice-body">
+    <h4>Bill To: <%=Order.userId.name%></h4>
+    <p> LEO Fashion <br>
+      Your Address<br>
+      <%=deliveryAddress%><br>
+      Email: <%=Order.userId.email%><br>
+      Phone: <%=Order.userId.mobile%><br>
     </p>
-    <div class="invoice-body">
-      <table>
-          <tr>
-              <th>product name</th>
-              <th>Quantity</th>
-              <th>Unit Price</th>
-              <th>Total</th>
-          </tr>
+    <hr>
+    <h4>Invoice Details:</h4>
+    <p>Invoice Number: <%=invoiceNumber%><br>
+      Invoice Date: February 10, 2024
+    </p>
+    <table>
+      <tr>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+      </tr>
+      <% let totalAmount = 0; %>
+        
+      <% if (order.status === 'delivered') { %>
           
-          <% let totalAmount = 0; %> 
-         
-        <%console.log(order.productsId.name )%>
-            <% if (order.status === 'delivered') { %>
-                <tr>
-                    <td><%= product.name %></td>
-                    <td><%= order.quantity %></td>
-                    <td>$ <%= product.price %></td>
-                    <% const total = product.price * order.quantity; %>
-                    <% totalAmount += total; %> 
-                    <td>$ <%= total %></td>
-                </tr>
-            <% } %>
-    
-              
+              <tr>
+                  <td><%= product.name %></td>
+                  <td><%= order.quantity %></td>
+                  <% let unitPrice = product.price; %>
+                  <% if (product.offer) { %>
+                      <% const discontType = product.offer.discontType; %>
+                      <% if (discontType === "fixed") { %>
+                          <% let discountAmount = product.offer.discountAmount; %>
+                          <% unitPrice = product.price - discountAmount; %>
+                          <td>$ <%= unitPrice %></td>
+                      <% } else if (discontType === "percentage") { %>
+                          <% let discountAmount = product.offer.discountAmount; %>
+                          <% unitPrice = product.price - (product.price * (discountAmount / 100)); %>
+                          <td>$ <%= unitPrice %></td>
+                      <% } %>
+                  <% } %>
+                  <td>$ <%= unitPrice %></td>
+                  <% const total = unitPrice * order.quantity; %>
+                  <% totalAmount += total; %>
+                  <td>$ <%= total %></td>
+              </tr>
+      
+      <% } %>
+    </table>
+ </div>
+ <div class="invoice-total">
+    <p>Total Amount: $ <%= totalAmount %></p>
+ </div>
+</div>
 
-          <!-- End of invoice items loop -->
-      </table>
-  </div>
-  <div class="invoice-total">
-      <p>Total Amount: $ <%= totalAmount %></p>
-  </div>
 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+       <div class="col-md-8">
+         <div class="invoice-header text-center py-3">
+           <h2 class="mb-0">Invoice</h2>
+           <button type="button" class="download-btn" onclick="downloadPdf()">Download</button>
+         </div>
+       </div>
+    </div>
+   </div>
+   
+   <style>
+    .container {
+       max-width: 800px;
+       margin: 0 auto;
+    }
+    .row {
+       display: flex;
+       flex-wrap: wrap;
+       margin-right: -15px;
+       margin-left: -15px;
+    }
+    .col-md-8 {
+       position: relative;
+       width: 100%;
+       padding-right: 15px;
+       padding-left: 15px;
+    }
+    .invoice-header {
+       background-color: #343a40;
+       color: #ffffff;
+       padding: 20px;
+       border-radius: 5px;
+       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .invoice-header h2 {
+       margin-top: 0;
+       font-weight: 700;
+    }
+    .download-btn {
+       background-color: #007bff;
+       color: #ffffff;
+       border: none;
+       border-radius: 3px;
+       padding: 8px 16px;
+       font-size: 16px;
+       cursor: pointer;
+       transition: background-color 0.3s ease;
+       margin-top: 20px;
+    }
+    .download-btn:hover {
+       background-color: #0056b3;
+    }
+   </style>
+   
+   <script>
+    function downloadPdf() {
+       window.print();
+    }
+   </script>
+   
 
-<body>
-  <div class="container mt-5">
-      <div class="row">
-          <div class="col-md-8 mx-auto">
-              <div class="invoice-header text-center">
-                  <h2>Invoice</h2>
-                  <button type="button" class="download-btn" onclick="downloadPdf()">Download</button>
-              </div>
-              
-          </div>
-      </div>
-  </div>
-
-<script>
-  function downloadPdf(){
-    
-window.print()
-  }
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>

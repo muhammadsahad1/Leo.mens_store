@@ -392,8 +392,8 @@
 
           window.location.href = currentUrl.toString();
         }
-
-      </script>
+        
+        </script>
 
 
     </div>
@@ -402,6 +402,61 @@
 
 
 
+        <script>
+document.addEventListener('DOMContentLoaded', function () {
+ const searchInput = document.getElementById('search-input');
+ const productContainer = document.getElementById('productContainer');
+ const paginationArea = document.querySelector('.pagination-area'); // Ensure this selector matches your HTML
+ const products = Array.from(productContainer.querySelectorAll('.product__item'));
+
+ // Function to toggle pagination visibility
+
+ searchInput.addEventListener('input', function () {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const matchingProducts = [];
+
+    // Hide pagination when searching
+
+
+    products.forEach(function (product) {
+      const productName = product.querySelector('.cardtitleshop').innerText.trim().toLowerCase();
+
+      if (productName.includes(searchTerm)) {
+        matchingProducts.push(product);
+      } else {
+        // Move non-matching products outside the viewport
+        product.style.position = 'absolute';
+        product.style.top = '-9999px';
+        product.style.left = '-9999px';
+      }
+    });
+
+    // Append matching products to the beginning of the container
+    matchingProducts.forEach(function (matchingProduct, index) {
+      // Set the width of the matching product to match the width of other products
+      matchingProduct.style.width = products[0].offsetWidth + 'px';
+
+      // Reset position for matching products to display them
+      matchingProduct.style.position = '';
+      matchingProduct.style.top = '';
+      matchingProduct.style.left = '';
+
+      // If it's the first matching product, place it at the top-left corner
+      if (index === 0) {
+        matchingProduct.style.margin = '0'; // Reset margin
+      } else {
+        // If it's not the first matching product, reset margin to maintain spacing
+        matchingProduct.style.margin = ''; // Remove margin
+      }
+
+      productContainer.prepend(matchingProduct);
+    });
+ });
+});
+
+      
+      
+        </script>
 
   <footer class="footer mt-5">
     <div class="container">
@@ -468,54 +523,6 @@
     </div>
   </footer>
   <!-- For search -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const searchInput = document.getElementById('search-input');
-      const productContainer = document.getElementById('productContainer');
-      const products = Array.from(productContainer.querySelectorAll('.product__item'));
-
-      searchInput.addEventListener('input', function () {
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        const matchingProducts = [];
-
-        products.forEach(function (product) {
-          const productName = product.querySelector('.cardtitleshop').innerText.trim().toLowerCase();
-
-          if (productName.includes(searchTerm)) {
-            matchingProducts.push(product);
-          } else {
-            // Move non-matching products outside the viewport
-            product.style.position = 'absolute';
-            product.style.top = '-9999px';
-            product.style.left = '-9999px';
-          }
-        });
-
-        // Append matching products to the beginning of the container
-        matchingProducts.forEach(function (matchingProduct, index) {
-          // Set the width of the matching product to match the width of other products
-          matchingProduct.style.width = products[0].offsetWidth + 'px';
-
-          // Reset position for matching products to display them
-          matchingProduct.style.position = '';
-          matchingProduct.style.top = '';
-          matchingProduct.style.left = '';
-
-          // If it's the first matching product, place it at the top-left corner
-          if (index === 0) {
-            matchingProduct.style.margin = '0'; // Reset margin
-          } else {
-            // If it's not the first matching product, reset margin to maintain spacing
-            matchingProduct.style.margin = ''; // Remove margin
-          }
-
-          productContainer.prepend(matchingProduct);
-        });
-      });
-    });
-
-
-  </script>
 
    </script>
 
