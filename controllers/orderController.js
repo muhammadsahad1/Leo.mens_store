@@ -8,11 +8,13 @@ const crypto = require("crypto");
 
 // ======================={ place order }======================== \\
 
+
 var instance = new Razorpay({
   key_id: "rzp_test_fB02vUjG7B86w1",
   key_secret: "GpMMTQeCJms3hyG5Z3thBSDA",
 });
 
+// place order  
 const placeOrders = async (req, res) => {
   try {
     const userid = req.session.user._id;

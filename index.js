@@ -6,11 +6,7 @@ const express = require('express')
 const app = express();
 const nocache = require('nocache')
 const flash = require('express-flash')
-// const flash = require('connect-flash');
 const path =  require('path')
-
-
-
 
 app.set('view engine','ejs')
 
