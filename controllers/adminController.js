@@ -162,6 +162,7 @@ const loadDashboard = async (req, res) => {
       { $sort: { totalQuantitySold: -1 } },
       { $limit: 10 },
     ]);
+    console.log("topProducts: ", topProducts);
 
     // Retrieve product details for the top products
     const topProductsDetails = await Products.find({
@@ -195,8 +196,9 @@ const loadDashboard = async (req, res) => {
           totalQuantitySold: { $sum: "$products.quantity" },
         },
       },
-      { $sort: { totalQuantitySold: -1 } },
+      { $sort: { totalQuantitySold: -1 }},
       { $limit: 10 },
+
     ]);
     const monthlyData = Array.from({ length: 12 }).fill(0);
     console.log("topCategories", topCategories);

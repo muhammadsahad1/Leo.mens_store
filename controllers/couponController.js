@@ -205,6 +205,7 @@ const updateCoupon = async (req, res) => {
 };
 
 // UI coupons lists
+
 const couponLists = async(req,res)=>{
   try {
     const couponList = await Coupon.find({})

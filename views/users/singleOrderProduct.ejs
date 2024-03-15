@@ -555,7 +555,7 @@ height: 100vh !important;
                                         <%}else if(product.status ==='ReturnedRequested' ){%>
                                             <div id="Returntext" ><p class=" fw-bold" style="color: #f37a27;">Return request has been requested</p></div>
                                             
-                                            <%}else if(order.status ==='Pending' ){%>
+                                            <%}else if(order.status ==='Pending' ){%>been
                                                 <p class="text-danger fw-bold">Order pending</p>
                                                     
                                                 <%}else if(product.status ==='delivered' ){%>
@@ -707,12 +707,13 @@ height: 100vh !important;
 
 function returReason(orderId, productId) {
   const returnReason = document.getElementById('returnReason').value;
-  console.log(orderId, productId);
+  console.log("orderId," ,orderId, "productId",productId);
   const data = {
     orderId: orderId,
     productId: productId,
     returnReason: returnReason
   };
+  console.log("data");
 
   fetch('/return-reason', {
     method: 'POST',

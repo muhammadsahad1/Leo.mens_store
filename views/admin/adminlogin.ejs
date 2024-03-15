@@ -1,70 +1,170 @@
 <%- include('../layouts/admin/header.ejs') -%>
 
-    <main>
-        <header class="main-header style-2 navbar">
-    
-        </header>
-        
+
+  <style>
+.container {
+    background-image: url('/assets/img/product/original/bg4.jpg');
+    background-size: cover; /* Ensure the image covers the full container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    height: 100vh; /* Set the container height to 100% of the viewport height */
+    display: flex; /* Use flexbox to center the content */
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+}
 
 
-            <section>
-                <div class="container py-5 h-100">
-                  <div class="row d-flex justify-content-center align-items-center h-100 ">
-                
-                      <div class="card" style="border-radius: 1rem; width: 50rem;">
-                    
-                          <div class="col-md-6 col-lg-12 ">
-                            <div class="card-body p-4 p-lg-5 text-black d-flex justify-content-center">
-              
-                              <form action="/admin/" method="post">
-              
-                                <div class="d-flex align-items-center mb-3 pb-1">
-                                  
-                                  <span class="h1 fw-bold mb-0">    <a class="brand-wrap">
-                                    <img style="width: 50px;" src="/img/logoleo.jpg" class="logo" alt="Nest Dashboard" />
-                                </a></span>
-                                </div>
-              
-                                <h5 class="fw-normal mb-3 pb-3 fw-bold" style="letter-spacing: 1px;">Login admin account</h5>
-              
-                                <div class="form-outline mb-4">
-                                  <input type="email" id="email" name="email" class="form-control form-control-lg" />
-                                  <label class="form-label" for="form2Example17">Email address</label>
-                                </div>
-              
-                                <div class="form-outline mb-4">
-                                  <input type="password" id="password" name="password" class="form-control form-control-lg" />
-                                  <label class="form-label">Password</label>
-                                </div>
-              
-                                <div class="pt-1 mb-4">
-                                  <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
-                                </div>
-              
-                                <a class="small text-muted" href="#!">Forgot password?</a>
-                                <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!"
-                                    style="color: #393f81;">Register here</a></p>
-                                <a href="#!" class="small text-muted">Terms of use.</a>
-                                <a href="#!" class="small text-muted">Privacy policy</a>
-                              </form>
-              
-                            </div>
-                          </div>
-                    
-                
-                  </div>
+    .card {
+      background-color: #ffffff;
+      /* Change the background color of the card */
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      /* Add a shadow for depth */
+      transition: 0.3s;
+      /* Smooth transition for hover effects */
+
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      width: 50%;
+      /* Adjust the width */
+      max-width: 500px;
+      /* Set a maximum width */
+      margin: 0 auto;
+      /* Center the card */
+
+
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+      /* Increase shadow on hover */
+    }
+
+    .form-outline {
+      border-radius: 1rem;
+      /* Round the corners of the input fields */
+    }
+
+    .btn-dark {
+      background-color: #393f81;
+      /* Change the button color */
+      border: none;
+      /* Remove border */
+      color: white;
+      /* Change text color */
+      padding: 15px 32px;
+      /* Adjust padding */
+      text-align: center;
+      /* Center text */
+      text-decoration: none;
+      /* Remove underline */
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    .btn-dark:hover {
+      background-color: #292e5f;
+      /* Darken the button on hover */
+    }
+
+    h5 {
+      font-size: 24px;
+      /* Adjust the font size */
+      font-weight: bold;
+      /* Make the text bold */
+      color: #393f81;
+      /* Change the color */
+    }
+
+    .small {
+      font-size: 14px;
+      /* Adjust the font size */
+      color: #6c757d;
+      /* Change the color */
+    }
+
+    /* @keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.card {
+    animation: slideInFromLeft 1s ease-out;
+} */
+  </style>
+
+
+
+  <header class="main-header style-2 navbar">
+
+  </header>
+
+
+
+  <section>
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100 ">
+
+        <div class="card" style="border-radius: 1rem; width: 50rem;">
+
+          <div class="col-md-6 col-lg-12 ">
+            <div class="card-body p-4 p-lg-5 text-black d-flex justify-content-center">
+
+              <form action="/admin/" method="post">
+
+                <div class="d-flex align-items-center mb-3 pb-1">
+
+                  <span class="h1 fw-bold mb-0"> <a class="brand-wrap">
+                      <img style="width: 50px;" src="/img/logoleo.jpg" class="logo" alt="Nest Dashboard" />
+                    </a></span>
                 </div>
-              </section>
+
+                <h5 class="fw-normal mb-3 pb-3 fw-bold" style="letter-spacing: 1px;">Login admin account</h5>
+
+                <div class="form-outline mb-4">
+                  <input type="email" id="email" name="email" class="form-control form-control-lg" />
+                  <label class="form-label" for="form2Example17">Email address</label>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <input type="password" id="password" name="password" class="form-control form-control-lg" />
+                  <label class="form-label">Password</label>
+                </div>
+
+                <div class="pt-1 mb-4">
+                  <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                </div>
+
+                <a class="small text-muted" href="#!">Forgot password?</a>
+                <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!"
+                    style="color: #393f81;">Register here</a></p>
+                <a href="#!" class="small text-muted">Terms of use.</a>
+                <a href="#!" class="small text-muted">Privacy policy</a>
+              </form>
+
+            </div>
+          </div>
 
 
-            
-        </section>
-        
-    </main>
-    <script src="/js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="/js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="/js/vendors/jquery.fullscreen.min.js"></script>
-    <!-- Main Script -->
-    <script src="/js/main.js?v=1.1" type="text/javascript"></script>
+        </div>
+      </div>
+  </section>
 
-    <%- include('../layouts/admin/footer.ejs') -%>
+
+
+  </section>
+  <script src="/js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="/js/vendors/bootstrap.bundle.min.js"></script>
+  <script src="/js/vendors/jquery.fullscreen.min.js"></script>
+  <!-- Main Script -->
+  <script src="/js/main.js?v=1.1" type="text/javascript"></script>
+
+  <%- include('../layouts/admin/footer.ejs') -%>

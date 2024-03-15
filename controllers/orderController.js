@@ -368,6 +368,7 @@ const returnReason = async (req, res) => {
   try {
     console.log("ssssssss");
     const { orderId, productId, returnReason } = req.body;
+    console.log("return Reason",returnReason);
     await Order.findOneAndUpdate(
       { _id: orderId, "products.productsId": productId },
       {
@@ -388,6 +389,7 @@ const returnReason = async (req, res) => {
 const returnConfirm = async (req, res) => {
   try {
     const { orderId, productId, status, userId } = req.body;
+    console.log("statusssss",status);
     const orderData = await Order.findOne({ _id: orderId });
     const products = orderData.products;
 
@@ -409,31 +411,32 @@ const returnConfirm = async (req, res) => {
           },
         }
       );
-    }
-    for (let i = 0; i < products.length; i++) {
-      let proId = products[i].productsId;
-      let qtyCount = products[i].quantity;
-      await Product.updateOne(
-        { _id: proId },
-        { $inc: { stockQuantity: qtyCount } }
-      );
-    }
-    const totalOrderAmount = orderData.total_amount;
-    await User.updateOne(
-      { _id: userId },
-      {
-        $inc: { wallet: totalOrderAmount },
-        $push: {
-          walletHistory: {
-            date: new Date(),
-            amount: totalOrderAmount,
-            reason: "Order returned",
-            type : 'credited'
-          },
-        },
+      for (let i = 0; i < products.length; i++) {
+        let proId = products[i].productsId;
+        let qtyCount = products[i].quantity;
+        await Product.updateOne(
+          { _id: proId },
+          { $inc: { stockQuantity: qtyCount } }
+        );
       }
-    );
-    res.json({ isOk: true });
+      const totalOrderAmount = orderData.total_amount;
+      const upWallet = await User.updateOne(
+        { _id: userId },
+        {
+          $inc: { wallet: totalOrderAmount },
+          $push: {
+            walletHistory: {
+              date: new Date(),
+              amount: totalOrderAmount,
+              reason: "Order returned",
+              type : 'credited'
+            },
+          },
+        }
+      );
+      console.log("update Wallet",upWallet);
+      res.json({ isOk: true });
+    }
   } catch (error) {
     res.status(404).send("returnConfirmation request is failed");
     console.log(error);

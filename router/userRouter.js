@@ -122,15 +122,16 @@ user_route
 
   // payment policy
   .get("/payment-policy",Count.wishlistCartCount, Order_controller.loadPolicyPage)
-  // about
+  
   // coupon
   .get('/coupons',auth.islogin, Count.wishlistCartCount,Coupon_Controller.couponLists)
   // contact
   .get("/contact",Count.wishlistCartCount, users_controller.contactPage)
-
+  
+  // about
   .get("/about",Count.wishlistCartCount, users_controller.about)
 
   // logout
-  .get("/logout", users_controller.userlogout);
+  .get("/logout", users_controller.userlogout); 
 
 module.exports = user_route;

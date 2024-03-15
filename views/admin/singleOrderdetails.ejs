@@ -276,7 +276,9 @@
                         let index = select.dataset.index;
                         let status = select.value;
                         let userId = select.dataset.userid;
-console.log(status);
+
+                        console.log("status",status);
+
                         const data = {
                             orderId,
                             productId,
@@ -284,6 +286,7 @@ console.log(status);
                             index,
                             userId
                         };
+                        console.log("data",data);
 
                         fetch('/admin/returnConf', {
                             method: 'POST',
