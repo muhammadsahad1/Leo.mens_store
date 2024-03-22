@@ -7,6 +7,8 @@ const app = express();
 const nocache = require('nocache')
 const flash = require('express-flash')
 const path =  require('path')
+const dotenv = require('dotenv')
+dotenv.config()
 
 app.set('view engine','ejs')
 
