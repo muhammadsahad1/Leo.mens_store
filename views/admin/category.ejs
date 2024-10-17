@@ -230,7 +230,7 @@
                                                                     <%= category.isList===true ? "List" : "Unlist" %>
                                                                 </td>
                                                                 <td class="text-center">
-                                                                    <a href="/admin/offerPage?id=<%= category._id %>"
+                                                                    <a href="/admin/offerPage?id=<%= category?._id %>"
                                                                         class="text-dark">
                                                                         <button
                                                                             class="btn btn-outline-primary block-button">Add
@@ -238,14 +238,14 @@
                                                                 </td>
 
                                                                 <td class="text-center">
-                                                                    <button onclick="listUnlist('<%= category._id %>')"
+                                                                    <button onclick="listUnlist('<%= category?._id %>')"
                                                                         id="list" data-id=""
                                                                         class="btn  btn-dark font-sm ">
                                                                         <%= category.isList===true ? "Unlist " : "list"
                                                                             %>
                                                                     </button>
                                                                     <a
-                                                                        href="/admin/edit-category?id=<%= category._id %>"><button
+                                                                        href="/admin/edit-category?id=<%= category?._id %>"><button
                                                                             id="edit" data-id="" data-update=""
                                                                             class="btn  btn-outline-dark font-sm ">Edit</button>
                                                                     </a>

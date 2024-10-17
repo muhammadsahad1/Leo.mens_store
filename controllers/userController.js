@@ -50,6 +50,7 @@ const loadRegister = (req, res) => {
     console.log(error);
   }
 };
+
 // password hased
 const securepassword = async (password) => {
   try {
@@ -68,7 +69,6 @@ const insertuser = async (req, res) => {
     const user_email = await User.findOne({ email: req.body.email });
     const confirmpass = req.body.confirm_password;
     const password = req.body.password;
-    console.log(confirmpass, password);
 
     if (password !== confirmpass) {
       req.flash("passErr", "must match to password");
@@ -175,7 +175,7 @@ const userVerifyotp = async (req, res) => {
     const userOtpVerification = await userOtpverificaton.findOne({
       email: email,
     });
-    console.log("userOtpVerification",userOtpVerification);
+    console.log("userOtpVerification", userOtpVerification);
     if (!userOtpVerification) {
       console.log("otp is expired");
 
@@ -185,46 +185,43 @@ const userVerifyotp = async (req, res) => {
 
       return;
     }
-    
+
     const verify = await userOtpverificaton.findOne({ email: email });
-  
-  
+    const { otp: hashedOtp } = verify;
+    const validOtp = await bcrypt.compare(OTP, hashedOtp);
+    console.log("validOtp", validOtp);
+    if (validOtp) {
+      console.log("valid");
+      const userData = await User.findOne({ email: email });
+      console.log("usaerrdata", userData, "and", userData._id);
+      if (userData) {
+        const working = await User.findByIdAndUpdate(
+          { _id: userData._id },
+          {
+            $set: {
+              verified: true,
+            },
+          }
+        );
+        const user = await User.findOne({ email: email });
+        req.session.user = {
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+        };
+        res.redirect("/");
+        await userOtpverificaton.deleteOne({ email: email });
 
-      const { otp: hashedOtp } = verify;
-      const validOtp = await bcrypt.compare(OTP, hashedOtp);
-      console.log("validOtp",validOtp);
-      if (validOtp) {
-        console.log("valid");
-        const userData = await User.findOne({ email: email });
-        console.log("usaerrdata", userData ,"and", userData._id);
-        if (userData) {
-        const working =  await User.findByIdAndUpdate(
-            { _id: userData._id },
-            {
-              $set: {
-                verified: true,
-              },
-            }
-          );
-          const user = await User.findOne({ email: email });
-          req.session.user = {
-            _id: user._id,
-            email: user.email,
-            name: user.name,
-          };
-          res.redirect("/");
-          await userOtpverificaton.deleteOne({ email: email });
-            
-          console.log("user", user);
-          // req.flash("successmsg", "Hey, Sign up successfull");
+        console.log("user", user);
+        // req.flash("successmsg", "Hey, Sign up successfull");
 
-          console.log("working",working);
-        }else{
-          console.log("user not found");
-        }
-        console.log("userdata", userData);
-        
-      
+        console.log("working", working);
+      } else {
+        console.log("user not found");
+      }
+      console.log("userdata", userData);
+
+
     } else {
       console.log("reason");
       console.log("otp is incorrect you have again verify");
@@ -263,47 +260,58 @@ const resendOtp = async (req, res) => {
 
 const verifyLogin = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
-    console.log("user : ", user);
-    if (user) {
-      const passMatch = await bcrypt.compare(password, user.password);
-      if (passMatch) {
-        if (user.verified) {
-          console.log("userrrrr");
-          if (!user.isBlocked) {
-            req.session.user = {
-              _id: user.id,
-              email: user.email,
-              name: user.name,
-              mobile: user.mobile,
-            };
-            console.log(req.session.user);
-            console.log("Welcome to Home : ", user.name);
-            res.redirect("/");
-          } else {
-            console.log("user blocked from this site");
-            req.flash("userBlock", "your were blocked from this site");
-            res.redirect("/login");
-          }
-        } else {
-          console.log(".");
-          sentOtpVerificaton(user, res);
-        }
-      } else {
-        console.log("incorrect password");
-        req.flash("incorrectpass", "password incorrect");
-        res.redirect("/login");
+      const { email, password } = req.body;
+      const user = await User.findOne({ email: email });
+      console.log("user : ", user);
+
+      // If no user found
+      if (!user) {
+          console.log("User Not Found");
+          req.flash("notfound", "User not found");
+          return res.redirect("/login");
       }
-    } else {
-      console.log("User Not Found");
-      req.flash("notfound", "user not found");
-      res.redirect("/login");
-    }
+
+      // Check password
+      const passMatch = await bcrypt.compare(password, user.password);
+      if (!passMatch) {
+          console.log("Incorrect password");
+          req.flash("incorrectpass", "Password incorrect");
+          return res.redirect("/login");
+      }
+
+      // Check if user is verified
+      if (!user.verified) {
+          console.log("User not verified");
+          return sentOtpVerificaton(user, res);
+      }
+
+      // Check if user is blocked
+      if (user.isBlocked) {
+          console.log("User blocked from this site");
+          req.flash("userBlock", "You were blocked from this site");
+          return res.redirect("/login");
+      }
+
+      // If all checks pass, set session and redirect
+      req.session.user = {
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+          mobile: user.mobile,
+      };
+
+      console.log("Welcome to Home:", user.name);
+      console.log("Session user:", req.session.user);
+      
+      return res.redirect("/");
+
   } catch (error) {
-    console.log(error);
+      console.log("Login error:", error);
+      req.flash("error", "An error occurred during login");
+      return res.redirect("/login");
   }
 };
+
 
 // ========================================= { user profile } ============================ \\
 
@@ -584,7 +592,7 @@ const LoadInvoicePage = async (req, res) => {
       Order: ORDER,
       order: order.products[index],
       deliveryAddress: order.delivery_address,
-      invoiceNumber : invoiceNumber
+      invoiceNumber: invoiceNumber
     });
   } catch (error) {
     res.status(404).send("INVOICE REQUEST HAS FAILED");
@@ -663,7 +671,7 @@ const userlogout = async (req, res) => {
   try {
     req.session.user = null;
     res.redirect("/");
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // exporting here

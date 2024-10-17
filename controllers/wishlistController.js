@@ -6,7 +6,7 @@ const Wishlist = require("../model/wishlistModel");
 
 const LoadWishlist = async (req, res) => {
   try {
-    const userId = req.session.user._id;
+    const userId = req.session.user?._id;
     const wishlistProduct = await Wishlist.findOne({ user: userId }).populate('products.productId').populate('user');
     
     // Filter out products with null productId

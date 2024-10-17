@@ -154,9 +154,9 @@
                   </td>
                   <td>
                     <button class="btn btn-danger delete-button"
-                      onclick="deleteCoupon('<%= field._id %>')">Delete</button>
+                      onclick="deleteCoupon('<%= field?._id %>')">Delete</button>
                     <a class="btn"
-                      onclick="editCoupon('<%=field._id%>','  <%=field.couponCode%>','  <%=field.discountType%>',' <%=field.discountAmount %>',' <%=field.startDate %>',' <%=field.expiredDate%>',' <%=field.minOrderAmount%>')">
+                      onclick="editCoupon('<%=field?._id%>','  <%=field.couponCode%>','  <%=field.discountType%>',' <%=field.discountAmount %>',' <%=field.startDate %>',' <%=field.expiredDate%>',' <%=field.minOrderAmount%>')">
                       <i class="fas fa-edit fa-lg mx-1"></i>
                     </a>
                   </td>

@@ -17,14 +17,14 @@ var instance = new Razorpay({
 // place order  
 const placeOrders = async (req, res) => {
   try {
-    const userid = req.session.user._id;
+    const userid = req.session.user?._id;
     const userName = req.session.user.name;
     const { payment_method, Amount, index, couponCode } = req.body;
-    console.log("payment_method,", payment_method);
+
     const Usercart = await Cart.findOne({ userid: userid })
       .populate("userid")
       .populate("products.productsId");
-      
+
     if (couponCode) {
       await Coupon.updateOne(
         { couponCode: couponCode },
@@ -37,7 +37,7 @@ const placeOrders = async (req, res) => {
     const address = user.addresses[index];
     const delivery_address = `${address.name}, ${address.addressline}, ${address.city}, ${address.state} - ${address.pincode}, Phone: ${address.phone}`;
 
-    
+
     const status = payment_method === "COD" ? "Placed" : "Pending";
     if (Amount >= 1000 && payment_method === "COD") {
       res.json({ message: "Orders above $1000 are not eligible for cash on delivery." });
@@ -87,7 +87,7 @@ const placeOrders = async (req, res) => {
                 date: new Date(),
                 amount: Amount,
                 reason: "Order payment",
-                type : 'debited'
+                type: 'debited'
               },
             },
           }
@@ -118,7 +118,7 @@ const placeOrders = async (req, res) => {
         currency: "INR",
         receipt: "" + ordersaved._id,
       };
-
+      console.log("OP =>", option)
       instance.orders.create(option, function (err, order) {
         if (err) {
           console.log(err);
@@ -161,7 +161,7 @@ const verifyPayment = async (req, res) => {
           { $inc: { "products.$.StockQuantity": -productQty } }
         );
       }
-    
+
       await Order.findByIdAndUpdate(
         { _id: order.receipt },
         { $set: { status: "Placed", paymentId: payment.razorpay_payment_id } });
@@ -171,10 +171,10 @@ const verifyPayment = async (req, res) => {
     } else {
       const changedOrder = await Order.findByIdAndUpdate(
         { _id: order.receipt },
-        { $set: { status: " pending" } } 
-     );
+        { $set: { status: " pending" } }
+      );
 
-     console.log("changedOrder",changedOrder);
+      console.log("changedOrder", changedOrder);
       res.status(400).json({ error: "Invalid payment signature", PaymentSuccess: false });
     }
   } catch (error) {
@@ -184,31 +184,32 @@ const verifyPayment = async (req, res) => {
 };
 
 // continue failedPayment 
-const failedPaymentCountinue = async (req,res)=>{
-try {
+const failedPaymentCountinue = async (req, res) => {
+  try {
 
-  const {orderId }= req.body
-  const order = await Order.findOne({_id:orderId}).populate('userId')
-  const option = {
-    amount: order.total_amount* 100,
-    currency: "INR",
-    receipt: "" + order._id,};
+    const { orderId } = req.body
+    const order = await Order.findOne({ _id: orderId }).populate('userId')
+    const option = {
+      amount: order.total_amount * 100,
+      currency: "INR",
+      receipt: "" + order._id,
+    };
 
-  instance.orders.create(option, function (err, order) {
-    if (err) {
-      console.log(err);
-    }
-    console.log("order is = ", order);
-    res.json({ order: order });
-  });
-} catch (error) {
-  res.status(400).send('your countine payment request is failed')
-  console.log(error);
-}
+    instance.orders.create(option, function (err, order) {
+      if (err) {
+        console.log(err);
+      }
+      console.log("order is = ", order);
+      res.json({ order: order });
+    });
+  } catch (error) {
+    res.status(400).send('your countine payment request is failed')
+    console.log(error);
+  }
 }
 
 // CountinueVerify-payment
-const CountinueVerifypayment = async (req,res)=>{
+const CountinueVerifypayment = async (req, res) => {
   try {
     const userId = req.session.user._id;
     const { payment, order } = req.body;
@@ -233,7 +234,7 @@ const CountinueVerifypayment = async (req,res)=>{
           { $inc: { "products.$.StockQuantity": -productQty } }
         );
       }
-    
+
       await Order.findByIdAndUpdate(
         { _id: order.receipt },
         { $set: { status: "Placed", paymentId: payment.razorpay_payment_id } });
@@ -244,10 +245,10 @@ const CountinueVerifypayment = async (req,res)=>{
     } else {
       const changedOrder = await Order.findByIdAndUpdate(
         { _id: order.receipt },
-        { $set: { status: "pending" } } 
-     );
+        { $set: { status: "pending" } }
+      );
 
-     console.log("changedOrder",changedOrder);
+      console.log("changedOrder", changedOrder);
       res.status(400).json({ error: "Invalid payment signature", PaymentSuccess: false });
     }
   } catch (error) {
@@ -271,9 +272,9 @@ const LoadMyOrders = async (req, res) => {
   try {
     const userid = req.session.user._id;
     const Amount = req.query.id;
-    console.log("Amounttttttt",Amount);
-    const orderDetails = await Order.find({ userId: userid }).populate("userId").sort({date : -1})
-    res.render("myOrder", { order: orderDetails ,Amount:Amount, user : userid});
+    console.log("Amounttttttt", Amount);
+    const orderDetails = await Order.find({ userId: userid }).populate("userId").sort({ date: -1 })
+    res.render("myOrder", { order: orderDetails, Amount: Amount, user: userid });
   } catch (error) {
     console.log(error);
   }
@@ -291,7 +292,7 @@ const SingleOrderDetail = async (req, res) => {
         .populate("products.productsId");
 
       console.log("singleOrder" + SingleOrder);
-      res.render("orderDetails", { myOrder: SingleOrder ,order : SingleOrder});
+      res.render("orderDetails", { myOrder: SingleOrder, order: SingleOrder });
     }
   } catch (error) {
     console.log(error);
@@ -368,7 +369,7 @@ const returnReason = async (req, res) => {
   try {
     console.log("ssssssss");
     const { orderId, productId, returnReason } = req.body;
-    console.log("return Reason",returnReason);
+    console.log("return Reason", returnReason);
     await Order.findOneAndUpdate(
       { _id: orderId, "products.productsId": productId },
       {
@@ -389,7 +390,7 @@ const returnReason = async (req, res) => {
 const returnConfirm = async (req, res) => {
   try {
     const { orderId, productId, status, userId } = req.body;
-    console.log("statusssss",status);
+    console.log("statusssss", status);
     const orderData = await Order.findOne({ _id: orderId });
     const products = orderData.products;
 
@@ -429,12 +430,12 @@ const returnConfirm = async (req, res) => {
               date: new Date(),
               amount: totalOrderAmount,
               reason: "Order returned",
-              type : 'credited'
+              type: 'credited'
             },
           },
         }
       );
-      console.log("update Wallet",upWallet);
+      console.log("update Wallet", upWallet);
       res.json({ isOk: true });
     }
   } catch (error) {
@@ -444,7 +445,7 @@ const returnConfirm = async (req, res) => {
 };
 
 // payment policy
-const loadPolicyPage = async(req,res)=>{
+const loadPolicyPage = async (req, res) => {
   try {
     res.render('payment-policy')
   } catch (error) {

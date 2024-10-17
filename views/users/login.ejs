@@ -102,14 +102,14 @@
               </h5>
 
               <% } %>
-                <% if(messages.userBlock) { %>
+                <% if(messages?.userBlock) { %>
                   <h5 class="text-center text-danger">
-                    <%= messages.userBlock %>
+                    <%= messages?.userBlock %>
                   </h5>
 
                   <% } %>
 
-                    <% if (messages.success) { %>
+                    <% if (messages?.success) { %>
                       <div class="alert alert-success d-flex align-items-center  " role="alert" id="error-alert">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                           class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 " viewBox="0 0 16 16" role="img"
@@ -119,11 +119,11 @@
                         </svg>
                         <div>
                           <strong>Hey '</strong>
-                          <%= messages.success %>
+                          <%= messages?.success %>
                         </div>
                       </div>
                       <%}%>
-                        <% if (messages.newsuccess) { %>
+                        <% if (messages?.newsuccess) { %>
                           <div class="alert alert-success d-flex align-items-center  " role="alert" id="error-alert">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                               class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 " viewBox="0 0 16 16" role="img"
@@ -133,20 +133,20 @@
                             </svg>
                             <div>
                               <strong>Hey '</strong>
-                              <%= messages.newsuccess %>
+                              <%= messages?.newsuccess %>
                             </div>
                           </div>
                           <%}%>
 
-                            <% if(messages.incorrectpass) { %>
+                            <% if(messages?.incorrectpass) { %>
                               <h5 class="text-center text-danger">
-                                <%= messages.incorrectpass %>
+                                <%= messages?.incorrectpass %>
                               </h5>
 
                               <% } %>
-                                <% if(messages.notfound) { %>
+                                <% if(messages?.notfound) { %>
                                   <h5 class="text-center text-danger">
-                                    <%= messages.notfound %>
+                                    <%= messages?.notfound %>
                                   </h5>
 
                                   <% } %>

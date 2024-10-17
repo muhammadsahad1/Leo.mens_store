@@ -1,4 +1,13 @@
-<%- include('../layouts/user/header.ejs') -%>
+
+
+
+
+
+
+
+
+
+  <%- include('../layouts/user/header.ejs') -%>
 <header class="header">
   <div class="header__top">
       <div class="container">
@@ -19,7 +28,6 @@
                           <ul>
                               <li>USD</li>
                               <li>EUR</li>
-                              <li>USD</li>
                           </ul>
                       </div>
                   </div>
@@ -31,21 +39,19 @@
       <div class="row">
           <div class="col-lg-3 col-md-3" style="height: 50px;">
               <div class="header__logo">
-                  <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt=""></a>
+                  <a href="/"><img src="/img/logoleo.jpg" style="width: 80px;" alt="Logo"></a>
               </div>
           </div>
           <div class="col-lg-6 col-md-6">
               <nav class="header__menu mobile-menu">
                   <ul>
-                      <li class="active"><a href="">Home</a></li>
-                      <li><a href="/productsshop ">Shop</a></li>
+                      <li class="active"><a href="/">Home</a></li>
+                      <li><a href="/productsshop">Shop</a></li>
                       <li><a href="#">Pages</a>
                           <ul class="dropdown">
-                              <li><a href="/about">
-                                about
+                              <li><a href="/about">About</a></li>
                           </ul>
                       </li>
-                      
                       <li><a href="/contact">Contacts</a></li>
                   </ul>
               </nav>
@@ -55,271 +61,189 @@
                   <div class="dropdown">
                       <a class="dropdown-toggle" href="#" role="button" id="userDropdown"
                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <% if(locals.user){ %>
+                          <% if(locals.user) { %>
                               <img style="width: 17px;" src="/img/icon/person.png" alt="User Profile">
                               <a href="/Cartpage"><img src="/img/icon/cart.png" alt=""> <span></span></a>
-                              <% } else { %>
-                                  <img style="width: 17px;" src="/img/icon/person.png" alt="">
-                                  <% } %>
+                          <% } else { %>
+                              <img style="width: 17px;" src="/img/icon/person.png" alt="">
+                          <% } %>
                       </a>
 
                       <div class="dropdown-menu" aria-labelledby="userDropdown">
-                          <% if(locals.user){ %>
+                          <% if(locals.user) { %>
                               <a class="dropdown-item" href="/Userprofile">My Profile</a>
                               <a class="dropdown-item" href="/logout">Logout</a>
-                              <% } else { %>
-                                  <a class="dropdown-item" href="/login">Login</a>
-                                  <a class="dropdown-item" href="/register">Sign up</a>
-                                  <% } %>
+                          <% } else { %>
+                              <a class="dropdown-item" href="/login">Login</a>
+                              <a class="dropdown-item" href="/register">Sign up</a>
+                          <% } %>
                       </div>
 
                       <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                      <% if(locals.user){ %>
-                        <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
-                        <% } %>
+                      <% if(locals.user) { %>
+                          <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                      <% } %>
                   </div>
               </div>
           </div>
-
       </div>
       <div class="canvas__open"><i class="fa fa-bars"></i></div>
   </div>
 </header>
-  <section class="py-3 py-md-5 py-xl-8">
-    <div class="container">   
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-5">
-            <h2 class="display-5 fw-bold text-center ">Sign in</h2>
-            <p class="text-center m-0">You already have account ? <a href="/login">login</a></p>
-            <% if (messages.incorrectOtp) { %>
-              <div class="text-danger"><%= messages.incorrectOtp %></div>
-            <% } %>
-            <% if(messages.nameerror) { %>
-              <div class="alert alert-danger d-flex align-items-center" role="alert" id="usernameExistAlert">
-                <h5 class="alert-danger text-center">
-                  <%= messages.nameerror %>
-                </h5>
-                <% } %>
-                <% if(messages.emailerror) { %>
-                  <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
-                    <h5 class="alert-danger text-center">
-                      <%= messages.emailerror %>
-                    </h5>
-                    <%}%>
-                    <% if(messages.passErr){%>
-                      <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
-                        <h5 class="alert-danger text-center">
-                          <%= messages.passErr %>
-                        </h5>
-                    <%}%>
-                        <% if(messages.incorrectOtp) { %>
-                          <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
-                            <h5 class="alert-danger text-center">
-                              <%= messages.incorrectOtp %>
-                            </h5>
-                            <% } %>
-                          </div>
-                    </div>
-              </div>
 
-              <div class="row justify-content-center">
-                <div class="col-12 col-lg-10 col-xl-8">
-                  <div class="row gy-5 justify-content-center">
-                    <div class="col-12 col-lg-5">
-                      <form id="verificationForm" method="post" action="/register" onsubmit="return validate()">
-                        <div class="row gy-3 overflow-hidden ">
-                          <div class="col-12">
-                            <div class="form-floating mb-3">
-                              <input type="text" class="form-control border-0 border-bottom rounded-0" name="name"
-                                id="uname" placeholder="name@example.com" required>
-                              <label for="text" class="form-label">Name</label>
-                              <div id="userError" class="forml" style="color: red;"></div>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-floating mb-3">
-                              <input type="email" class="form-control border-0 border-bottom rounded-0" name="email"
-                                id="umail" placeholder="name@example.com" required>
-                              <label for="email" class="form-label">Email</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-floating mb-3">
-                              <input type="text" class="form-control border-0 border-bottom rounded-0" name="mobile"
-                                id="uphone" placeholder="name@example.com" required>
-                              <label for="email" class="form-label">Mobile</label>
-                              <div id="userMobileErr" class="forml" style="color: red;"></div>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-floating mb-3">
-                              <input type="password" class="form-control border-0 border-bottom rounded-0"
-                              name="password" id="password" placeholder="Password" required>
-                              <label for="password" class="form-label">Password</label>
-                              <div id="passwordError" class="forml" style="color: red;"></div>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-floating mb-3">
-                              <input type="password" class="form-control border-0 border-bottom rounded-0"
-                                name="confirm_password" id="confirm_password" placeholder="Confim password" required>
-                              <label for="Confirm password" class="form-label">Confirm password</label>
-                              <div id="passwordError" class="forml" style="color: red;"></div>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="d-grid">
-                              <button class="btn btn-lg btn-dark rounded-0 fs-6" type="submit">Sign up</button>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
+<section class="py-3 py-md-5 py-xl-8">
+  <div class="container">   
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-5">
+          <h2 class="display-5 fw-bold text-center">Sign in</h2>
+          <p class="text-center m-0">You already have an account? <a href="/login">Login</a></p>
+          <% if (messages.incorrectOtp) { %>
+              <div class="text-danger"><%= messages.incorrectOtp %></div>
+          <% } %>
+          <% if(messages.nameerror) { %>
+              <div class="alert alert-danger d-flex align-items-center" role="alert" id="usernameExistAlert">
+                  <h5 class="alert-danger text-center"><%= messages.nameerror %></h5>
+              </div>
+          <% } %>
+          <% if(messages.emailerror) { %>
+              <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
+                  <h5 class="alert-danger text-center"><%= messages.emailerror %></h5>
+              </div>
+          <% } %>
+          <% if(messages.passErr) { %>
+              <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
+                  <h5 class="alert-danger text-center"><%= messages.passErr %></h5>
+              </div>
+          <% } %>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-10 col-xl-8">
+            <div class="row gy-5 justify-content-center">
+              <div class="col-12 col-lg-5">
+                <form id="verificationForm" method="post" action="/register" onsubmit="return validate()">
+                  <div class="row gy-3 overflow-hidden ">
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control border-0 border-bottom rounded-0" name="name"
+                          id="uname" placeholder="Name" required>
+                        <label for="uname" class="form-label">Name</label>
+                        <div id="userError" class="forml" style="color: red;"></div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <input type="email" class="form-control border-0 border-bottom rounded-0" name="email"
+                          id="umail" placeholder="name@example.com" required>
+                        <label for="umail" class="form-label">Email</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <input type="text" class="form-control border-0 border-bottom rounded-0" name="mobile"
+                          id="uphone" placeholder="Mobile" required>
+                        <label for="uphone" class="form-label">Mobile</label>
+                        <div id="userMobileErr" class="forml" style="color: red;"></div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <input type="password" class="form-control border-0 border-bottom rounded-0"
+                        name="password" id="password" placeholder="Password" required>
+                        <label for="password" class="form-label">Password</label>
+                        <div id="passwordError" class="forml" style="color: red;"></div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <input type="password" class="form-control border-0 border-bottom rounded-0"
+                          name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                        <div id="confirmPasswordError" class="forml" style="color: red;"></div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="d-grid">
+                        <button class="btn btn-lg btn-dark rounded-0 fs-6" type="submit">Sign up</button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
+            </div>
           </div>
-  </section>
+        </div>
+      </div>
+  </div>
+</section>
 
 <script>
-  let coundIntervel;
-  function startCountdown(intialvalue) {
-    let n = intialvalue;
-    countdownIntervel = setInterval(() => {
-      if (n === 0) {
-        clearInterval(countdownIntervel)
+  let countdownInterval;
+
+  function startCountdown(initialValue) {
+    let n = initialValue;
+    countdownInterval = setInterval(() => {
+      if (n <= 0) {
+        clearInterval(countdownInterval);
       } else {
         document.querySelector('.time').innerHTML = n;
-        n = n - 1;
+        n--;
       }
-  
-    }, 1000)
-  
+    }, 1000);
   }
-  
+
   function resend() {
-    clearInterval(coundIntervel);
-    startCountdown(60)
-  }
-  startCountdown(60)
-  
-  document.getElementById('resend').onclick = function(){
-    resend()
+    clearInterval(countdownInterval);
+    startCountdown(60);
   }
   
-  
+  document.getElementById('resend').onclick = function() {
+    resend();
+  }
+
   document.getElementById('resend').addEventListener('click', () => {
     try {
-      
       const urlParams = new URLSearchParams(window.location.search);
       const email = urlParams.get('email');
-  
-  
-      const postUrl = '/resend' + (email ? `?email=${encodeURIComponent(email)}` : "")
+
+      const postUrl = '/resend' + (email ? `?email=${encodeURIComponent(email)}` : "");
       fetch(postUrl, {
         method: 'POST'
       }).then((res) => {
         if (res.ok) {
-          console.log("resend otp is success");
+          console.log("Resend OTP was successful");
         } else {
-          console.log("resend otp is failed");
+          console.log("Resend OTP failed");
         }
-      }).catch(error => {
-        console.log("Error: ", error);
-      })
+      }).catch((err) => {
+        console.error(err);
+      });
     } catch (error) {
-      console.log(error);
+      console.error('Error:', error);
     }
-  })
-  // =============================== otp validation ========================= \\
-  
-  function validateotp() {
-    let fields = document.querySelectorAll(".verificationForm");
-    let isValid = true;
-  
-    fields.forEach(function (field) {
-        if (field.value.trim() === "" || field.value.length>1) {
-            field.style.border = 'solid 1px red';
-  
-            setTimeout(function () {
-                field.style.border = '';
-            }, 3000);
-  
-            isValid = false;
-        }
-    });
-  
-    return isValid;
-  }
-  
-   // ===================================== signup page ============================\\
-  
+  });
+
   function validate() {
-    let username = document.getElementById('uname');
-    let usermobile = document.getElementById('uphone'); 
-    let confirmpassword = document.getElementById('confirm_password')
-    let password = document.getElementById('password'); 
-  
-  
-    if (!/^\w+$/.test(username.value)) {
-  
-      username.style.border = 'solid 1px red'
-      userError.textContent = 'only allow letters number and underscored'
-      setTimeout(function() {
-        username.style.border = ''
-        userError.textContent = ''
-      }, 3000)
+    const password = document.getElementById('password');
+    const confirmpassword = document.getElementById('confirm_password');
+    const userError = document.getElementById('userError');
+    const userMobileErr = document.getElementById('userMobileErr');
+    const passwordError = document.getElementById('passwordError');
+    const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+    userError.textContent = '';
+    userMobileErr.textContent = '';
+    passwordError.textContent = '';
+    confirmPasswordError.textContent = '';
+
+    if (password.value !== confirmpassword.value) {
+      confirmPasswordError.textContent = 'Passwords do not match.';
       return false;
-  
     }
-    else if (usermobile.value.trim().length < 10 || !/^\d+$/.test(usermobile.value)) {
-      usermobile.style.border = 'solid 1px red'
-      userMobileErr.textContent = 'Mobile number should be number with 10 digits'
-      setTimeout(function() {
-        usermobile.style.border = '';
-        userMobileErr.textContent = '';
-      }, 3000)
-      return false;
-  
-      
-    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/.test(password.value)) {
-      password.style.border = 'solid 1px red';
-      passwordError.textContent = 'Password must be atleast 6 charcaters long and contain at least one uppercase letter one lowercase letter,and one number';
-      setTimeout(function()  {
-        password.style.border = '';
-        passwordError.textContent = '';
-      }, 3000)
-      return false;
-    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/.test(confirmpassword.value)) {
-      confirmpassword.style.border = 'solid 1px red';
-      passwordError.textContent = 'Password must be atleast 6 charcaters long and contain at least one uppercase letter one lowercase letter,and one number';
-      setTimeout(function()  {
-        confirmpassword.style.border = '';
-        passwordError.textContent = '';
-      }, 3000)
-      return false;
-    } else {
-      true;
-    }
+
+    return true; // Form is valid
   }
-  
-  let usernameExistAlert = document.getElementById('usernameExistAlert')
-  let existAlert = document.getElementById('existAlert')
-  setTimeout(function()  {
-    if (existAlert) {
-      existAlert.style.display = 'none';
-    }
-  }, 3000)
-  
-  setTimeout(function() {
-    if (usernameExistAlert) {
-      usernameExistAlert.style.none = 'none';
-    }
-  }, 3000)
-  
-  </script>
+</script>
 
-  <script src="/js/admin/form-validation.js"></script>
-
-  <%- include('../layouts/user/header.ejs') -%>
+<%- include('../layouts/user/footer.ejs') -%>

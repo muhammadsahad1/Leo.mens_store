@@ -6,7 +6,7 @@ const Cart = require('../model/cartModel')
 
 const wishlistCartCount = async(req,res,next)=>{
   try {
-    const userId = req.session.user._id;
+    const userId = req.session.user?._id;
     const cartitems = await Cart.findOne({userid:userId})
 
     // finding quantity of cart products

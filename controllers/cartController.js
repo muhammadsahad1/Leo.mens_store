@@ -162,10 +162,10 @@ const cartRemover = async (req, res) => {
 
 const loadCheckout = async (req, res) => {
   try {
-    const userId = req.session.user._id;
+    const userId = req.session.user?._id;
     const usercart = await Cart.findOne({ userid: userId }).populate('products.productsId')
     const user = await User.findOne({ _id: userId })
-    const userAddress = user.addresses;
+    const userAddress = user?.addresses;
     const order = await Order.findOne({userId : userId})
     res.render('checkoutpage', { Usercart: usercart, Uaddress: userAddress, order:order})
   } catch (error) {
