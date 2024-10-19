@@ -299,15 +299,15 @@
                                         <tbody>
                                             <%if(orders){%>
 
-                                                <%orders.forEach((order)=>{%>
-                                                    <%order.products.forEach((product,i)=>{%>
-                                                        <%if(product.status==='delivered' ){%>
+                                                <%orders?.forEach((order)=>{%>
+                                                    <%order?.products.forEach((product,i)=>{%>
+                                                        <%if(product?.status==='delivered' ){%>
                                                             <tr>
                                                                 <td>
                                                                     <%=order?._id %>
                                                                 </td>
                                                                 <td>
-                                                                    <%=order?.userId.name%>
+                                                                    <%=order?.userId?.name%>
                                                                 </td>
                                                                 <% const
                                                                     formattedDate=order.date.toLocaleString('en-US', {
@@ -318,7 +318,7 @@
                                                                     <td>
                                                                         <%=formattedDate%>
                                                                     </td>
-                                                                    <%const total=product.productsId.price *
+                                                                    <%const total=product?.productsId.price *
                                                                         product.quantity%>
                                                                         <td>
                                                                             <%=total%>
