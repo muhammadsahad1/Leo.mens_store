@@ -304,10 +304,10 @@
                                                         <%if(product.status==='delivered' ){%>
                                                             <tr>
                                                                 <td>
-                                                                    <%=order._id %>
+                                                                    <%=order?._id %>
                                                                 </td>
                                                                 <td>
-                                                                    <%=order.userId.name%>
+                                                                    <%=order?.userId.name%>
                                                                 </td>
                                                                 <% const
                                                                     formattedDate=order.date.toLocaleString('en-US', {
