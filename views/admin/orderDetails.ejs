@@ -177,21 +177,21 @@
                                                 <%= i + 1%>
                                             </td>
                                             <td><b>
-                                                    <%= item.userId.name%>
+                                                    <%= item?.userId?.name%>
                                                 </b></td>
                                             <td>
-                                                <%= item.userId.email%>
+                                                <%= item?.userId?.email%>
                                             </td>
                                             <td>
-                                                <%= item.total_amount%>
+                                                <%= item?.total_amount%>
                                             </td>
-                                            <%if(item.status==='delivered' ){%>
+                                            <%if(item?.status==='delivered' ){%>
                                                 <td><span class="badge rounded-pill alert-warning">
                                                         <%= item.status%>
                                                     </span></td>
                                                 <%}else{%>
                                                     <td><span class="badge rounded-pill alert-warning">
-                                                            <%= item.status%>
+                                                            <%= item?.status%>
                                                         </span></td>
                                                     <%}%>
                                                         <% const formattedDate=item.date.toLocaleString('en-US', {
