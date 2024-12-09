@@ -31,64 +31,64 @@ admin_route.set('views', './views/admin')
 
 
 admin_route
-  .get('/',AdminAuth.islogout, admin_Controllers.adminLogin) 
+  .get('/', AdminAuth.islogout, admin_Controllers.adminLogin)
   .post('/', admin_Controllers.verifylogin)
-  .get('/adminDashboard',AdminAuth.islogin,admin_Controllers.loadDashboard)
-  .get('/logout',AdminAuth.islogin, admin_Controllers.adminlogout)
+  .get('/adminDashboard', AdminAuth.islogin, admin_Controllers.loadDashboard)
+  .get('/logout', AdminAuth.islogin, admin_Controllers.adminlogout)
 
   // ========================{ Load UserManagement }===================== \\
 
-  .get('/ums',AdminAuth.islogin, admin_Controllers.loadUserMangement)
-  .post('/userBlock',admin_Controllers.userBlock)
+  .get('/ums', AdminAuth.islogin, admin_Controllers.loadUserMangement)
+  .post('/userBlock', admin_Controllers.userBlock)
 
 
   // ======================={ Products } ======================== \\
 
-  .get('/products',AdminAuth.islogin, products_Controllers.loadproducts)
-  .post('/listproducts',products_Controllers.listUnlistproducts)
-  .get('/addproducts',products_Controllers.loadaddproducts)
-  .post('/addproducts',multer.array('images'),products_Controllers.addproducts)
-  .get('/editproducts',AdminAuth.islogin, products_Controllers.loadEditProductPage)
-  .post('/editproducts',multer.array('images'),products_Controllers.editProducts)
+  .get('/products', AdminAuth.islogin, products_Controllers.loadproducts)
+  .post('/listproducts', products_Controllers.listUnlistproducts)
+  .get('/addproducts', products_Controllers.loadaddproducts)
+  .post('/addproducts', multer.array('images'), products_Controllers.addproducts)
+  .get('/editproducts', AdminAuth.islogin, products_Controllers.loadEditProductPage)
+  .post('/editproducts', multer.array('images'), products_Controllers.editProducts)
 
 
-// ======================== { category } ========================= \\
+  // ======================== { category } ========================= \\
 
-.get('/category', AdminAuth.islogin,category_Controllers.loadcategory)
-.get('/addcategory', AdminAuth.islogin,category_Controllers.loadaddcategory)
-.post('/addcategory',category_Controllers.insertCategory)
-.post('/listcategory',category_Controllers.listUnlistcategory)
-.get('/edit-category',AdminAuth.islogin, category_Controllers.loadeditcategorypage)
-.post('/edit-category',category_Controllers.editcategory)
-
-
-// ======================{ order } ================\\
-.get('/orderDetails',AdminAuth.islogin,admin_Controllers.loadOrderDetails)
-.get('/single-orderDetails',AdminAuth.islogin,admin_Controllers.singleorderDetails)
-.post('/changeOrderStatus',admin_Controllers.changeProductStatus)
-
-// ======================={ sales }==================\\
-.get('/sales',AdminAuth.islogin,admin_Controllers.LoadSalesPage)
-.post('/createReport',admin_Controllers.createSalesReport)
-.post('/filter-sales',admin_Controllers.filterSales)
-
-// ======================={ coupon }==================\\
-.get('/couponPage',AdminAuth.islogin,coupon_Controllers.loadCouponlist)
-.post('/addCoupon',coupon_Controllers.addCoupon)
-.post('/deletCoupon',coupon_Controllers.deleteCoupon)
-.post('/updateCoupon',coupon_Controllers.updateCoupon)
-
-// =============={ Request from customer }==============\\
-.post('/returnConf',Order_controller.returnConfirm)
+  .get('/category', AdminAuth.islogin, category_Controllers.loadcategory)
+  .get('/addcategory', AdminAuth.islogin, category_Controllers.loadaddcategory)
+  .post('/addcategory', category_Controllers.insertCategory)
+  .post('/listcategory', category_Controllers.listUnlistcategory)
+  .get('/edit-category', AdminAuth.islogin, category_Controllers.loadeditcategorypage)
+  .post('/edit-category', category_Controllers.editcategory)
 
 
-//==============={ offer Managment }===================\\
-.get('/offerPage',AdminAuth.islogin,Offer_controller.loadOffers)
-.post('/addOffer',Offer_controller.addingOffer)
-.post('/applyOfferCat',Offer_controller.applyOfferCat)
-.post('/deletOffer',Offer_controller.deletOffer)
-.post('/applyOffer',Offer_controller.applyOffer)
-.post('/updateOffer',Offer_controller.updateOffer)
+  // ======================{ order } ================\\
+  .get('/orderDetails', AdminAuth.islogin, admin_Controllers.loadOrderDetails)
+  .get('/single-orderDetails', AdminAuth.islogin, admin_Controllers.singleorderDetails)
+  .post('/changeOrderStatus', admin_Controllers.changeProductStatus)
+
+  // ======================={ sales }==================\\
+  .get('/sales', AdminAuth.islogin, admin_Controllers.LoadSalesPage)
+  .post('/createReport', admin_Controllers.createSalesReport)
+  .post('/filter-sales', admin_Controllers.filterSales)
+
+  // ======================={ coupon }==================\\
+  .get('/couponPage', AdminAuth.islogin, coupon_Controllers.loadCouponlist)
+  .post('/addCoupon', coupon_Controllers.addCoupon)
+  .post('/deletCoupon', coupon_Controllers.deleteCoupon)
+  .post('/updateCoupon', coupon_Controllers.updateCoupon)
+
+  // =============={ Request from customer }==============\\
+  .post('/returnConf', Order_controller.returnConfirm)
+
+
+  //==============={ offer Managment }===================\\
+  .get('/offerPage', AdminAuth.islogin, Offer_controller.loadOffers)
+  .post('/addOffer', Offer_controller.addingOffer)
+  .post('/applyOfferCat', Offer_controller.applyOfferCat)
+  .post('/deletOffer', Offer_controller.deletOffer)
+  .post('/applyOffer', Offer_controller.applyOffer)
+  .post('/updateOffer', Offer_controller.updateOffer)
 
 //================{ Referral Management }================\\
 module.exports = admin_route;

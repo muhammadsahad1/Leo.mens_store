@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public/admin/assets')))
 
 // user_route
 const user_route = require('./router/userRouter')
-app.use('/', user_route)
+app.use('/e-commerce/', user_route)
 
 const admin_route = require('./router/adminRouter')
 app.use('/e-commerce/admin', admin_route)
