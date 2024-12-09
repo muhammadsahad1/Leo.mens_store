@@ -5,6 +5,7 @@ DBconnect.connectDB()
 const express = require('express')
 const app = express();
 const nocache = require('nocache')
+const session = require('express-session')
 const flash = require('express-flash')
 const path = require('path')
 const dotenv = require('dotenv')
