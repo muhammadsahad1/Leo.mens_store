@@ -21,10 +21,10 @@ app.use(express.static(path.join(__dirname, 'public/admin/assets')))
 
 // user_route
 const user_route = require('./router/userRouter')
-app.use('/e-commerce', user_route)
+app.use('/', user_route)
 
 const admin_route = require('./router/adminRouter')
-app.use('/e-commerce/admin', admin_route)
+app.use('/admin', admin_route)
 
 app.use((req, res, next) => {
   res.locals.messages = req.flash();
