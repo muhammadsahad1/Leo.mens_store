@@ -23,7 +23,7 @@ const user_route = require('./router/userRouter')
 app.use('/', user_route)
 
 const admin_route = require('./router/adminRouter')
-app.use('/admin', admin_route)
+app.use('/e-commerce/admin', admin_route)
 
 app.use((req, res, next) => {
   res.locals.messages = req.flash();
